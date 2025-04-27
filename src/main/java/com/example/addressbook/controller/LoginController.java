@@ -28,8 +28,17 @@ public class LoginController {
         {
             System.out.println("Login successful!");
             errorLabel.setVisible(false);
-            // Navigate to another view or perform action
-            // TODO
+            try {
+                FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("/com/example/addressbook/Dashboard/Dashboard.fxml"));
+                Scene dashboardScene = new Scene(fxmlLoader.load(), HelloApplication.WIDTH, HelloApplication.HEIGHT);
+                Stage stage = (Stage) usernameField.getScene().getWindow();
+                stage.setScene(dashboardScene);
+                stage.setTitle("Dashboard");
+            } catch (IOException e) {
+                e.printStackTrace();
+                errorLabel.setText("Failed to load Dashboard.");
+                errorLabel.setVisible(true);
+            }
         } else {
             errorLabel.setText("Invalid username or password");
             errorLabel.setVisible(true);
