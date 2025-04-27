@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.geometry.Pos?>
+
+<VBox xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.example.addressbook.controller.SignUpController"
+      alignment="CENTER" spacing="15" prefWidth="350" prefHeight="400">
+
+    <padding>
+        <Insets top="25" right="25" bottom="25" left="25"/>
+    </padding>
+
+    <Label text="Create Account" style="-fx-font-size: 22px;"/>
+
+    <TextField fx:id="usernameField" promptText="Username" />
+    <TextField fx:id="emailField" promptText="Email" />
+    <PasswordField fx:id="passwordField" promptText="Password" />
+    <PasswordField fx:id="confirmPasswordField" promptText="Confirm Password" />
+
+    <HBox spacing="10" alignment="CENTER">
+        <Button fx:id = "signupButton" text="Sign Up" onAction="#onSignUpClick"/>
+        <Button fx:id="cancelButton" text = "Cancel" onAction="#onCancelClick"/>
+    </HBox>
+
+    <Label fx:id="messageLabel" textFill="red" visible="false"/>
+</VBox>

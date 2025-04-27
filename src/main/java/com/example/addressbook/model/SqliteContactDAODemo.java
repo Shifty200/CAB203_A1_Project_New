@@ -1,9 +1,5 @@
 package com.example.addressbook.model;
 
-import com.example.addressbook.model.Contact;
-import com.example.addressbook.model.IContactDAO;
-import com.example.addressbook.model.SqliteConnection;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -11,11 +7,11 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SqliteContactDAO implements IContactDAO {
+public class SqliteContactDAODemo implements IContactDAO {
     private Connection connection;
 
-    public SqliteContactDAO() {
-        connection = SqliteConnection.getInstance();
+    public SqliteContactDAODemo() {
+        connection = SqliteConnectionDemo.getInstance();
         createTable();
         // Used for testing, to be removed later
     }
@@ -24,11 +20,10 @@ public class SqliteContactDAO implements IContactDAO {
         // Create table if not exists
         try {
             Statement statement = connection.createStatement();
-            String query = "CREATE TABLE IF NOT EXISTS contacts ("
+            String query = "CREATE TABLE IF NOT EXISTS users ("
                     + "id INTEGER PRIMARY KEY AUTOINCREMENT,"
-                    + "firstName VARCHAR NOT NULL,"
-                    + "lastName VARCHAR NOT NULL,"
-                    + "phone VARCHAR NOT NULL,"
+                    + "userName VARCHAR NOT NULL,"
+                    + "password VARCHAR NOT NULL,"
                     + "email VARCHAR NOT NULL"
                     + ")";
             statement.execute(query);
