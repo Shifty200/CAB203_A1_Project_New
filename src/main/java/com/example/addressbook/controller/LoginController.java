@@ -24,7 +24,8 @@ public class LoginController {
         String username = usernameField.getText();
         String password = passwordField.getText();
 
-        if (new SQLiteUserDAOLive().checkUserPresent(username) && new SQLiteUserDAOLive().getUser(username).getPassword() == password) {
+        if (new SQLiteUserDAOLive().checkUserPresent(username) && new SQLiteUserDAOLive().getUser(username).getPassword().equals(password))
+        {
             System.out.println("Login successful!");
             errorLabel.setVisible(false);
             // Navigate to another view or perform action
