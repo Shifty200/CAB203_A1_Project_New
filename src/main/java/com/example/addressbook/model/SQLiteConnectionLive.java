@@ -3,11 +3,11 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-public class SqliteConnection {
+public class SQLiteConnectionLive {
     private static Connection instance = null;
 
-    private SqliteConnection() {
-        String url = "jdbc:sqlite:contacts.db";
+    private SQLiteConnectionLive() {
+        String url = "jdbc:sqlite:users.db";
         try {
             instance = DriverManager.getConnection(url);
         } catch (SQLException sqlEx) {
@@ -17,7 +17,7 @@ public class SqliteConnection {
 
     public static Connection getInstance() {
         if (instance == null) {
-            new SqliteConnection();
+            new SQLiteConnectionLive();
         }
         return instance;
     }
