@@ -34,6 +34,7 @@ public class QuizInitController {
         q1to10.setToggleGroup(group);
         q10to20.setToggleGroup(group);
         q20to30.setToggleGroup(group);
+        errorLabel.setVisible(false);
         group.selectedToggleProperty().addListener((obs, oldToggle, newToggle) -> {
             if (newToggle != null) {
                 questionRange = ((ToggleButton) newToggle).getText();
@@ -46,8 +47,10 @@ public class QuizInitController {
 
             if (selectedFile != null) {
                 errorLabel.setText("Selected: " + selectedFile.getName());
+                errorLabel.setVisible(true);
             } else {
                 errorLabel.setText("No file selected.");
+                errorLabel.setVisible(true);
             }
         });
         startQuizBtn.setOnAction(e -> {

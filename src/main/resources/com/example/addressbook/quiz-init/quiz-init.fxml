@@ -18,7 +18,7 @@
         <Label text="📁 Drag Drop or Browse" />
     </VBox>
 
-    <Label fx:id="errorLabel" text="here" style="-fx-text-fill: red;" />
+    <Label fx:id="errorLabel" text="Error Label" style="-fx-text-fill: red;" />
 
     <!-- Difficulty Slider -->
     <VBox spacing="10">
