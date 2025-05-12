@@ -83,7 +83,6 @@ public class SQLiteQuizDAOLive{
                 String topic = resultSet.getString("topic");
                 String difficulty = resultSet.getString("difficulty");
                 Quiz quiz = new Quiz(quizName, topic, difficulty);
-                quiz.setQuizID(quiz_id);
                 return quiz;
             }
         } catch (Exception e) {
