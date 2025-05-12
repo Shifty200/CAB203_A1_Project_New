@@ -25,9 +25,9 @@ public class SQLiteQuizAttemptDAOLive {
             String query = "CREATE TABLE IF NOT EXISTS quiz_attempts ("
                     + "id INTEGER PRIMARY KEY AUTOINCREMENT,"
                     + "quiz_id INTEGER NOT NULL,"
-                    + "FOREIGN KEY (quiz_id) REFERENCES quizzes(quiz_id) ON DELETE CASCADE"
                     + "selected_answers VARCHAR NOT NULL,"
-                    + "userName VARCHAR NOT NULL"
+                    + "userName VARCHAR NOT NULL,"
+                    + "FOREIGN KEY (quiz_id) REFERENCES quizzes(quiz_id) ON DELETE CASCADE,"
                     + "FOREIGN KEY (userName) REFERENCES users(userName) ON DELETE CASCADE"
                     + ")";
             statement.execute(query);

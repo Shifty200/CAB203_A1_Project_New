@@ -7,6 +7,8 @@ public class QuizQuestion {
     private String questionText;
     private ArrayList<String> answers;
     private int correctAnswer; // index of correct answer in answers list
+    private int questionID;
+    private Quiz quiz;
 
     public QuizQuestion() {
         this.questionText = "Question Text";
@@ -34,6 +36,12 @@ public class QuizQuestion {
     public void setQuestionText(String questionText) {
         this.questionText = questionText;
     }
+
+    public int getQuestionID() {return this.questionID;}
+    public void setQuestionID(int questionID) {this.questionID = questionID;}
+
+    public Quiz getQuiz() {return this.quiz;}
+    public void setQuiz(Quiz quiz) {this.quiz = quiz;}
 
     public ArrayList<String> getAnswers() {
         return answers;
