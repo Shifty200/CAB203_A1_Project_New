@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+
+<VBox xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.example.quizapp.controller.QuizInitController"
+      spacing="20"
+      alignment="TOP_CENTER"
+      style="-fx-padding: 30;"
+      stylesheets="@../css/stylesheet.css">
+
+    <Label id="heading" text="Quiz Initialisation Page"/>
+
+    <!-- Upload Area -->
+    <VBox id="upload-box" fx:id="uploadBox">
+        <Label text="📁 Drag, drop or browse" />
+    </VBox>
+
+    <Label fx:id="errorLabel" text="Error Label" style="-fx-text-fill: red;" />
+
+    <!-- Difficulty Slider -->
+    <VBox id="difficulty-slider" spacing="15" alignment="CENTER">
+        <Label id="bolded-text" text="Set difficulty:" />
+        <Slider fx:id="difficultySlider" min="1" max="3" value="2" majorTickUnit="1" showTickLabels="true" showTickMarks="true" snapToTicks="true" />
+        <HBox spacing="200" alignment="CENTER">
+            <Label text="Easy" />
+            <Label text="Medium" />
+            <Label text="Hard" />
+        </HBox>
+    </VBox>
+
+    <!-- Question Count -->
+    <VBox spacing="15" alignment="CENTER">
+        <Label id="bolded-text" text="Set preferred number of questions:" />
+        <HBox spacing="15" alignment="CENTER">
+            <ToggleButton fx:id="q1to10" text="1–10"/>
+            <ToggleButton fx:id="q10to20" text="10–20"/>
+            <ToggleButton fx:id="q20to30" text="20–30"/>
+        </HBox>
+    </VBox>
+
+    <!-- Start Button -->
+    <Button fx:id="startQuizBtn" text="Start quiz" translateY="10"/>
+    <HBox alignment="CENTER_LEFT">
+        <Button id="secondary-button" fx:id="backToDashboardBtn" text="⬅  Go back"/>
+    </HBox>
+
+
+</VBox>

@@ -50,7 +50,7 @@ public class QuestionDetailsController {
         // Create container to group all questions
         VBox allQuestions = new VBox();
 
-        // Loop over list of questions
+// Loop over list of questions
         for (int i = 0; i < questionsList.toArray().length; i++) {
 
             QuizQuestion currentQuestion = currentAttempt.getQuiz().getQuestion(i);
@@ -60,6 +60,7 @@ public class QuestionDetailsController {
 
             // Display and access question number and text for current question
             Label questionNumber = new Label("Question " + (i + 1));
+            questionNumber.setStyle("-fx-font-weight: 700");
             Label question = new Label(currentQuestion.getQuestionText());
 
             // Get index for the selected answer and correct answer
@@ -67,17 +68,28 @@ public class QuestionDetailsController {
             int correctAnswer = currentQuestion.getCorrectAnswer();
 
             // Loop over answers for the current question
-            for (int j = 0; j < currentQuestion.getAnswersCount(); j ++) {
+            for (int j = 0; j < currentQuestion.getAnswersCount(); j++) {
 
                 // Display radio button with answer text
                 RadioButton answerOption = new RadioButton(answerLetter(j) + ". " + currentQuestion.getAnswer(j));
 
                 // Mark the selected answer and correct answer
-                answerOption.setSelected(j == yourAnswer || j == correctAnswer);
+                answerOption.setSelected(j == yourAnswer);
 
-                // Disable radio buttons and display them normally (without default faded look)
+                // Disable radio buttons and style them
                 answerOption.setDisable(true);
-                answerOption.setStyle("-fx-opacity: 1");
+                answerOption.setStyle("-fx-opacity: 1;"); // Ensure the radio button is fully visible
+
+                // Apply styles based on whether it's the correct answer and/or the user's answer
+                if (j == correctAnswer) {
+                    answerOption.setStyle(answerOption.getStyle() + "-fx-text-fill: #4CAF50; -fx-font-weight: bold;"); // Green for correct
+                } else if (j == yourAnswer) {
+                    answerOption.setStyle(answerOption.getStyle() + "-fx-text-fill: #F44336; -fx-font-weight: bold;"); // Red for incorrect
+                }
+                else{
+                    answerOption.setStyle(answerOption.getStyle() + "-fx-text-fill: #000000;");
+                }
+
                 answerOption.setPadding(new Insets(10, 0, 10, 0));
 
                 // Group all answers into a container for each question
@@ -92,6 +104,8 @@ public class QuestionDetailsController {
                 yourAnswerLabel = new Label("Your answer: " + answerLetter(yourAnswer));
             }
             Label correctAnswerLabel = new Label("Correct answer: " + answerLetter(correctAnswer));
+            yourAnswerLabel.setStyle("-fx-font-weight: 700");
+            correctAnswerLabel.setStyle("-fx-font-weight: 700");
 
             // Display horizontally instead of vertically
             resultsContainer.getChildren().addAll(yourAnswerLabel, correctAnswerLabel);
@@ -100,12 +114,14 @@ public class QuestionDetailsController {
             // Group each questions into a container
             questionContainer.getChildren().addAll(questionNumber, question, answerContainer, resultsContainer);
             questionContainer.setSpacing(10);
+            questionContainer.setPadding(new Insets(10));
+            questionContainer.setStyle("-fx-background-color: #EAECEE; -fx-background-radius: 10;");
 
             // Group all questions into one container
             allQuestions.getChildren().addAll(questionContainer);
             allQuestions.setSpacing(20);
-            allQuestions.setPadding(new Insets(10, 10, 10, 10));
         }
+
 
         // Set larger container as content of scroll pane
         questions.setContent(allQuestions);
@@ -116,6 +132,7 @@ public class QuestionDetailsController {
         Stage stage = (Stage) backToResultsButton.getScene().getWindow();
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("results-view.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), HelloApplication.WIDTH, HelloApplication.HEIGHT);
+        stage.setTitle("Quiz Results");
         stage.setScene(scene);
     }
 

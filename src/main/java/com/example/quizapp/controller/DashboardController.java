@@ -7,8 +7,11 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Hyperlink;
+import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.ImagePattern;
+import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 import java.io.IOException;
 
@@ -24,13 +27,18 @@ public class DashboardController {
     private Button viewProgressBtn;
     @FXML
     private Hyperlink logoutLink;
+    @FXML
+    private Circle userIcon;
 
     @FXML
     public void initialize() {
+        Image img = new Image(getClass().getResource("/com/example/images/user-icon.png").toString());
+        userIcon.setFill(new ImagePattern(img));
+
         // Existing AddQuizBox click listener
         addQuizBox.setOnMouseClicked((MouseEvent event) -> {
             try {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/quizapp/quiz-init/quiz-init.fxml"));
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/quizapp/quiz-init.fxml"));
                 Scene quizInitScene = new Scene(loader.load(), 900, 600);
                 Stage stage = (Stage) addQuizBox.getScene().getWindow();
                 stage.setScene(quizInitScene);
@@ -77,6 +85,7 @@ public class DashboardController {
             Stage stage = (Stage) settingsButton.getScene().getWindow();
             FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("settingsProfile-View.fxml"));
             Scene scene = new Scene(fxmlLoader.load(), HelloApplication.WIDTH, HelloApplication.HEIGHT);
+            stage.setTitle("Settings");
             stage.setScene(scene);
         }
         catch (IOException e) {

@@ -79,7 +79,7 @@ Elementum nibh tellus molestie nunc non blandit massa.""");
 
     @FXML
     private void onDashboardButtonPressed() throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("/com/example/quizapp/Dashboard/Dashboard.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("/com/example/quizapp/dashboard.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), HelloApplication.WIDTH, HelloApplication.HEIGHT);
         Stage stage = (Stage) dashboardButton.getScene().getWindow();
         stage.setScene(scene);

@@ -6,13 +6,14 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<VBox alignment="CENTER_LEFT" spacing="20.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.quizapp.controller.ProgressReportController">
+<VBox alignment="CENTER_LEFT"
+      spacing="20.0"
+      xmlns="http://javafx.com/javafx/17.0.12"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.example.quizapp.controller.ProgressReportController"
+      stylesheets="@../css/stylesheet.css">
    <children>
-      <Label fx:id="quizTopicLabel" text="Progress Report: [quiz topic]">
-         <font>
-            <Font size="18.0" />
-         </font>
-      </Label>
+      <Label id="heading" fx:id="quizTopicLabel" text="Progress Report: [quiz topic]"/>
       <GridPane alignment="CENTER" hgap="10.0" VBox.vgrow="ALWAYS">
         <columnConstraints>
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="67.0" prefWidth="100.0" />
@@ -22,7 +23,7 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <LineChart fx:id="lineChart" legendVisible="false">
+            <LineChart fx:id="lineChart" legendVisible="false" translateY="20">
               <xAxis>
                 <NumberAxis fx:id="attemptNumAxis" autoRanging="false" label="Attempt number" lowerBound="1.0" minorTickVisible="false" side="BOTTOM" tickMarkVisible="false" tickUnit="1.0" upperBound="5.0" />
               </xAxis>
@@ -30,9 +31,9 @@
                 <NumberAxis autoRanging="false" label="Score (%)" minorTickVisible="false" side="LEFT" tickMarkVisible="false" tickUnit="10.0" />
               </yAxis>
             </LineChart>
-            <VBox GridPane.columnIndex="1">
+            <VBox GridPane.columnIndex="1" spacing="20">
                <children>
-                  <Label text="Comments">
+                  <Label id="bolded-text" text="Comments">
                      <font>
                         <Font size="18.0" />
                      </font>
@@ -48,12 +49,12 @@
       </GridPane>
       <HBox alignment="CENTER_RIGHT" spacing="30.0">
          <children>
-            <Button fx:id="backButton" mnemonicParsing="false" onAction="#onBackButtonPressed" text="Back to results" />
-            <Button fx:id="dashboardButton" mnemonicParsing="false" onAction="#onDashboardButtonPressed" text="Exit to dashboard" />
+            <Button id="secondary-button" fx:id="backButton" mnemonicParsing="false" onAction="#onBackButtonPressed" text="⬅  Go back" />
+            <Button id="secondary-button" fx:id="dashboardButton" mnemonicParsing="false" onAction="#onDashboardButtonPressed" text="To dashboard" style="-fx-background-color: #6F3198"/>
          </children>
       </HBox>
    </children>
    <padding>
-      <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+      <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
    </padding>
 </VBox>

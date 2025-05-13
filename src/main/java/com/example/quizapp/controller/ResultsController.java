@@ -12,7 +12,6 @@ import javafx.scene.Scene;
 import javafx.scene.chart.PieChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -57,7 +56,7 @@ public class ResultsController {
                 new PieChart.Data("Correct", score),
                 new PieChart.Data("Incorrect", quizLength - score));
         resultGraph.setData(pieChartData);
-        resultGraph.setLabelsVisible(true);
+        resultGraph.setLabelsVisible(false);
 
         // Code to display list of questions for this current quiz attempt
 
@@ -81,6 +80,7 @@ public class ResultsController {
 
             // Access and display question number and text for current question
             Label questionNumber = new Label("Question " + (i + 1));
+            questionNumber.setStyle("-fx-font-weight: 700");
             Label question = new Label(currentQuestion.getQuestionText());
 
             // Group both into a container for each question
@@ -106,6 +106,7 @@ public class ResultsController {
         Stage stage = (Stage) questionDetailsButton.getScene().getWindow();
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("question-details-view.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), HelloApplication.WIDTH, HelloApplication.HEIGHT);
+        stage.setTitle("Question Details");
         stage.setScene(scene);
     }
 
@@ -131,7 +132,7 @@ public class ResultsController {
 
     @FXML
     private void exitResults() throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("/com/example/quizapp/Dashboard/Dashboard.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("/com/example/quizapp/dashboard.fxml"));
         Scene dashboardStage = new Scene(fxmlLoader.load(), HelloApplication.WIDTH, HelloApplication.HEIGHT);
         Stage stage = (Stage) exitButton.getScene().getWindow();
         stage.setScene(dashboardStage);
