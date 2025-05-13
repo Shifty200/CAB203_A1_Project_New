@@ -85,6 +85,7 @@ public class QuizInitController {
                 System.out.println("Raw AI Response:\n" + jsonResponse);
                 String generatedTitle = aiQuizGenerator.generateQuizTitle(jsonResponse);
                 Quiz quiz = QuizTakingUtil.parseAIResponse(jsonResponse, generatedTitle, topic, difficulty);
+                new SQLiteQuizDAOLive().addQuiz(quiz);
 
                 Platform.runLater(() -> {
                     loadingStage.close();

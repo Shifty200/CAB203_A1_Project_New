@@ -85,6 +85,7 @@ public class Quiz {
     }
 
     public void addQuestion(QuizQuestion question) {
+        question.setQuiz(this);
         questions.add(question);
     }
 
