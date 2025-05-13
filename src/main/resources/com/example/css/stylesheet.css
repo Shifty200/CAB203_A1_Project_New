@@ -35,6 +35,12 @@
     -fx-pref-width: 150;
 }
 
+#secondary-button-white {
+    -fx-background-color: '#FFFFFF';
+    -fx-pref-width: 150;
+    -fx-text-fill: '#17202A';
+}
+
 #small-button {
     -fx-pref-width: 150;
     -fx-padding: 10;
@@ -101,7 +107,7 @@
     -fx-text-fill: '#FFFFFF';
 }
 
-#logout-link:hover {
+#link:hover {
     -fx-font-weight: 700;
     -fx-scale-x: 1.1;
     -fx-scale-y: 1.1;
@@ -207,7 +213,8 @@
 }
 
 .scroll-pane {
-    -fx-border-color: '#FFFFFF';;
+    -fx-border-color: '#FFFFFF';
+    -fx-background: '#FFFFFF';
 }
 
 .default-color0.chart-pie { -fx-pie-color: '#6F3198'; }
@@ -225,3 +232,6 @@
 .default-color0.chart-series-line { -fx-stroke: '#6f3198'; }
 .default-color0.chart-line-symbol { -fx-background-color: '#6f3198', '#FFFFFF'; }
 
+#side-bar {
+    -fx-background-color: '#17202A';
+}

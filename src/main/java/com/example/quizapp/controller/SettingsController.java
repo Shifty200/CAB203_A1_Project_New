@@ -11,6 +11,9 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.paint.ImagePattern;
+import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -32,8 +35,6 @@ public class SettingsController {
     private Button personalisationButton;
     @FXML
     private Button notificationsButton;
-    @FXML
-    private Button logoutButton;
 
     @FXML
     private TextField usernameField;
@@ -52,6 +53,13 @@ public class SettingsController {
     @FXML
     private Button changePasswordButton;
 
+    @FXML
+    private Circle userIcon;
+
+    public void initialize() {
+        Image img = new Image(getClass().getResource("/com/example/images/user-icon.png").toString());
+        userIcon.setFill(new ImagePattern(img));
+    }
 
     public void settingsBackPressed(ActionEvent actionEvent) {
         try {
@@ -60,20 +68,6 @@ public class SettingsController {
             Stage stage = (Stage) settingsBack.getScene().getWindow();
             stage.setTitle("Dashboard");
             stage.setScene(dashboardScene);
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @FXML
-    private void handleLogout() {
-        try {
-            FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("hello-view.fxml"));
-            Scene scene = new Scene(fxmlLoader.load(), HelloApplication.WIDTH, HelloApplication.HEIGHT);
-            Stage stage = (Stage) logoutButton.getScene().getWindow();
-            stage.setTitle(HelloApplication.TITLE);
-            stage.setScene(scene);
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();
