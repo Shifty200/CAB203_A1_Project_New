@@ -114,7 +114,7 @@ public class QuestionsController {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Confirm submission");
         alert.setHeaderText(null);
-        Image image = new Image(getClass().getResource("/com/example/images/tutorworm.png").toString());
+        Image image = new Image(getClass().getResource("/com/example/images/tutorworm-incorrect.png").toString());
         ImageView imageView = new ImageView();
         imageView.setFitWidth(50);
         imageView.setFitHeight(50);
@@ -150,7 +150,7 @@ public class QuestionsController {
     private void onDashboardButtonPressed() throws IOException {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Exit quiz?");
-        Image image = new Image(getClass().getResource("/com/example/images/tutorworm.png").toString());
+        Image image = new Image(getClass().getResource("/com/example/images/tutorworm-incorrect.png").toString());
         ImageView imageView = new ImageView();
         imageView.setFitWidth(50);
         imageView.setFitHeight(50);
