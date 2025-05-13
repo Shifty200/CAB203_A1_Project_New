@@ -80,7 +80,7 @@ public class aiQuizGenerator {
             conn.setRequestProperty("Content-Type", "application/json");
             conn.setDoOutput(true);
 
-            String prompt = "Based on this quiz JSON, give it a short and relevant title:\n\n" + fullResponse;
+            String prompt = "Return ONLY a short, relevant quiz title (5–8 words) for this quiz content. No extra explanation, no punctuation, just the title:\n\n" + fullResponse;
 
             JSONObject requestJson = new JSONObject()
                     .put("model", "llama3.2:latest")
