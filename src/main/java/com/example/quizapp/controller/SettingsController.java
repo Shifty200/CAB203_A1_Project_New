@@ -37,9 +37,11 @@ public class SettingsController {
     private Button notificationsButton;
 
     @FXML
-    private TextField usernameField;
+    private Label usernameText;
     @FXML
     private TextField emailField;
+    @FXML
+    private Button changeEmailButton;
     @FXML
     private PasswordField passwordField;
     @FXML
@@ -56,10 +58,16 @@ public class SettingsController {
     @FXML
     private Circle userIcon;
 
-    public void initialize() {
+    public void init() {
         Image img = new Image(getClass().getResource("/com/example/images/user-icon.png").toString());
         userIcon.setFill(new ImagePattern(img));
     }
+
+    public void initalise(){
+        setUsername();
+        setEmailField();
+    }
+
 
     public void settingsBackPressed(ActionEvent actionEvent) {
         try {
@@ -96,15 +104,6 @@ public class SettingsController {
     @FXML
     private void handleNotifications() {
         setMessageBox("Notifications tab clicked", 2);
-    }
-
-
-    public void handleChangeUsername(ActionEvent actionEvent) {
-        setMessageBox("Change username clicked", 2);
-    }
-
-    public void handleChangeEmail(ActionEvent actionEvent) {
-        setMessageBox("Change email clicked", 2);
     }
 
     @FXML
@@ -168,11 +167,56 @@ public class SettingsController {
         }
     }
 
+    public void handleChangeEmail() throws IOException {
+
+        User currentUser = CurrentUser.getInstance();
+        String currentUserName = currentUser.getUserName();
+        String currentPassword = currentUser.getPassword();
+        String oldEmail = currentUser.getEmail();
+
+        String newEmail = emailField.getText();
+
+        if (Objects.equals(oldEmail, newEmail)){
+            quizAppAlert sameAlert = new quizAppAlert();
+            sameAlert.alert("Error", "Enter a new email", "This email is the same as the current email registered to this account. Please enter a different email.");
+        }
+        else if (!newEmail.contains("@")){
+            quizAppAlert emailAlert = new quizAppAlert();
+            emailAlert.alert("Error", "Not Valid", "The email entered is not a valid email");
+        }
+        else{
+            User newUser = new User(currentUserName, currentPassword, newEmail);
+            new SQLiteUserDAOLive().updateUser(newUser);
+            setEmailField();
+
+            emailField.setPromptText(newEmail);
+            quizAppAlert changedEmail = new quizAppAlert();
+            changedEmail.alert("Email Changed", "Your email was successfully changed!", "");
+            Stage stage = (Stage) changeEmailButton.getScene().getWindow();
+            FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("settingsProfile-View.fxml"));
+            Scene scene = new Scene(fxmlLoader.load(), HelloApplication.WIDTH, HelloApplication.HEIGHT);
+            stage.setScene(scene);
+        }
+
+
+
+    }
+
 
     public void setMessageBox(String message, Integer time) {
         messageBox.setText(message);
         PauseTransition waiting = new PauseTransition(Duration.seconds(time));
         waiting.setOnFinished(event -> messageBox.setText(""));
         waiting.play();
+    }
+
+    public void setUsername() {
+        String currentUsername = CurrentUser.getInstance().getUserName();
+        usernameText.setText(currentUsername);
+    }
+
+    public void setEmailField(){
+        String currentEmail = CurrentUser.getInstance().getEmail();
+        emailField.setPromptText(currentEmail);
     }
 }

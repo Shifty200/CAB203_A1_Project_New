@@ -44,6 +44,9 @@ public class SQLiteQuizDAOLive{
             if (generatedKeys.next()) {
                 quiz.setQuizID(generatedKeys.getInt(1));
             }
+            for (int i = 0; i< quiz.getLength(); i++) {
+                new SQLiteQuizQuestionDAOLive().addQuizQuestion(quiz.getQuestions().get(i));
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -83,7 +86,17 @@ public class SQLiteQuizDAOLive{
                 String topic = resultSet.getString("topic");
                 String difficulty = resultSet.getString("difficulty");
                 Quiz quiz = new Quiz(quizName, topic, difficulty);
-                quiz.setQuizID(quiz_id);
+
+                ArrayList<QuizQuestion> quiz_questions= new ArrayList<>();
+                PreparedStatement statement_quiz = connection.prepareStatement( "SELECT * FROM quiz_attempts" +
+                "WHERE quiz_id = ?");
+                statement_quiz.setInt(1, quiz_id);
+                ResultSet resultSet2 = statement.executeQuery();
+                if (resultSet2.next()) {
+                    int quiz_attempt_id = resultSet2.getInt("id");
+                    quiz_questions.add(new SQLiteQuizQuestionDAOLive().getQuizQuestion(quiz_attempt_id));
+                }
+                quiz.setQuestions(quiz_questions);
                 return quiz;
             }
         } catch (Exception e) {
@@ -111,6 +124,24 @@ public class SQLiteQuizDAOLive{
             e.printStackTrace();
         }
         return quizzes;
+    }
+
+    public List<String> getAllTopics() {
+        List<String> topics = new ArrayList<>();
+        try {
+            Statement statement = connection.createStatement();
+            String query = "SELECT * FROM quizzes";
+            ResultSet resultSet = statement.executeQuery(query);
+            while (resultSet.next()) {
+                String topic = resultSet.getString("topic");
+                if (!topics.contains(topic)){
+                    topics.add(topic);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return topics;
     }
 
 

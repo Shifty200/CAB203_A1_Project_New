@@ -5,6 +5,7 @@ import java.util.Arrays;
 public class QuizAttempt {
     private final Quiz quiz;
     private int[] selectedAnswers; // index of selected answer in answers list for each question. -1 means no answer selected.
+    private int quizAttemptID;
 
     public QuizAttempt(Quiz quiz) throws IllegalArgumentException {
         if (quiz.getLength() == 0) {
@@ -15,9 +16,13 @@ public class QuizAttempt {
         Arrays.fill(selectedAnswers, -1);
     }
 
+    public void setQuizAttemptID(int quizAttemptID) {this.quizAttemptID = quizAttemptID;}
+    public int getQuizAttemptID(){return this.quizAttemptID;}
+
     public Quiz getQuiz() {
         return quiz;
     }
+
 
     public String getQuizName() {
         return quiz.getQuizName();
@@ -26,6 +31,7 @@ public class QuizAttempt {
     public int[] getSelectedAnswers() {
         return selectedAnswers;
     }
+    public void setSelectedAnswers(int[] selectedAnswers) {this.selectedAnswers = selectedAnswers;}
 
     public int getSelectedAnswer(int questionIndex) {
         return selectedAnswers[questionIndex];
