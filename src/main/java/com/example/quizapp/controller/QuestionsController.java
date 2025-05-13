@@ -5,6 +5,7 @@ import com.example.quizapp.model.Quiz;
 import com.example.quizapp.model.QuizAttempt;
 
 import com.example.quizapp.model.QuizQuestion;
+import com.example.quizapp.model.SQLiteQuizAttemptDAOLive;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
@@ -137,6 +138,9 @@ public class QuestionsController {
         Optional<ButtonType> buttonType = alert.showAndWait();
         if (buttonType.isPresent() && buttonType.get() == ButtonType.OK) {
             // Add result to database
+            // i just added this to store the quiz attempt
+            new SQLiteQuizAttemptDAOLive().addQuizAttempt(quizAttempt);
+
             // Move to results page
             FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("results-view.fxml"));
             Scene resultsPage = new Scene(fxmlLoader.load(), HelloApplication.WIDTH, HelloApplication.HEIGHT);
