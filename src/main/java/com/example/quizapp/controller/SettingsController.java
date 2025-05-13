@@ -61,13 +61,9 @@ public class SettingsController {
     public void init() {
         Image img = new Image(getClass().getResource("/com/example/images/user-icon.png").toString());
         userIcon.setFill(new ImagePattern(img));
-    }
-
-    public void initalise(){
         setUsername();
         setEmailField();
     }
-
 
     public void settingsBackPressed(ActionEvent actionEvent) {
         try {
