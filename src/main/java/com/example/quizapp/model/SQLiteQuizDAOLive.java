@@ -112,6 +112,24 @@ public class SQLiteQuizDAOLive{
         return quizzes;
     }
 
+    public List<String> getAllTopics() {
+        List<String> topics = new ArrayList<>();
+        try {
+            Statement statement = connection.createStatement();
+            String query = "SELECT * FROM quizzes";
+            ResultSet resultSet = statement.executeQuery(query);
+            while (resultSet.next()) {
+                String topic = resultSet.getString("topic");
+                if (!topics.contains(topic)){
+                    topics.add(topic);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return topics;
+    }
+
 
 }
 

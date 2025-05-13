@@ -133,6 +133,41 @@ public class SQLiteQuizAttemptDAOLive {
         return quiz_attempts;
     }
 
+    public List<QuizAttempt> getQuizAttemptsByTopic(String topic) {
+        List<QuizAttempt> quiz_attempts = new ArrayList<>();
+        try {
+            PreparedStatement statement = connection.prepareStatement("SELECT quizzes.topic, quiz_attempts.* " +
+                    "FROM quiz_attempts " +
+                    "JOIN quizzes " +
+                    "ON quiz_attempts.quiz_id = quizzes.quiz_id " +
+                    "ORDER BY quizzes.topic;");
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                if(!Objects.equals(resultSet.getString("topic"), topic)){
+                    continue;
+                }
+                int quiz_id = resultSet.getInt("quiz_id");
+                String selected_answers = resultSet.getString("selected_answers");
+
+                Quiz quiz = new SQLiteQuizDAOLive().getQuiz(quiz_id);
+                QuizAttempt quizAttempt = new QuizAttempt(quiz);
+
+                Matcher matcher = Pattern.compile("\\d+").matcher(selected_answers);
+                int[] numbers = new int[quiz.getLength()];
+                for (int i=0;i<numbers.length; i++) {
+                    while (matcher.find()) {
+                        numbers[i] = (Integer.valueOf(matcher.group()));
+                    }
+                }
+                quizAttempt.setSelectedAnswers(numbers);
+                quiz_attempts.add(quizAttempt);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return quiz_attempts;
+    }
+
 //    public boolean checkUserPresent(String userName){
 //        List<User> users = getAllUsers();
 //        int userLength = users.size();
