@@ -11,16 +11,16 @@
       stylesheets="@../css/stylesheet.css">
 
     <Label id="heading" text="Quiz Initialisation Page"/>
-
-    <VBox id="upload-box" fx:id="uploadBox">
-        <Label text="📁 Drag, drop or browse" />
-    </VBox>
-
-    <Label fx:id="errorLabel" text="Error Label" style="-fx-text-fill: red;" />
     <VBox spacing="10" alignment="CENTER">
         <Label text="Enter a topic:" />
         <TextField fx:id="topicField" promptText="e.g. HP printer cartridges"/>
     </VBox>
+
+    <VBox id="upload-box" fx:id="uploadBox">
+        <Label text="Drag, drop or browse" />
+    </VBox>
+
+    <Label fx:id="errorLabel" text="Error Label" style="-fx-text-fill: red;" />
 
     <VBox id="difficulty-slider" spacing="15" alignment="CENTER">
         <Label id="bolded-text" text="Set difficulty:" />
