@@ -168,6 +168,40 @@ public class SQLiteQuizAttemptDAOLive {
         return quiz_attempts;
     }
 
+    public String getScoreForQuiz(int quizId) {
+        try {
+            PreparedStatement statement = connection.prepareStatement(
+                    "SELECT selected_answers FROM quiz_attempts WHERE quiz_id = ? ORDER BY id DESC LIMIT 1"
+            );
+            statement.setInt(1, quizId);
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                String selectedAnswers = resultSet.getString("selected_answers");
+                Quiz quiz = new SQLiteQuizDAOLive().getQuiz(quizId);
+                QuizAttempt attempt = new QuizAttempt(quiz);
+
+                // Parse selected answers
+                Pattern pattern = Pattern.compile("\\d+");
+                Matcher matcher = pattern.matcher(selectedAnswers);
+                int[] selections = new int[quiz.getLength()];
+                int i = 0;
+                while (matcher.find() && i < selections.length) {
+                    selections[i++] = Integer.parseInt(matcher.group());
+                }
+                attempt.setSelectedAnswers(selections);
+
+                return attempt.getScore() + "/" + quiz.getLength();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "Not attempted";
+    }
+
+
+
+
+
 //    public boolean checkUserPresent(String userName){
 //        List<User> users = getAllUsers();
 //        int userLength = users.size();
