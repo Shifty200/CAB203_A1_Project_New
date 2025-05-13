@@ -16,8 +16,10 @@
         <TextField fx:id="topicField" promptText="e.g. HP printer cartridges"/>
     </VBox>
 
-    <VBox id="upload-box" fx:id="uploadBox">
-        <Label text="Drag, drop or browse" />
+    <VBox id="upload-box" fx:id="uploadBox"
+          prefHeight="120"
+          style="-fx-border-color: #888; -fx-border-style: dashed; -fx-border-radius: 10; -fx-alignment: center; -fx-padding: 20;">
+        <Label text="Drag, drop or browse" style="-fx-font-size: 16;" />
     </VBox>
 
     <Label fx:id="errorLabel" text="Error Label" style="-fx-text-fill: red;" />
