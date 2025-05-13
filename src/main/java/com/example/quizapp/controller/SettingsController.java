@@ -103,8 +103,6 @@ public class SettingsController {
     @FXML
     private void handlePersonalisation() {
         setMessageBox("Personalisation tab clicked", 2);
-        //System.out.println(currentUser.getUserName());
-        //System.out.println(currentUser.getEmail());
     }
 
     @FXML
@@ -203,8 +201,6 @@ public class SettingsController {
             Scene scene = new Scene(fxmlLoader.load(), HelloApplication.WIDTH, HelloApplication.HEIGHT);
             stage.setScene(scene);
         }
-
-
 
     }
 
