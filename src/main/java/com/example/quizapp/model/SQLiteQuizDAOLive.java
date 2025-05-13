@@ -76,27 +76,34 @@ public class SQLiteQuizDAOLive{
         }
     }
 
+    // edited this code as the second query was broken
     public Quiz getQuiz(int quiz_id) {
         try {
             PreparedStatement statement = connection.prepareStatement("SELECT * FROM quizzes WHERE quiz_id = ?");
             statement.setInt(1, quiz_id);
             ResultSet resultSet = statement.executeQuery();
+
             if (resultSet.next()) {
                 String quizName = resultSet.getString("quizName");
                 String topic = resultSet.getString("topic");
                 String difficulty = resultSet.getString("difficulty");
                 Quiz quiz = new Quiz(quizName, topic, difficulty);
 
-                ArrayList<QuizQuestion> quiz_questions= new ArrayList<>();
-                PreparedStatement statement_quiz = connection.prepareStatement( "SELECT * FROM quiz_attempts" +
-                "WHERE quiz_id = ?");
+                ArrayList<QuizQuestion> quiz_questions = new ArrayList<>();
+                PreparedStatement statement_quiz = connection.prepareStatement(
+                        "SELECT * FROM quiz_attempts WHERE quiz_id = ?"
+                );
                 statement_quiz.setInt(1, quiz_id);
-                ResultSet resultSet2 = statement.executeQuery();
-                if (resultSet2.next()) {
+                ResultSet resultSet2 = statement_quiz.executeQuery();
+
+                while (resultSet2.next()) {
                     int quiz_attempt_id = resultSet2.getInt("id");
-                    quiz_questions.add(new SQLiteQuizQuestionDAOLive().getQuizQuestion(quiz_attempt_id));
+                    QuizQuestion question = new SQLiteQuizQuestionDAOLive().getQuizQuestion(quiz_attempt_id);
+                    if (question != null) {
+                        quiz.addQuestion(question);
+                    }
                 }
-                quiz.setQuestions(quiz_questions);
+
                 return quiz;
             }
         } catch (Exception e) {
@@ -104,6 +111,7 @@ public class SQLiteQuizDAOLive{
         }
         return null;
     }
+
 
     public List<Quiz> getAllQuizzes() {
         List<Quiz> quizzes = new ArrayList<>();

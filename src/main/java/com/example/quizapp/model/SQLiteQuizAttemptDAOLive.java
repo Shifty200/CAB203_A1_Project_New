@@ -181,8 +181,9 @@ public class SQLiteQuizAttemptDAOLive {
             if (resultSet.next()) {
                 String selectedAnswers = resultSet.getString("selected_answers");
                 Quiz quiz = new SQLiteQuizDAOLive().getQuiz(quizId);
-                QuizAttempt attempt = new QuizAttempt(quiz);
+                if (quiz == null) return "Not attempted";
 
+                QuizAttempt attempt = new QuizAttempt(quiz);
                 Pattern pattern = Pattern.compile("\\d+");
                 Matcher matcher = pattern.matcher(selectedAnswers);
                 int[] selections = new int[quiz.getLength()];
@@ -191,14 +192,16 @@ public class SQLiteQuizAttemptDAOLive {
                     selections[i++] = Integer.parseInt(matcher.group());
                 }
                 attempt.setSelectedAnswers(selections);
-
-                return attempt.getScore() + "/" + quiz.getLength();
+                int correct = attempt.getScore();
+                int total = quiz.getLength();
+                return correct + "/" + total;
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
         return "Not attempted";
     }
+
 
 
 
