@@ -83,7 +83,8 @@ public class QuizInitController {
             new Thread(() -> {
                 String jsonResponse = aiQuizGenerator.generateQuiz(prompt);
                 System.out.println("Raw AI Response:\n" + jsonResponse);
-                Quiz quiz = QuizTakingUtil.parseAIResponse(jsonResponse, topic, topic, difficulty);
+                String generatedTitle = aiQuizGenerator.generateQuizTitle(jsonResponse);
+                Quiz quiz = QuizTakingUtil.parseAIResponse(jsonResponse, generatedTitle, topic, difficulty);
 
                 Platform.runLater(() -> {
                     loadingStage.close();
@@ -141,7 +142,6 @@ public class QuizInitController {
             errorLabel.setVisible(true);
             return false;
         }
-
         return true;
     }
 
