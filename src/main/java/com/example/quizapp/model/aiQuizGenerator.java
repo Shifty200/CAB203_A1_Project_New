@@ -68,4 +68,47 @@ public class aiQuizGenerator {
 
         return fullResponse;
     }
+
+    // another prompt to create an ai gen title for the quiz
+    public static String generateQuizTitle(String fullResponse) {
+        String title = "";
+
+        try {
+            URL url = new URL("http://localhost:11434/api/chat");
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("POST");
+            conn.setRequestProperty("Content-Type", "application/json");
+            conn.setDoOutput(true);
+
+            String prompt = "Based on this quiz JSON, give it a short and relevant title:\n\n" + fullResponse;
+
+            JSONObject requestJson = new JSONObject()
+                    .put("model", "llama3.2:latest")
+                    .put("messages", new org.json.JSONArray().put(new JSONObject()
+                            .put("role", "user")
+                            .put("content", prompt)))
+                    .put("stream", false)
+                    .put("options", new JSONObject().put("temperature", 0));
+
+            try (OutputStream os = conn.getOutputStream()) {
+                os.write(requestJson.toString().getBytes());
+            }
+
+            try (BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()))) {
+                StringBuilder sb = new StringBuilder();
+                String responseLine;
+                while ((responseLine = br.readLine()) != null) {
+                    sb.append(responseLine);
+                }
+                JSONObject responseJson = new JSONObject(sb.toString());
+                title = responseJson.getJSONObject("message").getString("content").replaceAll("\"", "").trim();
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return title;
+    }
+
 }
