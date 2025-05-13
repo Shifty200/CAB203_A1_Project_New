@@ -12,6 +12,7 @@ import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
@@ -28,7 +29,7 @@ public class DashboardController {
     @FXML private Button viewProgressBtn;
     @FXML private Hyperlink logoutLink;
     @FXML private Circle userIcon;
-    @FXML private VBox quizHistoryBox;
+    @FXML private FlowPane quizHistoryBox;
 
     @FXML
     public void initialize() {

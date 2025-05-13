@@ -27,7 +27,10 @@
                 <ComboBox fx:id="topicDropdown" value="Topic" prefWidth="150" />
             </HBox>
             <HBox spacing="20" alignment="CENTER_LEFT">
-                <VBox fx:id="quizHistoryBox" spacing="15" alignment="CENTER_LEFT" />
+                <FlowPane fx:id="quizHistoryBox"
+                          hgap="20" vgap="20"
+                          prefWrapLength="600"
+                          style="-fx-padding: 20;" />
                 <VBox id="add-quiz-box" fx:id="addQuizInit">
                     <Label text="+" style="-fx-font-size: 30;" />
                     <Label id="add-quiz-label" text="Add a new quiz"/>

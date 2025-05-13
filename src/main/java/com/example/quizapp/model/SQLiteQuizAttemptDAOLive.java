@@ -168,6 +168,9 @@ public class SQLiteQuizAttemptDAOLive {
         return quiz_attempts;
     }
 
+
+
+    // added a method to get the score to display on the dashboard history
     public String getScoreForQuiz(int quizId) {
         try {
             PreparedStatement statement = connection.prepareStatement(
@@ -180,7 +183,6 @@ public class SQLiteQuizAttemptDAOLive {
                 Quiz quiz = new SQLiteQuizDAOLive().getQuiz(quizId);
                 QuizAttempt attempt = new QuizAttempt(quiz);
 
-                // Parse selected answers
                 Pattern pattern = Pattern.compile("\\d+");
                 Matcher matcher = pattern.matcher(selectedAnswers);
                 int[] selections = new int[quiz.getLength()];
