@@ -13,6 +13,7 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
@@ -29,7 +30,7 @@ public class DashboardController {
     @FXML private Button viewProgressBtn;
     @FXML private Hyperlink logoutLink;
     @FXML private Circle userIcon;
-    @FXML private FlowPane quizHistoryBox;
+    @FXML private HBox quizHistoryBox;
 
     @FXML
     public void initialize() {
@@ -53,6 +54,7 @@ public class DashboardController {
             card.setSpacing(5);
             card.setStyle("-fx-background-color: #F2F2F2; -fx-padding: 10; -fx-background-radius: 10;");
             card.setPrefWidth(200);
+            card.setPrefHeight(150);
 
             Label title = new Label(quiz.getQuizName());
             title.setStyle("-fx-font-size: 16; -fx-font-weight: bold;");
