@@ -18,7 +18,7 @@
                 <TextField fx:id="topicField" promptText="e.g. Algebra"/>
             </VBox>
             <VBox id="upload-box" fx:id="uploadBox"
-                  style="-fx-border-color: #888; -fx-border-style: dashed; -fx-border-radius: 10; -fx-alignment: center; -fx-padding: 20;">
+                  style="-fx-border-color: #888; -fx-border-style: dashed; -fx-border-radius: 10; -fx-alignment: center; -fx-padding: 20; -fx-cursor: hand;">
                 <Label text="Drag, drop or browse" style="-fx-font-size: 16;" />
             </VBox>
 
@@ -26,7 +26,7 @@
 
             <VBox id="difficulty-slider" spacing="15" alignment="CENTER">
                 <Label id="bolded-text" text="Set difficulty:" />
-                <Slider fx:id="difficultySlider" min="1" max="3" value="2" majorTickUnit="1" showTickLabels="true" showTickMarks="true" snapToTicks="true" />
+                <Slider fx:id="difficultySlider" min="1" max="3" value="2" majorTickUnit="1" showTickLabels="true" showTickMarks="true" snapToTicks="true" style="-fx-cursor: hand;" />
                 <HBox spacing="200" alignment="CENTER">
                     <Label text="Easy" />
                     <Label text="Medium" />
@@ -37,15 +37,15 @@
             <VBox spacing="15" alignment="CENTER">
                 <Label id="bolded-text" text="Set preferred number of questions:" />
                 <HBox spacing="15" alignment="CENTER">
-                    <ToggleButton fx:id="q1to10" text="1–10"/>
-                    <ToggleButton fx:id="q10to20" text="10–20"/>
-                    <ToggleButton fx:id="q20to30" text="20–30"/>
+                    <ToggleButton fx:id="q1to10" text="1–10" style="-fx-cursor: hand;"/>
+                    <ToggleButton fx:id="q10to20" text="10–20" style="-fx-cursor: hand;"/>
+                    <ToggleButton fx:id="q20to30" text="20–30" style="-fx-cursor: hand;"/>
                 </HBox>
             </VBox>
 
-            <Button fx:id="startQuizBtn" text="Start quiz" translateY="10"/>
+            <Button fx:id="startQuizBtn" text="Start quiz" translateY="10" style="-fx-cursor: hand;"/>
             <HBox alignment="CENTER_LEFT">
-                <Button id="secondary-button" fx:id="backToDashboardBtn" text="⬅  Go back"/>
+                <Button id="secondary-button" fx:id="backToDashboardBtn" text="⬅  Go back" style="-fx-cursor: hand;"/>
             </HBox>
         </VBox>
 </ScrollPane>
