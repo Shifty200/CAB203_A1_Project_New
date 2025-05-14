@@ -35,6 +35,8 @@ public class ProgressReportController {
     private Button dashboardButton;
 
     private String topic;
+    private Scene previousScene;
+    private String previousPage;
 
     public void initialize() {
         commentsArea.setText("""
@@ -67,6 +69,12 @@ Elementum nibh tellus molestie nunc non blandit massa.""");
         setLineChartData(new SQLiteQuizAttemptDAOLive().getQuizAttemptsByTopic(topic));
     }
 
+    // must be called before switching to this page
+    public void setPreviousScene(Scene scene, String page) {
+        this.previousScene = scene;
+        this.previousPage = page;
+    }
+
     public void setCommentsAreaText(String comments) {
         commentsArea.setText(comments);
     }
@@ -85,11 +93,9 @@ Elementum nibh tellus molestie nunc non blandit massa.""");
 
     @FXML
     private void onBackButtonPressed() throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("results-view.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), HelloApplication.WIDTH, HelloApplication.HEIGHT);
         Stage stage = (Stage) backButton.getScene().getWindow();
-        stage.setScene(scene);
-        stage.setTitle("Quiz Results");
+        stage.setScene(previousScene);
+        stage.setTitle(previousPage);
     }
 
     @FXML

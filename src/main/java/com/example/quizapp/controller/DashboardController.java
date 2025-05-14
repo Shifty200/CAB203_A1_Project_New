@@ -88,6 +88,7 @@ public class DashboardController {
                     Scene progressReportPage = new Scene(fxmlLoader.load(), HelloApplication.WIDTH, HelloApplication.HEIGHT);
                     ProgressReportController controller = fxmlLoader.getController();
                     controller.setQuizTopic(selectedTopic);
+                    controller.setPreviousScene(viewProgressBtn.getScene(), "Dashboard");
                     Stage stage = (Stage) viewProgressBtn.getScene().getWindow();
                     stage.setScene(progressReportPage);
                     stage.setTitle("Progress Report");
