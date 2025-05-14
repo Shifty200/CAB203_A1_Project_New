@@ -1,6 +1,10 @@
 package com.example.quizapp.model;
 
+import java.util.ArrayList;
 import java.util.Scanner;
+import org.json.JSONArray;
+import org.json.JSONObject;
+import java.util.ArrayList;
 
 public class QuizTakingUtil {
     // method for taking quiz through CLI (no input validation -- invalid input will cause exception)
@@ -47,4 +51,32 @@ public class QuizTakingUtil {
         }
         return result;
     }
+
+    // gets the ai response and turns it into questions
+    public static Quiz parseAIResponse(String response, String quizName, String topic, String difficulty) {
+        Quiz quiz = new Quiz(quizName, topic, difficulty);
+
+        try {
+            JSONObject json = new JSONObject(response);
+            JSONArray questionsArray = json.getJSONArray("questions");
+
+            for (int i = 0; i < questionsArray.length(); i++) {
+                JSONObject q = questionsArray.getJSONObject(i);
+                String questionText = q.getString("question");
+
+                JSONArray optionsArray = q.getJSONArray("options");
+                ArrayList<String> options = new ArrayList<>();
+                for (int j = 0; j < optionsArray.length(); j++) {
+                    options.add(optionsArray.getString(j));
+                }
+                int correctIndex = q.getInt("correctIndex");
+                quiz.addQuestion(new QuizQuestion(questionText, options, correctIndex));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.err.println("Failed: " + response);
+        }
+        return quiz;
+    }
 }
+

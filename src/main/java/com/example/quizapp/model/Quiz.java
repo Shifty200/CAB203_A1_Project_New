@@ -85,6 +85,8 @@ public class Quiz {
     }
 
     public void addQuestion(QuizQuestion question) {
+        // i added code here to link the quiz question to the quiz
+        question.setQuiz(this);
         questions.add(question);
     }
 

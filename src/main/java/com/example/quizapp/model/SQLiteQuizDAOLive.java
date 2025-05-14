@@ -76,11 +76,13 @@ public class SQLiteQuizDAOLive{
         }
     }
 
+    // edited this code as the second query was broken
     public Quiz getQuiz(int quiz_id) {
         try {
             PreparedStatement statement = connection.prepareStatement("SELECT * FROM quizzes WHERE quiz_id = ?");
             statement.setInt(1, quiz_id);
             ResultSet resultSet = statement.executeQuery();
+
             if (resultSet.next()) {
                 String quizName = resultSet.getString("quizName");
                 String topic = resultSet.getString("topic");
@@ -99,6 +101,7 @@ public class SQLiteQuizDAOLive{
         }
         return null;
     }
+
 
     public List<Quiz> getAllQuizzes() {
         List<Quiz> quizzes = new ArrayList<>();

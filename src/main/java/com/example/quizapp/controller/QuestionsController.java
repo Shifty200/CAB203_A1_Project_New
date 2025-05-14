@@ -12,6 +12,7 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.geometry.Insets;
 import javafx.scene.text.Font;
@@ -114,7 +115,16 @@ public class QuestionsController {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Confirm submission");
         alert.setHeaderText(null);
+        Image image = new Image(getClass().getResource("/com/example/images/tutorworm-incorrect.png").toString());
+        ImageView imageView = new ImageView();
+        imageView.setFitWidth(50);
+        imageView.setFitHeight(50);
+        imageView.setPreserveRatio(true);
+        imageView.setImage(image);
+        alert.setGraphic(imageView);
         ((Button) alert.getDialogPane().lookupButton(ButtonType.OK)).setText("Submit");
+        Stage alert_window = (Stage) alert.getDialogPane().getScene().getWindow();
+        alert_window.getIcons().add(new Image(getClass().getResource("/com/example/images/tutorworm-default.png").toString()));
         if (quizAttempt.answeredQuestionsCount() < quizAttempt.getQuiz().getLength()) {
             alert.setContentText(
                     "You still have "
@@ -129,6 +139,7 @@ public class QuestionsController {
         if (buttonType.isPresent() && buttonType.get() == ButtonType.OK) {
             // Add result to database
             new SQLiteQuizAttemptDAOLive().addQuizAttempt(quizAttempt);
+
             // Move to results page
             FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("results-view.fxml"));
             Scene resultsPage = new Scene(fxmlLoader.load(), HelloApplication.WIDTH, HelloApplication.HEIGHT);
@@ -142,8 +153,16 @@ public class QuestionsController {
     private void onDashboardButtonPressed() throws IOException {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Exit quiz?");
-        Image image = new Image(getClass().getResource("/com/example/images/tutorworm-default.png").toString());
+        Image image = new Image(getClass().getResource("/com/example/images/tutorworm-incorrect.png").toString());
+        ImageView imageView = new ImageView();
+        imageView.setFitWidth(50);
+        imageView.setFitHeight(50);
+        imageView.setPreserveRatio(true);
+        imageView.setImage(image);
+        alert.setGraphic(imageView);
         alert.setHeaderText(null);
+        Stage alert_window = (Stage) alert.getDialogPane().getScene().getWindow();
+        alert_window.getIcons().add(new Image(getClass().getResource("/com/example/images/tutorworm-default.png").toString()));
         ((Button) alert.getDialogPane().lookupButton(ButtonType.OK)).setText("Exit");
         alert.setContentText(
                 "Your progress will not be saved.\nAre you sure you want to exit?"

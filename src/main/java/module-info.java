@@ -3,6 +3,7 @@ module com.example.quizapp {
     requires javafx.fxml;
     requires java.sql;
     requires java.desktop;
+    requires org.json;
 
 
     opens com.example.quizapp to javafx.fxml;

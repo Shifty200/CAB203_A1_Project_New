@@ -17,7 +17,7 @@
             <Button id="small-button" fx:id="retakeQuizButton" onAction="#backToQuiz">Retake quiz</Button>
             <Button id="small-button" fx:id="exitButton" onAction="#exitResults" text="To dashboard" style="-fx-background-color: #17202A"/>
         </HBox>
-        <HBox alignment="CENTER_LEFT">
+        <HBox alignment="CENTER">
             <PieChart fx:id="resultGraph"/>
             <Label id="larger-heading" fx:id="currentResult" style="-fx-font-size: 40; -fx-padding: 15; -fx-border-color: #17202A; -fx-border-radius: 10;"/>
         </HBox>
