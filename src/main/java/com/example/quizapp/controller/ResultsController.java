@@ -125,6 +125,8 @@ public class ResultsController {
     private void toProgressReport() throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("progress-report-view.fxml"));
         Scene progressReportPage = new Scene(fxmlLoader.load(), HelloApplication.WIDTH, HelloApplication.HEIGHT);
+        ProgressReportController controller = fxmlLoader.getController();
+        controller.setQuizTopic(currentAttempt.getQuiz().getTopic());
         Stage stage = (Stage) progressReportButton.getScene().getWindow();
         stage.setScene(progressReportPage);
         stage.setTitle("Progress Report");

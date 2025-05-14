@@ -34,6 +34,8 @@ public class ProgressReportController {
     @FXML
     private Button dashboardButton;
 
+    private String topic;
+
     public void initialize() {
         commentsArea.setText("""
 Lorem ipsum dolor sit amet, consectetur adipiscing elit,
@@ -55,11 +57,14 @@ Elementum nibh tellus molestie nunc non blandit massa.""");
         // setLineChartData(generateQuizAttempts(10));
 
         // testing database: get all attempts for default quiz
-        setLineChartData(new SQLiteQuizAttemptDAOLive().getQuizAttemptsByTopic("Quiz Topic"));
+        // setLineChartData(new SQLiteQuizAttemptDAOLive().getQuizAttemptsByTopic("Quiz Topic"));
     }
 
-    public void setQuizTopicLabel(String topic) {
+    // must be called before switching to this page
+    public void setQuizTopic(String topic) {
+        this.topic = topic;
         quizTopicLabel.setText("Progress Report: " + topic);
+        setLineChartData(new SQLiteQuizAttemptDAOLive().getQuizAttemptsByTopic(topic));
     }
 
     public void setCommentsAreaText(String comments) {

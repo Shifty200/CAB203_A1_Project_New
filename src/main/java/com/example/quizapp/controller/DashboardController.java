@@ -83,7 +83,17 @@ public class DashboardController {
             String selectedTopic = topicDropdown.getValue();
             if (selectedTopic != null) {
                 System.out.println("Viewing progress for topic: " + selectedTopic);
-                // progress page to be implemented here
+                try {
+                    FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("progress-report-view.fxml"));
+                    Scene progressReportPage = new Scene(fxmlLoader.load(), HelloApplication.WIDTH, HelloApplication.HEIGHT);
+                    ProgressReportController controller = fxmlLoader.getController();
+                    controller.setQuizTopic(selectedTopic);
+                    Stage stage = (Stage) viewProgressBtn.getScene().getWindow();
+                    stage.setScene(progressReportPage);
+                    stage.setTitle("Progress Report");
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         });
 
