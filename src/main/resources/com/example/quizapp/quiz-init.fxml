@@ -18,8 +18,19 @@
                 <TextField fx:id="topicField" promptText="e.g. Algebra"/>
             </VBox>
             <VBox id="upload-box" fx:id="uploadBox"
-                  style="-fx-border-color: #888; -fx-border-style: dashed; -fx-border-radius: 10; -fx-alignment: center; -fx-padding: 20; -fx-cursor: hand;">
-                <Label text="Drag, drop or browse" style="-fx-font-size: 16;" />
+                  prefWidth="400"
+                  prefHeight="200"
+                  spacing="15"
+                  style="-fx-border-color: #888;
+
+                  -fx-border-style: dashed;
+                  -fx-border-radius: 10;
+                  -fx-background-color: #f9f9f9;
+                  -fx-padding: 50;
+                  -fx-alignment: center;
+                  -fx-cursor: hand;">
+                <Label text="📁 Drag, drop or browse" style="-fx-font-size: 16;" />
+                <Label text="Supports .txt files only" style="-fx-text-fill: #777;" />
             </VBox>
 
             <Label fx:id="errorLabel" text="Error Label" style="-fx-text-fill: red;" />
