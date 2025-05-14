@@ -57,7 +57,6 @@ public class QuizInitController {
                 errorLabel.setVisible(true);
                 try {
                     uploadedFileContent = readLinesFromFile(selectedFile.getAbsolutePath());
-                    System.out.println("\nUploaded File Content:\n" + uploadedFileContent);
                 } catch (Exception error) {
                     error.printStackTrace();
                     errorLabel.setText("Error reading file.");
