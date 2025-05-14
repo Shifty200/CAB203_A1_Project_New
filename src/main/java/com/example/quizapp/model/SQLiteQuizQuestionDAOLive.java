@@ -126,6 +126,28 @@ public class SQLiteQuizQuestionDAOLive {
         return quiz_questions;
     }
 
+    public List<QuizQuestion> getQuizQuestionsByQuizId(int quiz_id) {
+        List<QuizQuestion> quiz_questions = new ArrayList<>();
+        try {
+            PreparedStatement statement = connection.prepareStatement("SELECT * FROM quiz_questions WHERE quiz_id = ?");
+            statement.setInt(1, quiz_id);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                String questionText = resultSet.getString("questionText");
+                String answerText = resultSet.getString("answerText");
+                int correctAnswer = resultSet.getInt("correctAnswer");
+
+                ArrayList<String> answers = new ArrayList<String>(List.of(answerText.split("\\s*,\\s*")));
+
+                QuizQuestion quizQuestion = new QuizQuestion(questionText, answers, correctAnswer);
+                quiz_questions.add(quizQuestion);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return quiz_questions;
+    }
+
 //    public boolean checkUserPresent(String userName){
 //        List<User> users = getAllUsers();
 //        int userLength = users.size();

@@ -4,6 +4,7 @@ import com.example.quizapp.HelloApplication;
 import com.example.quizapp.model.Quiz;
 import com.example.quizapp.model.QuizAttempt;
 import com.example.quizapp.model.QuizQuestion;
+import com.example.quizapp.model.SQLiteQuizAttemptDAOLive;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -14,6 +15,9 @@ import javafx.scene.control.*;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.concurrent.ThreadLocalRandom; // remove later
 
 public class ProgressReportController {
@@ -48,7 +52,10 @@ Sapien pellentesque habitant morbi tristique.
 Lorem sed risus ultricies tristique nulla aliquet.
 Elementum nibh tellus molestie nunc non blandit massa.""");
 
-        setLineChartData(generateQuizAttempts(10));
+        // setLineChartData(generateQuizAttempts(10));
+
+        // testing database: get all attempts for default quiz
+        setLineChartData(new SQLiteQuizAttemptDAOLive().getQuizAttemptsByTopic("Quiz Topic"));
     }
 
     public void setQuizTopicLabel(String topic) {
@@ -59,12 +66,15 @@ Elementum nibh tellus molestie nunc non blandit massa.""");
         commentsArea.setText(comments);
     }
 
-    public void setLineChartData(QuizAttempt[] quizAttempts) {
+    public void setLineChartData(List<QuizAttempt> quizAttempts) {
+        QuizAttempt[] array = new QuizAttempt[quizAttempts.size()];
+        array = quizAttempts.toArray(array);
+        System.out.println("quiz attempts: ");
         XYChart.Series series = new XYChart.Series();
-        for (int i = 0; i < quizAttempts.length; i++) {
-            series.getData().add(new XYChart.Data(i + 1, quizAttempts[i].getScorePercentage()));
+        for (int i = 0; i < array.length; i++) {
+            series.getData().add(new XYChart.Data(i + 1, array[i].getScorePercentage()));
         }
-        attemptNumAxis.setUpperBound(quizAttempts.length);
+        attemptNumAxis.setUpperBound(quizAttempts.size());
         lineChart.getData().add(series);
     }
 

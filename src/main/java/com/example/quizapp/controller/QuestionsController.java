@@ -1,10 +1,8 @@
 package com.example.quizapp.controller;
 
 import com.example.quizapp.HelloApplication;
-import com.example.quizapp.model.Quiz;
-import com.example.quizapp.model.QuizAttempt;
+import com.example.quizapp.model.*;
 
-import com.example.quizapp.model.QuizQuestion;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
@@ -106,6 +104,9 @@ public class QuestionsController {
         quizNameLabel.setText(quiz.getQuizName());
         updateTracker();
         loadQuestions();
+
+        // for testing only: add the quiz to the database
+        new SQLiteQuizDAOLive().addQuiz(quizAttempt.getQuiz());
     }
 
     @FXML
@@ -127,6 +128,7 @@ public class QuestionsController {
         Optional<ButtonType> buttonType = alert.showAndWait();
         if (buttonType.isPresent() && buttonType.get() == ButtonType.OK) {
             // Add result to database
+            new SQLiteQuizAttemptDAOLive().addQuizAttempt(quizAttempt);
             // Move to results page
             FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("results-view.fxml"));
             Scene resultsPage = new Scene(fxmlLoader.load(), HelloApplication.WIDTH, HelloApplication.HEIGHT);

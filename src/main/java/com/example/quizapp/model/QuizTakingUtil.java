@@ -30,8 +30,21 @@ public class QuizTakingUtil {
     public static Quiz generateDefaultQuiz(int numQuestions) {
         Quiz quiz = new Quiz();
         for (int i = 0; i < numQuestions; i++) {
-            quiz.addQuestion(new QuizQuestion());
+            QuizQuestion question = new QuizQuestion();
+            question.setQuiz(quiz);
+            quiz.addQuestion(question);
         }
         return quiz;
+    }
+
+    // reverse the Array.toString method for an array of ints
+    // from https://stackoverflow.com/questions/456367/reverse-parse-the-output-of-arrays-tostringint
+    public static int[] fromString(String string) {
+        String[] strings = string.replace("[", "").replace("]", "").split(", ");
+        int[] result = new int[strings.length];
+        for (int i = 0; i < result.length; i++) {
+            result[i] = Integer.parseInt(strings[i]);
+        }
+        return result;
     }
 }
