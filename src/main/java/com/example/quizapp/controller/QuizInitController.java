@@ -76,21 +76,34 @@ public class QuizInitController {
 
             String prompt = "Create a " + questionRange + "-question quiz on " + topic +
                     " for high school students with " + difficulty + " difficulty using this study material:\n\n" +
-                    uploadedFileContent;
+                    uploadedFileContent +
+                    ". Ensure that no questions are repeated, and that indexing for correctIndex starts from 0. " +
+                    "Each question must have at least two options. Do not provide empty options like '.'.";
 
             Stage loadingStage = loadingSpinner();
             loadingStage.show();
 
             new Thread(() -> {
-                String jsonResponse = aiQuizGenerator.generateQuiz(prompt);
-                System.out.println("Raw AI Response:\n" + jsonResponse);
-                String generatedTitle = aiQuizGenerator.generateQuizTitle(jsonResponse);
-                Quiz quiz = QuizTakingUtil.parseAIResponse(jsonResponse, generatedTitle, topic, difficulty);
+                Quiz quiz = new Quiz();
+                boolean success = true;
+                do {
+                    try {
+                        String jsonResponse = aiQuizGenerator.generateQuiz(prompt);
+                        System.out.println("Raw AI Response:\n" + jsonResponse);
+                        String generatedTitle = aiQuizGenerator.generateQuizTitle(jsonResponse);
+                        quiz = QuizTakingUtil.parseAIResponse(jsonResponse, generatedTitle, topic, difficulty);
+                    } catch (IndexOutOfBoundsException ex) {
+                        success = false;
+                        System.out.println("The AI provided an out-of-bounds index. Trying again...");
+                    }
+                } while (!success);
+
                 new SQLiteQuizDAOLive().addQuiz(quiz);
 
+                Quiz finalQuiz = quiz;
                 Platform.runLater(() -> {
                     loadingStage.close();
-                    if (quiz.getLength() == 0) {
+                    if (finalQuiz.getLength() == 0) {
                         errorLabel.setText("AI did not return any questions.");
                         return;
                     }
@@ -99,7 +112,7 @@ public class QuizInitController {
                         Scene scene = new Scene(loader.load(), HelloApplication.WIDTH, HelloApplication.HEIGHT);
 
                         QuestionsController controller = loader.getController();
-                        controller.setQuiz(quiz);
+                        controller.setQuiz(finalQuiz);
 
                         Stage stage = (Stage) startQuizBtn.getScene().getWindow();
                         stage.setScene(scene);
