@@ -90,9 +90,6 @@ public class SQLiteQuizDAOLive{
                 Quiz quiz = new Quiz(quizName, topic, difficulty);
 
                 List<QuizQuestion> quiz_questions = new SQLiteQuizQuestionDAOLive().getQuizQuestionsByQuizId(quiz_id);
-                for (QuizQuestion question : quiz_questions) {
-                    question.setQuiz(quiz);
-                }
                 quiz.setQuestions((ArrayList<QuizQuestion>)quiz_questions);
                 return quiz;
             }
