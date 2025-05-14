@@ -7,6 +7,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
@@ -170,6 +171,9 @@ public class QuizInitController {
         dialog.setResizable(false);
         dialog.initOwner(startQuizBtn.getScene().getWindow());
         dialog.setAlwaysOnTop(true);
+        Image image = new Image(getClass().getResource("/com/example/images/tutorworm-default.png").toString());
+        dialog.getIcons().add(image);
+
 
         return dialog;
     }

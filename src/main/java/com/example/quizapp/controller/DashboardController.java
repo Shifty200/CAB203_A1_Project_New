@@ -7,11 +7,9 @@ import com.example.quizapp.model.SQLiteQuizDAOLive;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Hyperlink;
-import javafx.scene.control.Label;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
@@ -21,7 +19,11 @@ import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
+
 import com.example.quizapp.model.Quiz;
+
+import static javafx.scene.Cursor.HAND;
 
 public class DashboardController {
 
@@ -54,7 +56,7 @@ public class DashboardController {
         for (Quiz quiz : quizzes) {
             VBox card = new VBox();
             card.setSpacing(5);
-            card.setStyle("-fx-background-color: #F2F2F2; -fx-padding: 10; -fx-background-radius: 10;");
+            card.setStyle("-fx-background-color: #F2F2F2; -fx-padding: 10; -fx-background-radius: 10; -fx-cursor: hand");
             card.setPrefWidth(200);
             card.setPrefHeight(150);
 
@@ -65,6 +67,70 @@ public class DashboardController {
             String scoreText = new SQLiteQuizAttemptDAOLive().getScoreForQuiz(quiz.getQuizID());
             Label result = new Label("Last Score: " + scoreText);
             card.getChildren().addAll(title, topic, difficulty, result);
+
+            card.setOnMouseClicked(event -> {
+                // Create confirmation alert
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setTitle(quiz.getQuizName());
+                alert.setHeaderText(null);
+                alert.setContentText("What would you like to do?");
+                Image image = new Image(getClass().getResource("/com/example/images/tutorworm-default.png").toString());
+                ImageView imageView = new ImageView();
+                imageView.setFitWidth(50);
+                imageView.setFitHeight(50);
+                imageView.setPreserveRatio(true);
+                imageView.setImage(image);
+                alert.setGraphic(imageView);
+                Stage confirm_window = (Stage) alert.getDialogPane().getScene().getWindow();
+                confirm_window.getIcons().add(image);
+
+                // Create custom button types
+                ButtonType takeQuizButton = new ButtonType("Take Quiz", ButtonBar.ButtonData.OK_DONE);
+                ButtonType deleteQuizButton = new ButtonType("Delete Quiz", ButtonBar.ButtonData.OTHER);
+                ButtonType cancelButton = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
+
+                // Set the button types for the alert
+                alert.getButtonTypes().setAll(takeQuizButton, deleteQuizButton, cancelButton);
+
+                // Show the alert and wait for a button to be pressed
+                Optional<ButtonType> input = alert.showAndWait();
+
+                // Process the result
+                if (input.isPresent() && input.get() == takeQuizButton) {
+                    FXMLLoader loader = new FXMLLoader(HelloApplication.class.getResource("questions-view.fxml"));
+                    Scene scene = null;
+                    try {
+                        scene = new Scene(loader.load(), HelloApplication.WIDTH, HelloApplication.HEIGHT);
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+
+                    QuestionsController controller = loader.getController();
+                    controller.setQuiz(quiz);
+
+                    Stage stage = (Stage) card.getScene().getWindow();
+                    stage.setScene(scene);
+                    stage.setTitle("Quiz");
+                } else if (input.isPresent() && input.get() == deleteQuizButton) {
+                    new SQLiteQuizDAOLive().deleteQuiz(quiz);
+
+                    FXMLLoader loader = new FXMLLoader(HelloApplication.class.getResource("dashboard.fxml"));
+                    Scene scene = null;
+                    try {
+                        scene = new Scene(loader.load(), HelloApplication.WIDTH, HelloApplication.HEIGHT);
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+
+                    Stage stage = (Stage) card.getScene().getWindow();
+                    stage.setScene(scene);
+                    stage.setTitle("Dashboard");
+                } else {
+                    System.out.println("Cancelled for: " + quiz.getQuizName());
+                    // User clicked Cancel or closed the dialog
+                }
+            });
+
             quizHistoryBox.getChildren().add(card);
 
             setUsername();
