@@ -82,7 +82,6 @@ Elementum nibh tellus molestie nunc non blandit massa.""");
     public void setLineChartData(List<QuizAttempt> quizAttempts) {
         QuizAttempt[] array = new QuizAttempt[quizAttempts.size()];
         array = quizAttempts.toArray(array);
-        System.out.println("quiz attempts: ");
         XYChart.Series series = new XYChart.Series();
         for (int i = 0; i < array.length; i++) {
             series.getData().add(new XYChart.Data(i + 1, array[i].getScorePercentage()));
