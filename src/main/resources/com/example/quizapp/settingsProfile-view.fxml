@@ -47,8 +47,7 @@
             <VBox spacing="20">
             <Label id="bolded-text" text="Username" textOverrun="CLIP">
             </Label>
-            <TextField fx:id="usernameField" prefWidth="300.0" promptText="Example username"/>
-            <Button onAction="#handleChangeUsername" text="Change Username"/>
+            <Label fx:id="usernameText" prefWidth="300.0" text="Example username"/>
 
             <Label id="bolded-text" text="Email">
             </Label>
@@ -56,7 +55,7 @@
             <Button onAction="#handleChangeEmail" text="Update Email"/>
             <Label id="bolded-text" text="Password">
             </Label>
-            <PasswordField fx:id="passwordField" prefWidth="300.0" promptText="Example password"/>
+            <PasswordField fx:id="passwordField" prefWidth="300.0" promptText="Enter new password"/>
             <Button fx:id="toPasswordButton" onAction="#handleToPasswordScreen" text="Change Password"/>
             </VBox>
          </VBox>
