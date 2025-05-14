@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.geometry.Insets?>
+<VBox spacing="20.0"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.example.quizapp.controller.QuestionDetailsController"
+      stylesheets="@../css/stylesheet.css">
+    <padding>
+        <Insets bottom="30.0" left="30.0" right="30.0" top="30.0"/>
+    </padding>
+    <Label id="heading" fx:id="quizName"/>
+    <ScrollPane fx:id="questions" fitToHeight="true" fitToWidth="true" VBox.vgrow="ALWAYS"/>
+    <HBox alignment="CENTER_RIGHT">
+        <Button id="secondary-button" fx:id="backToResultsButton" onAction="#backToResults">⬅  Go back</Button>
+    </HBox>
+</VBox>

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.chart.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<VBox alignment="CENTER_LEFT"
+      spacing="20.0"
+      xmlns="http://javafx.com/javafx/17.0.12"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.example.quizapp.controller.ProgressReportController"
+      stylesheets="@../css/stylesheet.css">
+   <children>
+      <Label id="heading" fx:id="quizTopicLabel" text="Progress Report: [quiz topic]"/>
+      <GridPane alignment="CENTER" hgap="10.0" VBox.vgrow="ALWAYS">
+        <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="67.0" prefWidth="100.0" />
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="33.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <LineChart fx:id="lineChart" legendVisible="false" translateY="20">
+              <xAxis>
+                <NumberAxis fx:id="attemptNumAxis" autoRanging="false" label="Attempt number" lowerBound="1.0" minorTickVisible="false" side="BOTTOM" tickMarkVisible="false" tickUnit="1.0" upperBound="5.0" />
+              </xAxis>
+              <yAxis>
+                <NumberAxis autoRanging="false" label="Score (%)" minorTickVisible="false" side="LEFT" tickMarkVisible="false" tickUnit="10.0" />
+              </yAxis>
+            </LineChart>
+            <VBox GridPane.columnIndex="1" spacing="20">
+               <children>
+                  <Label id="bolded-text" text="Comments">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+                  <TextArea fx:id="commentsArea" editable="false" wrapText="true" VBox.vgrow="ALWAYS">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </TextArea>
+               </children>
+            </VBox>
+         </children>
+      </GridPane>
+      <HBox alignment="CENTER_RIGHT" spacing="30.0">
+         <children>
+            <Button id="secondary-button" fx:id="backButton" mnemonicParsing="false" onAction="#onBackButtonPressed" text="⬅  Go back" />
+            <Button id="secondary-button" fx:id="dashboardButton" mnemonicParsing="false" onAction="#onDashboardButtonPressed" text="To dashboard" style="-fx-background-color: #6F3198"/>
+         </children>
+      </HBox>
+   </children>
+   <padding>
+      <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
+   </padding>
+</VBox>

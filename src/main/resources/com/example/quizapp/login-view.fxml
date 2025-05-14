@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<VBox xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.example.quizapp.controller.LoginController"
+      alignment="CENTER"
+      spacing="25"
+      prefWidth="300" prefHeight="250"
+      stylesheets="@../css/stylesheet.css">
+
+    <padding>
+        <Insets top="20" right="20" bottom="20" left="20"/>
+    </padding>
+
+    <Label id="heading" text="Log into an existing account"/>
+
+    <TextField fx:id="usernameField" promptText="👤 Username"/>
+    <PasswordField fx:id="passwordField" promptText="🔑 Password"/>
+
+    <VBox spacing="20" alignment="CENTER">
+        <Button text="Log in" onAction="#onLoginClick"/>
+    </VBox>
+
+    <Label fx:id="errorLabel" textFill="red" visible="true"/>
+    <VBox>
+        <Button id="secondary-button" fx:id="cancelButton" text="⬅  Go back" onAction="#onCancelClick" translateX="10" translateY="100"/>
+    </VBox>
+</VBox>

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<?import javafx.scene.shape.Circle?>
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.example.quizapp.controller.DashboardController"
+            stylesheets="@../css/stylesheet.css">
+    <padding>
+        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
+    </padding>
+    <top>
+        <HBox alignment="CENTER_RIGHT" spacing="20">
+            <Label id="bolded-text" text="User"/>
+            <Circle fx:id="userIcon" radius="25"/>
+            <Button id="settings-button" fx:id="settingsButton" text="⚙" onAction="#settingsPressed"/>
+        </HBox>
+    </top>
+    <center>
+        <VBox spacing="40" style="-fx-padding: 20;">
+            <Label id="larger-heading" text="MY QUIZZES" />
+            <HBox spacing="10">
+                <Label text="Sort by:" />
+                <ComboBox fx:id="topicDropdown" value="Topic" prefWidth="150" style="-fx-cursor: hand;" />
+            </HBox>
+            <HBox spacing="20" alignment="CENTER_LEFT">
+                <ScrollPane prefHeight="200" fitToHeight="true">
+                    <HBox fx:id="quizHistoryBox"
+                              spacing="20"
+                              style="-fx-padding: 20;">
+                        <VBox fx:id="addQuizInit"
+                              alignment="CENTER"
+                              spacing="5"
+                              prefWidth="200"
+                              prefHeight="150"
+                              style="-fx-background-color: #F2F2F2; -fx-padding: 10; -fx-background-radius: 10; -fx-cursor: hand;">
+                            <Label text="+" style="-fx-font-size: 30;" />
+                            <Label id="add-quiz-label" text="Add a new quiz"/>
+                        </VBox>
+                    </HBox>
+                </ScrollPane>
+            </HBox>
+            <HBox spacing="30" alignment="CENTER_LEFT">
+                <Label id="larger-heading" text="MY PROGRESS" />
+                <Button fx:id="viewProgressBtn" text="➡" style="-fx-font-size: 24; -fx-padding: 5; -fx-pref-width: 150"/>
+            </HBox>
+        </VBox>
+    </center>
+    <bottom>
+        <HBox alignment="BOTTOM_RIGHT">
+            <padding>
+                <Insets top="10" right="10" bottom="10" left="10"/>
+            </padding>
+            <Hyperlink id="logout-link" fx:id="logoutLink" text="Log out ⍈" />
+        </HBox>
+    </bottom>
+
+</BorderPane>
+

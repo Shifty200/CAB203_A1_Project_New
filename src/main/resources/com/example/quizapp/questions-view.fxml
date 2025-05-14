@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox alignment="CENTER_LEFT"
+      spacing="30.0"
+      xmlns="http://javafx.com/javafx/17.0.12"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.example.quizapp.controller.QuestionsController"
+      stylesheets="@../css/stylesheet.css">
+   <children>
+      <BorderPane>
+         <left>
+            <Label id="heading" fx:id="quizNameLabel" text="Quiz Name" BorderPane.alignment="CENTER"/>
+         </left>
+         <right>
+            <HBox alignment="CENTER_RIGHT" spacing="25.0" BorderPane.alignment="CENTER">
+               <children>
+                  <Label id="bolded-text" fx:id="questionsAnsweredTracker" text="Answered: 0/10">
+                  </Label>
+                  <Button fx:id="submitQuizButton" mnemonicParsing="false" onAction="#onSubmit" text="Submit">
+                  </Button>
+               </children>
+            </HBox>
+         </right>
+      </BorderPane>
+      <ScrollPane fitToHeight="true" fitToWidth="true" VBox.vgrow="ALWAYS">
+         <content>
+            <VBox fx:id="questionsContainer" alignment="CENTER" spacing="10.0" />
+         </content>
+         <VBox.margin>
+            <Insets />
+         </VBox.margin>
+      </ScrollPane>
+      <Button id="secondary-button" fx:id="dashboardButton" onAction="#onDashboardButtonPressed" mnemonicParsing="false" text="To dashboard" translateY="-10" translateX="10"/>
+   </children>
+   <padding>
+      <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+   </padding>
+</VBox>
