@@ -58,7 +58,7 @@ public class SettingsController {
     @FXML
     private Circle userIcon;
 
-    public void init() {
+    public void initialize() {
         Image img = new Image(getClass().getResource("/com/example/images/user-icon.png").toString());
         userIcon.setFill(new ImagePattern(img));
         setUsername();
