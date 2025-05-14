@@ -1,6 +1,7 @@
 package com.example.quizapp.controller;
 
 import com.example.quizapp.HelloApplication;
+import com.example.quizapp.model.CurrentUser;
 import com.example.quizapp.model.SQLiteQuizAttemptDAOLive;
 import com.example.quizapp.model.SQLiteQuizDAOLive;
 import javafx.fxml.FXML;
@@ -25,6 +26,7 @@ import com.example.quizapp.model.Quiz;
 public class DashboardController {
 
     @FXML private Button settingsButton;
+    @FXML private Label userNameLabel;
     @FXML private VBox addQuizInit;
     @FXML private ComboBox<String> topicDropdown;
     @FXML private Button viewProgressBtn;
@@ -64,6 +66,8 @@ public class DashboardController {
             Label result = new Label("Last Score: " + scoreText);
             card.getChildren().addAll(title, topic, difficulty, result);
             quizHistoryBox.getChildren().add(card);
+
+            setUsername();
         }
 
 
@@ -124,5 +128,10 @@ public class DashboardController {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public void setUsername() {
+        String currentUsername = CurrentUser.getInstance().getUserName();
+        userNameLabel.setText(currentUsername);
     }
 }
