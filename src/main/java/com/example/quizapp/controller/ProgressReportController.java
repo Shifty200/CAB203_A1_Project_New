@@ -4,6 +4,7 @@ import com.example.quizapp.HelloApplication;
 import com.example.quizapp.model.Quiz;
 import com.example.quizapp.model.QuizAttempt;
 import com.example.quizapp.model.QuizQuestion;
+import com.example.quizapp.model.SQLiteQuizAttemptDAOLive;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -14,6 +15,9 @@ import javafx.scene.control.*;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.concurrent.ThreadLocalRandom; // remove later
 
 public class ProgressReportController {
@@ -29,6 +33,10 @@ public class ProgressReportController {
     private Button backButton;
     @FXML
     private Button dashboardButton;
+
+    private String topic;
+    private Scene previousScene;
+    private String previousPage;
 
     public void initialize() {
         commentsArea.setText("""
@@ -48,33 +56,45 @@ Sapien pellentesque habitant morbi tristique.
 Lorem sed risus ultricies tristique nulla aliquet.
 Elementum nibh tellus molestie nunc non blandit massa.""");
 
-        setLineChartData(generateQuizAttempts(10));
+        // setLineChartData(generateQuizAttempts(10));
+
+        // testing database: get all attempts for default quiz
+        // setLineChartData(new SQLiteQuizAttemptDAOLive().getQuizAttemptsByTopic("Quiz Topic"));
     }
 
-    public void setQuizTopicLabel(String topic) {
+    // must be called before switching to this page
+    public void setQuizTopic(String topic) {
+        this.topic = topic;
         quizTopicLabel.setText("Progress Report: " + topic);
+        setLineChartData(new SQLiteQuizAttemptDAOLive().getQuizAttemptsByTopic(topic));
+    }
+
+    // must be called before switching to this page
+    public void setPreviousScene(Scene scene, String page) {
+        this.previousScene = scene;
+        this.previousPage = page;
     }
 
     public void setCommentsAreaText(String comments) {
         commentsArea.setText(comments);
     }
 
-    public void setLineChartData(QuizAttempt[] quizAttempts) {
+    public void setLineChartData(List<QuizAttempt> quizAttempts) {
+        QuizAttempt[] array = new QuizAttempt[quizAttempts.size()];
+        array = quizAttempts.toArray(array);
         XYChart.Series series = new XYChart.Series();
-        for (int i = 0; i < quizAttempts.length; i++) {
-            series.getData().add(new XYChart.Data(i + 1, quizAttempts[i].getScorePercentage()));
+        for (int i = 0; i < array.length; i++) {
+            series.getData().add(new XYChart.Data(i + 1, array[i].getScorePercentage()));
         }
-        attemptNumAxis.setUpperBound(quizAttempts.length);
+        attemptNumAxis.setUpperBound(quizAttempts.size());
         lineChart.getData().add(series);
     }
 
     @FXML
     private void onBackButtonPressed() throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("results-view.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), HelloApplication.WIDTH, HelloApplication.HEIGHT);
         Stage stage = (Stage) backButton.getScene().getWindow();
-        stage.setScene(scene);
-        stage.setTitle("Quiz Results");
+        stage.setScene(previousScene);
+        stage.setTitle(previousPage);
     }
 
     @FXML

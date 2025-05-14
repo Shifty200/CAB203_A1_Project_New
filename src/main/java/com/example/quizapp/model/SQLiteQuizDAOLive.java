@@ -89,21 +89,11 @@ public class SQLiteQuizDAOLive{
                 String difficulty = resultSet.getString("difficulty");
                 Quiz quiz = new Quiz(quizName, topic, difficulty);
 
-                ArrayList<QuizQuestion> quiz_questions = new ArrayList<>();
-                PreparedStatement statement_quiz = connection.prepareStatement(
-                        "SELECT * FROM quiz_attempts WHERE quiz_id = ?"
-                );
-                statement_quiz.setInt(1, quiz_id);
-                ResultSet resultSet2 = statement_quiz.executeQuery();
-
-                while (resultSet2.next()) {
-                    int quiz_attempt_id = resultSet2.getInt("id");
-                    QuizQuestion question = new SQLiteQuizQuestionDAOLive().getQuizQuestion(quiz_attempt_id);
-                    if (question != null) {
-                        quiz.addQuestion(question);
-                    }
+                List<QuizQuestion> quiz_questions = new SQLiteQuizQuestionDAOLive().getQuizQuestionsByQuizId(quiz_id);
+                for (QuizQuestion question : quiz_questions) {
+                    question.setQuiz(quiz);
                 }
-
+                quiz.setQuestions((ArrayList<QuizQuestion>)quiz_questions);
                 return quiz;
             }
         } catch (Exception e) {

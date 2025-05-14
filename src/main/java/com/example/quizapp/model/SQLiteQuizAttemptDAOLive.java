@@ -152,13 +152,14 @@ public class SQLiteQuizAttemptDAOLive {
                 Quiz quiz = new SQLiteQuizDAOLive().getQuiz(quiz_id);
                 QuizAttempt quizAttempt = new QuizAttempt(quiz);
 
-                Matcher matcher = Pattern.compile("\\d+").matcher(selected_answers);
-                int[] numbers = new int[quiz.getLength()];
-                for (int i=0;i<numbers.length; i++) {
-                    while (matcher.find()) {
-                        numbers[i] = (Integer.valueOf(matcher.group()));
-                    }
-                }
+//                Matcher matcher = Pattern.compile("\\d+").matcher(selected_answers);
+//                int[] numbers = new int[quiz.getLength()];
+//                for (int i=0;i<numbers.length; i++) {
+//                    while (matcher.find()) {
+//                        numbers[i] = (Integer.valueOf(matcher.group()));
+//                    }
+//                }
+                int[] numbers = QuizTakingUtil.fromString(selected_answers);
                 quizAttempt.setSelectedAnswers(numbers);
                 quiz_attempts.add(quizAttempt);
             }
