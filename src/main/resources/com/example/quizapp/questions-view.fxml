@@ -13,7 +13,7 @@
    <children>
       <BorderPane>
          <left>
-            <Label id="heading" fx:id="quizNameLabel" text="Quiz Name" BorderPane.alignment="CENTER"/>
+            <Label id="heading" fx:id="quizNameLabel" text="Quiz Name" BorderPane.alignment="CENTER" wrapText="true" prefWidth="450"/>
          </left>
          <right>
             <HBox alignment="CENTER_RIGHT" spacing="25.0" BorderPane.alignment="CENTER">

@@ -14,7 +14,7 @@
     </padding>
     <top>
         <HBox alignment="CENTER_RIGHT" spacing="20">
-            <Label id="bolded-text" text="User"/>
+            <Label id="bolded-text" fx:id="userNameLabel"  text="User"/>
             <Circle fx:id="userIcon" radius="25"/>
             <Button id="settings-button" fx:id="settingsButton" text="⚙" onAction="#settingsPressed"/>
         </HBox>

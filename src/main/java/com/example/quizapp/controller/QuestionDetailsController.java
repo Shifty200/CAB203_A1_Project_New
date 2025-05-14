@@ -62,6 +62,7 @@ public class QuestionDetailsController {
             Label questionNumber = new Label("Question " + (i + 1));
             questionNumber.setStyle("-fx-font-weight: 700");
             Label question = new Label(currentQuestion.getQuestionText());
+            question.setWrapText(true);
 
             // Get index for the selected answer and correct answer
             int yourAnswer = currentAttempt.getSelectedAnswer(i);

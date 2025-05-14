@@ -73,6 +73,9 @@ public class Quiz {
     }
 
     public void setQuestions(ArrayList<QuizQuestion> questions) {
+        for (QuizQuestion question : questions) {
+            question.setQuiz(this);
+        }
         this.questions = questions;
     }
 
@@ -81,6 +84,7 @@ public class Quiz {
     }
 
     public void setQuestion(int questionIndex, QuizQuestion question) {
+        question.setQuiz(this);
         questions.set(questionIndex, question);
     }
 

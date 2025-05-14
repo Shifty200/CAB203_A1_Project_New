@@ -82,6 +82,7 @@ public class ResultsController {
             Label questionNumber = new Label("Question " + (i + 1));
             questionNumber.setStyle("-fx-font-weight: 700");
             Label question = new Label(currentQuestion.getQuestionText());
+            question.setWrapText(true);
 
             // Group both into a container for each question
             questionContainer.getChildren().addAll(questionNumber, question);

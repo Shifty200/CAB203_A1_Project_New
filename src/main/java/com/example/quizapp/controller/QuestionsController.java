@@ -60,6 +60,7 @@ public class QuestionsController {
         questionNumberLabel.setStyle("-fx-font-weight: 700;");
         Label questionTextLabel = new Label(question.getQuestionText());
         questionTextLabel.setFont(new Font(14));
+        questionTextLabel.setWrapText(true);
 
         observableList.addAll(questionNumberLabel, questionTextLabel);
         ToggleGroup radioGroup = new ToggleGroup();
