@@ -75,20 +75,19 @@ public class QuizInitController {
             String difficulty = getDifficultyLabel(difficultySlider.getValue());
 
             String prompt = "Create a quiz with " + questionRange + " questions on " + topic +
-                    " for high school students with " + difficulty + " difficulty using the following study material:\n\n" +
-                    uploadedFileContent + "\n\n" +
-                    "Pay attention to the following rules:" +
+                    " for high school students with " + difficulty + " difficulty." +
+                    "\nFollow all of these instructions:" +
                     "\n1. Ensure that no questions are repeated, and that no two questions are too similar to each other." +
-                    "\n2. Indexing for correctIndex starts from 0. Do not provide a correctIndex that is out of range. " +
-                    "E.g. if the question has 4 options, the correctIndex cannot be 4." +
-                    "\n3. Do not provide empty or meaningless options. " +
+                    "\n2. Each question must have exactly one correct answer. Provide a correctIndex indicating the index of this answer " +
+                    "in the options array." +
+                    "\n3. Indexing for correctIndex starts from 0. Do not provide a correctIndex that is out of range. " +
+                    "E.g. if the question has 4 options, the correctIndex can only be 0, 1, 2, or 3." +
+                    "\n4. Do not provide empty or meaningless options. " +
                     "E.g. for a yes or no question, the options should be ['Yes', 'No'], not ['.', 'Yes', 'No', '.']" +
-                    "\n4. Do not generate more questions than requested. " +
+                    "\n5. Do not generate more questions than requested. " +
                     "E.g. if you have been asked for 10-20 questions, do not generate more than 20 questions." +
-                    "\n5. All questions must be answerable using only the provided study material. Do not generate questions that " +
-                    "are related to the topic but cannot be answered using only the provided study material." +
-                    "\n6. The number of options for each question must be between 2 and 6 (inclusive). " +
-                    "Questions with 4 options should be the most common.";
+                    "\n6. Questions must be answerable using only the information in the provided study material." +
+                    "\n\nUse the following study material to create the quiz:\n\n" + uploadedFileContent;
 
             Stage loadingStage = loadingSpinner();
             loadingStage.show();

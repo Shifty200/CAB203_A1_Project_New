@@ -56,26 +56,22 @@ public class QuizTakingUtil {
     public static Quiz parseAIResponse(String response, String quizName, String topic, String difficulty) {
         Quiz quiz = new Quiz(quizName, topic, difficulty);
 
-        try {
-            JSONObject json = new JSONObject(response);
-            JSONArray questionsArray = json.getJSONArray("questions");
+        JSONObject json = new JSONObject(response);
+        JSONArray questionsArray = json.getJSONArray("questions");
 
-            for (int i = 0; i < questionsArray.length(); i++) {
-                JSONObject q = questionsArray.getJSONObject(i);
-                String questionText = q.getString("question");
+        for (int i = 0; i < questionsArray.length(); i++) {
+            JSONObject q = questionsArray.getJSONObject(i);
+            String questionText = q.getString("question");
 
-                JSONArray optionsArray = q.getJSONArray("options");
-                ArrayList<String> options = new ArrayList<>();
-                for (int j = 0; j < optionsArray.length(); j++) {
-                    options.add(optionsArray.getString(j));
-                }
-                int correctIndex = q.getInt("correctIndex");
-                quiz.addQuestion(new QuizQuestion(questionText, options, correctIndex));
+            JSONArray optionsArray = q.getJSONArray("options");
+            ArrayList<String> options = new ArrayList<>();
+            for (int j = 0; j < optionsArray.length(); j++) {
+                options.add(optionsArray.getString(j));
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-            System.err.println("Failed: " + response);
+            int correctIndex = q.getInt("correctIndex");
+            quiz.addQuestion(new QuizQuestion(questionText, options, correctIndex));
         }
+
         return quiz;
     }
 }
