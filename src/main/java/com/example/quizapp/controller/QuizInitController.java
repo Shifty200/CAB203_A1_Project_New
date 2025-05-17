@@ -74,11 +74,21 @@ public class QuizInitController {
             String topic = topicField.getText().trim();
             String difficulty = getDifficultyLabel(difficultySlider.getValue());
 
-            String prompt = "Create a " + questionRange + "-question quiz on " + topic +
-                    " for high school students with " + difficulty + " difficulty using this study material:\n\n" +
-                    uploadedFileContent +
-                    ". Ensure that no questions are repeated, and that indexing for correctIndex starts from 0. " +
-                    "Each question must have at least two options. Do not provide empty options like '.'.";
+            String prompt = "Create a quiz with " + questionRange + " questions on " + topic +
+                    " for high school students with " + difficulty + " difficulty using the following study material:\n\n" +
+                    uploadedFileContent + "\n\n" +
+                    "Pay attention to the following rules:" +
+                    "\n1. Ensure that no questions are repeated, and that no two questions are too similar to each other." +
+                    "\n2. Indexing for correctIndex starts from 0. Do not provide a correctIndex that is out of range. " +
+                    "E.g. if the question has 4 options, the correctIndex cannot be 4." +
+                    "\n3. Do not provide empty or meaningless options. " +
+                    "E.g. for a yes or no question, the options should be ['Yes', 'No'], not ['.', 'Yes', 'No', '.']" +
+                    "\n4. Do not generate more questions than requested. " +
+                    "E.g. if you have been asked for 10-20 questions, do not generate more than 20 questions." +
+                    "\n5. All questions must be answerable using only the provided study material. Do not generate questions that " +
+                    "are related to the topic but cannot be answered using only the provided study material." +
+                    "\n6. The number of options for each question must be between 2 and 6 (inclusive). " +
+                    "Questions with 4 options should be the most common.";
 
             Stage loadingStage = loadingSpinner();
             loadingStage.show();
@@ -95,6 +105,11 @@ public class QuizInitController {
                     } catch (IndexOutOfBoundsException ex) {
                         success = false;
                         System.out.println("The AI provided an out-of-bounds index. Trying again...");
+                    } catch (Exception ex) {
+                        success = false;
+                        System.out.println("An error occurred.");
+                        ex.printStackTrace();
+                        System.out.println("Trying again...");
                     }
                 } while (!success);
 

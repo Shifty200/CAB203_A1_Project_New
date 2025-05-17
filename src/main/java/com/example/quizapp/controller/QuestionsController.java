@@ -106,9 +106,6 @@ public class QuestionsController {
         quizNameLabel.setText(quiz.getQuizName());
         updateTracker();
         loadQuestions();
-
-        // for testing only: add the quiz to the database
-        new SQLiteQuizDAOLive().addQuiz(quizAttempt.getQuiz());
     }
 
     @FXML
