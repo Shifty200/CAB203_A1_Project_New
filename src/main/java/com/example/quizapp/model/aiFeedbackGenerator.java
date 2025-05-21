@@ -25,7 +25,7 @@ public class aiFeedbackGenerator {
             return "No quiz attempts provided for feedback.";
         }
 
-        // Create a prompt for the AI to respond to
+        // Create a prompt for AI to respond to
         StringBuilder promptBuilder = new StringBuilder();
         promptBuilder.append("Provide comprehensive feedback for the following quiz attempts. ")
                 .append("Summarize each attempt's performance. Identify common patterns, strengths, and weaknesses across all attempts. ")
@@ -62,7 +62,7 @@ public class aiFeedbackGenerator {
                 if (isCorrect) {
                     correctCount++;
                 } else {
-                    // Collect details for AI to analyze later
+                    // Collect details for AI to analyze
                     IncorrectQuestionDetails.add(
                             "Attempt " + (attemptIndex + 1) + ", Q" + (i + 1) + ": '" + question.getQuestionText() + "'\n" +
                                     "  User chose: '" + userAnswerText + "'\n" +
@@ -86,6 +86,7 @@ public class aiFeedbackGenerator {
         String prompt = promptBuilder.toString();
         String feedback = "";
 
+        // Send the prompt and read the response
         try {
             URL url = new URL("http://localhost:11434/api/chat");
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -120,6 +121,7 @@ public class aiFeedbackGenerator {
             feedback = "Error generating feedback: " + e.getMessage();
         }
 
+        // Return as a string
         return feedback;
     }
 }
