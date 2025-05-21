@@ -120,6 +120,7 @@ public class DashboardController {
                     Stage stage = (Stage) card.getScene().getWindow();
                     stage.setScene(scene);
                     stage.setTitle("Quiz");
+
                 } else if (input.isPresent() && input.get() == deleteQuizButton) {
                     new SQLiteQuizDAOLive().deleteQuiz(quiz);
 
