@@ -98,4 +98,27 @@ public class Quiz {
     public int getLength() {
         return questions.size();
     }
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof Quiz quiz)) return false;
+        if (!(Objects.equals(getQuizName(), quiz.getQuizName())
+                && Objects.equals(getTopic(), quiz.getTopic())
+                && Objects.equals(getDifficulty(), quiz.getDifficulty())
+                && getLength() == quiz.getLength())) {
+            return false;
+        }
+        for (int i = 0; i < getLength(); i++) {
+            if (!Objects.equals(getQuestion(i), quiz.getQuestion(i))) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getQuizName(), getTopic(), getDifficulty(), getQuestions());
+    }
 }

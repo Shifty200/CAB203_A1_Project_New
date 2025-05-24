@@ -1,9 +1,6 @@
 package com.example.quizapp.model;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 public class QuizQuestion {
     private String questionText;
@@ -78,10 +75,20 @@ public class QuizQuestion {
         return answers.size();
     }
 
-
-    // added a isCorrect class for testing purposes - can remove further down the line
-
     public boolean isCorrect(int selectedIndex) {
         return selectedIndex == correctAnswer;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof QuizQuestion question)) return false;
+        return getCorrectAnswer() == question.getCorrectAnswer()
+                && Objects.equals(getQuestionText(), question.getQuestionText())
+                && Objects.equals(getAnswers(), question.getAnswers());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getQuestionText(), getAnswers(), getCorrectAnswer());
     }
 }
