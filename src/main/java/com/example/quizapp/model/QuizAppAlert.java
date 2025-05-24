@@ -9,7 +9,7 @@ import java.io.IOException;
 
 
 
-public class quizAppAlert {
+public class QuizAppAlert {
 
         public Alert createAlert(String title, String header, String content) throws IOException {
             Alert alert = new Alert(Alert.AlertType.WARNING);

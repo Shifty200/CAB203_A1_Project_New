@@ -55,11 +55,6 @@ Amet justo donec enim diam vulputate ut pharetra.
 Sapien pellentesque habitant morbi tristique.
 Lorem sed risus ultricies tristique nulla aliquet.
 Elementum nibh tellus molestie nunc non blandit massa.""");
-
-        // setLineChartData(generateQuizAttempts(10));
-
-        // testing database: get all attempts for default quiz
-        // setLineChartData(new SQLiteQuizAttemptDAOLive().getQuizAttemptsByTopic("Quiz Topic"));
     }
 
     // must be called before switching to this page
@@ -106,21 +101,4 @@ Elementum nibh tellus molestie nunc non blandit massa.""");
         stage.setTitle("Dashboard");
     }
 
-    // generates an array of quiz attempts for testing -- delete later
-    public static QuizAttempt[] generateQuizAttempts(int numAttempts) {
-        QuizAttempt[] quizAttempts = new QuizAttempt[numAttempts];
-        Quiz quiz = new Quiz();
-        for (int i = 0; i < 4; i++) {
-            quiz.addQuestion(new QuizQuestion());
-        }
-        for (int i = 0; i < quizAttempts.length; i++) {
-            QuizAttempt attempt = new QuizAttempt(quiz);
-            for (int j = 0; j < attempt.getSelectedAnswers().length; j++) {
-                attempt.setSelectedAnswer(j, ThreadLocalRandom.current().nextInt(-1,
-                        attempt.getQuiz().getQuestion(j).getAnswersCount()));
-            }
-            quizAttempts[i] = attempt;
-        }
-        return quizAttempts;
-    }
 }

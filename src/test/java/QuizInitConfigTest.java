@@ -38,5 +38,4 @@ public class QuizInitConfigTest {
         assertEquals(QUESTIONRANGE, quizInitConfig.getQuestionRange());
     }
 
-    // tests for input validation -- write after adding setters to class?
 }

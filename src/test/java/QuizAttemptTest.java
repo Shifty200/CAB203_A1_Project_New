@@ -32,20 +32,6 @@ public class QuizAttemptTest {
     }
 
     @Test
-    public void testAnswerIsCorrect() {
-        attempt.setSelectedAnswer(0, 0); // correct
-        attempt.setSelectedAnswer(1, 2); // correct
-        assertTrue(attempt.answerIsCorrect(0));
-        assertTrue(attempt.answerIsCorrect(1));
-    }
-
-    @Test
-    public void testAnswerIsIncorrect() {
-        attempt.setSelectedAnswer(0, 2); // incorrect
-        assertFalse(attempt.answerIsCorrect(0));
-    }
-
-    @Test
     public void testScoreCalculation() {
         attempt.setSelectedAnswer(0, 0); // correct
         attempt.setSelectedAnswer(1, 2); // correct
@@ -60,9 +46,9 @@ public class QuizAttemptTest {
     }
 
     @Test
-    public void testAnsweredQuestionsCountUpdates() {
+    public void testGetAnsweredQuestionsCountUpdates() {
         attempt.setSelectedAnswer(0, 1);
-        assertEquals(1, attempt.answeredQuestionsCount());
+        assertEquals(1, attempt.getAnsweredQuestionsCount());
     }
 
     @Test

@@ -97,10 +97,10 @@ public class QuizInitController {
                 boolean success = true;
                 do {
                     try {
-                        String jsonResponse = aiQuizGenerator.generateQuiz(prompt);
+                        String jsonResponse = AIQuizGenerator.generateQuiz(prompt);
                         System.out.println("Raw AI Response:\n" + jsonResponse);
-                        String generatedTitle = aiQuizGenerator.generateQuizTitle(jsonResponse);
-                        quiz = QuizTakingUtil.parseAIResponse(jsonResponse, generatedTitle, topic, difficulty);
+                        String generatedTitle = AIQuizGenerator.generateQuizTitle(jsonResponse);
+                        quiz = QuizAppUtil.parseAIResponse(jsonResponse, generatedTitle, topic, difficulty);
                     } catch (IndexOutOfBoundsException ex) {
                         success = false;
                         System.out.println("The AI provided an out-of-bounds index. Trying again...");
@@ -200,7 +200,6 @@ public class QuizInitController {
         dialog.setAlwaysOnTop(true);
         Image image = new Image(getClass().getResource("/com/example/images/tutorworm-default.png").toString());
         dialog.getIcons().add(image);
-
 
         return dialog;
     }

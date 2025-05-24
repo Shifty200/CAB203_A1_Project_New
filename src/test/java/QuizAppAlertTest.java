@@ -1,4 +1,4 @@
-import com.example.quizapp.model.quizAppAlert;
+import com.example.quizapp.model.QuizAppAlert;
 
 import javafx.application.Platform;
 import javafx.scene.control.Alert;
@@ -11,18 +11,6 @@ import java.util.concurrent.CountDownLatch;
 
 public class QuizAppAlertTest{
 
-//    @Test
-//    public void testQuizAppAlert() throws IOException {
-//        quizAppAlert testAlert = new quizAppAlert();
-//        Alert alert = testAlert.createAlert("Test Title", "Test Header", "Test Content");
-//
-//        assertEquals(Alert.AlertType.WARNING, alert.getAlertType());
-//        assertEquals("Test Title", alert.getTitle());
-//        assertEquals("Test Header", alert.getHeaderText());
-//        assertEquals("Test Content", alert.getContentText());
-//        assertNotNull(alert.getGraphic());
-//    }
-
     @Test
     public void testQuizAppAlert() throws Exception {
         CountDownLatch latch = new CountDownLatch(1);
@@ -31,7 +19,7 @@ public class QuizAppAlertTest{
 
 
             try {
-                quizAppAlert testAlert = new quizAppAlert();
+                QuizAppAlert testAlert = new QuizAppAlert();
                 Alert alert = testAlert.createAlert("Test Title", "Test Header", "Test Content");
 
                 assertEquals(Alert.AlertType.WARNING, alert.getAlertType());

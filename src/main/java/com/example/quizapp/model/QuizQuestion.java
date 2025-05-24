@@ -2,6 +2,8 @@ package com.example.quizapp.model;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 public class QuizQuestion {
     private String questionText;
@@ -43,8 +45,8 @@ public class QuizQuestion {
     public Quiz getQuiz() {return this.quiz;}
     public void setQuiz(Quiz quiz) {this.quiz = quiz;}
 
-    public ArrayList<String> getAnswers() {
-        return answers;
+    public List<String> getAnswers() {
+        return Collections.unmodifiableList(answers);
     }
     public void setAnswers(ArrayList<String> answers) throws IllegalArgumentException {
         if (answers.isEmpty()) {

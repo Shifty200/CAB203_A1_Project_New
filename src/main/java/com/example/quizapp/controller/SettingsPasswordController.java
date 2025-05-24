@@ -3,7 +3,7 @@ package com.example.quizapp.controller;
 import com.example.quizapp.HelloApplication;
 import com.example.quizapp.model.CurrentUser;
 import com.example.quizapp.model.SQLiteUserDAOLive;
-import com.example.quizapp.model.quizAppAlert;
+import com.example.quizapp.model.QuizAppAlert;
 import com.example.quizapp.model.User;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -67,13 +67,13 @@ public class SettingsPasswordController {
         String currentPassword = currentUser.getPassword();
 
         if (oldPassword.isEmpty() || newPassword.isEmpty() || confirmPassword.isEmpty()) {
-            quizAppAlert emptyAlert = new quizAppAlert();
+            QuizAppAlert emptyAlert = new QuizAppAlert();
             emptyAlert.alert("Error", "You are missing fields!", "Please ensure all password fields are filled.");
         } else if (!newPassword.equals(confirmPassword)) {
-            quizAppAlert matchingAlert = new quizAppAlert();
+            QuizAppAlert matchingAlert = new QuizAppAlert();
             matchingAlert.alert("Error", "Passwords do not match!", "Please confirm your new password.");
         } else if (!Objects.equals(oldPassword, currentPassword)) {
-            quizAppAlert incorrectAlert = new quizAppAlert();
+            QuizAppAlert incorrectAlert = new QuizAppAlert();
             incorrectAlert.alert("Error", "Old password is incorrect!", "Please ensure your old password is correct.");
         } else {
             User newUser = new User(currentUserName, newPassword, currentEmail);
@@ -83,7 +83,7 @@ public class SettingsPasswordController {
             Scene scene = new Scene(fxmlLoader.load(), HelloApplication.WIDTH, HelloApplication.HEIGHT);
             stage.setScene(scene);
 
-            quizAppAlert changedPass = new quizAppAlert();
+            QuizAppAlert changedPass = new QuizAppAlert();
             changedPass.alert("Password Changed", "Your password was successfully changed!", "");
         }
     }

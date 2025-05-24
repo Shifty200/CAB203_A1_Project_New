@@ -38,7 +38,7 @@ public class QuizInitConfig {
 
             return fileContent;
         } catch (Exception e) {
-            quizAppAlert fileAlert = new quizAppAlert();
+            QuizAppAlert fileAlert = new QuizAppAlert();
             fileAlert.alert("File Error", "There was an error with this file!",e.getMessage());
 
             return null;
