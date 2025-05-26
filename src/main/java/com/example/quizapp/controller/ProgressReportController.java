@@ -17,6 +17,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom; // remove later
 
+import static com.example.quizapp.model.AIFeedbackGenerator.generateFeedback;
+
 
 public class ProgressReportController {
     @FXML
@@ -38,7 +40,7 @@ public class ProgressReportController {
 
     public void initialize() {
         List<QuizAttempt> quizAttempts = new SQLiteQuizAttemptDAOLive().getQuizAttemptsByTopic(topic);
-
+        setCommentsAreaText(generateFeedback(quizAttempts));
     }
 
     // must be called before switching to this page
