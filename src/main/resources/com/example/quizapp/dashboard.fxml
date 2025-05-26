@@ -24,7 +24,7 @@
             <Label id="larger-heading" text="MY QUIZZES" />
             <HBox spacing="10">
                 <Label text="Sort by:" />
-                <ComboBox fx:id="topicDropdown" value="All Topics" prefWidth="150" style="-fx-cursor: hand;" onAction="#handleComboBoxSelection" />
+                <ComboBox fx:id="topicDropdown" value="Topic" prefWidth="150" style="-fx-cursor: hand;" />
             </HBox>
             <HBox spacing="20" alignment="CENTER_LEFT">
                 <ScrollPane prefHeight="200" fitToHeight="true">

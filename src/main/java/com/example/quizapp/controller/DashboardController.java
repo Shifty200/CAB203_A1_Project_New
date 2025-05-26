@@ -19,7 +19,6 @@ import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 import java.io.IOException;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 
 import com.example.quizapp.model.Quiz;
@@ -37,29 +36,23 @@ public class DashboardController {
     @FXML private Circle userIcon;
     @FXML private HBox quizHistoryBox;
 
-    private String topic = "All Topics";
-
     @FXML
-    private void handleComboBoxSelection() {
-        this.topic = topicDropdown.getValue();
-        refreshQuizzesDisplay();
-    }
+    public void initialize() {
 
-    private void refreshQuizzesDisplay() {
-        // Clear existing quizzes from the display
-        quizHistoryBox.getChildren().clear();
+        Image img = new Image(getClass().getResource("/com/example/images/user-icon.png").toString());
+        userIcon.setFill(new ImagePattern(img));
 
-        List<Quiz> quizzes;
-
-        // Display all quizzes if topic not chosen, else, sort by topic
-        if (topic == "All Topics") {
-            quizzes = new SQLiteQuizDAOLive().getAllQuizzes();
-        }
-        else {
-            quizzes = new SQLiteQuizDAOLive().getAllQuizzesByTopic(topic);
+        // list all of the topics that were added in the quiz init -- otherwise hide them
+        List<String> topics = new SQLiteQuizDAOLive().getAllTopics();
+        if (topics.isEmpty()) {
+            topicDropdown.setVisible(false);
+            viewProgressBtn.setVisible(false);
+        } else {
+            topicDropdown.getItems().addAll(topics);
+            topicDropdown.setValue(topics.get(0));
         }
 
-        // Display the quizzes
+        List<Quiz> quizzes = new SQLiteQuizDAOLive().getAllQuizzesByCurrentUser();
         for (Quiz quiz : quizzes) {
             VBox card = new VBox();
             card.setSpacing(5);
@@ -75,15 +68,13 @@ public class DashboardController {
             Label result = new Label("Last Score: " + scoreText);
             card.getChildren().addAll(title, topic, difficulty, result);
 
-            // Open confirmation alert when card clicked
             card.setOnMouseClicked(event -> {
                 // Create confirmation alert
                 Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
                 alert.setTitle(quiz.getQuizName());
                 alert.setHeaderText(null);
                 alert.setContentText("What would you like to do?");
-                // Ensure image path is correct, consider if it's always available
-                Image image = new Image(Objects.requireNonNull(getClass().getResource("/com/example/images/tutorworm-default.png")).toString());
+                Image image = new Image(getClass().getResource("/com/example/images/tutorworm-default.png").toString());
                 ImageView imageView = new ImageView();
                 imageView.setFitWidth(50);
                 imageView.setFitHeight(50);
@@ -120,13 +111,20 @@ public class DashboardController {
                     Stage stage = (Stage) card.getScene().getWindow();
                     stage.setScene(scene);
                     stage.setTitle("Quiz");
-
                 } else if (input.isPresent() && input.get() == deleteQuizButton) {
                     new SQLiteQuizDAOLive().deleteQuiz(quiz);
 
-                    // After deleting, refresh the display to reflect the change
-                    // This will also re-filter based on the current topic
-                    refreshQuizzesDisplay();
+                    FXMLLoader loader = new FXMLLoader(HelloApplication.class.getResource("dashboard.fxml"));
+                    Scene scene = null;
+                    try {
+                        scene = new Scene(loader.load(), HelloApplication.WIDTH, HelloApplication.HEIGHT);
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+
+                    Stage stage = (Stage) card.getScene().getWindow();
+                    stage.setScene(scene);
+                    stage.setTitle("Dashboard");
                 } else {
                     System.out.println("Cancelled for: " + quiz.getQuizName());
                     // User clicked Cancel or closed the dialog
@@ -134,25 +132,11 @@ public class DashboardController {
             });
 
             quizHistoryBox.getChildren().add(card);
-        }
-    }
 
-    public void initialize() {
 
-        Image img = new Image(getClass().getResource("/com/example/images/user-icon.png").toString());
-        userIcon.setFill(new ImagePattern(img));
-
-        // list all of the topics that were added in the quiz init -- otherwise hide them
-        List<String> topics = new SQLiteQuizDAOLive().getAllTopics();
-        if (topics.isEmpty()) {
-            topicDropdown.setVisible(false);
-            viewProgressBtn.setVisible(false);
-        } else {
-            topicDropdown.getItems().addFirst("All Topics");
-            topicDropdown.getItems().addAll(topics);
         }
 
-        refreshQuizzesDisplay();
+        setUsername();
 
         // start the quiz init
         addQuizInit.setOnMouseClicked((MouseEvent event) -> {
@@ -198,7 +182,6 @@ public class DashboardController {
                 e.printStackTrace();
             }
         });
-        setUsername();
     }
 
     @FXML

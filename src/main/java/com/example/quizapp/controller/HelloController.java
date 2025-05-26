@@ -31,6 +31,7 @@ public class HelloController {
         System.out.println("Looking for image at: " + getClass().getResource("/com/example/images/tutorworm-default.png"));
         Image image = new Image(getClass().getResource("/com/example/images/tutorworm-default.png").toString());
         tutorWorm.setImage(image);
+
     }
 
     @FXML
