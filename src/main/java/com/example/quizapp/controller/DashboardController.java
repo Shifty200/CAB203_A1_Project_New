@@ -52,7 +52,7 @@ public class DashboardController {
             topicDropdown.setValue(topics.get(0));
         }
 
-        List<Quiz> quizzes = new SQLiteQuizDAOLive().getAllQuizzes();
+        List<Quiz> quizzes = new SQLiteQuizDAOLive().getAllQuizzesByCurrentUser();
         for (Quiz quiz : quizzes) {
             VBox card = new VBox();
             card.setSpacing(5);
@@ -133,9 +133,10 @@ public class DashboardController {
 
             quizHistoryBox.getChildren().add(card);
 
-            setUsername();
+
         }
 
+        setUsername();
 
         // start the quiz init
         addQuizInit.setOnMouseClicked((MouseEvent event) -> {
