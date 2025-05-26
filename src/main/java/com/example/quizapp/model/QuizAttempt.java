@@ -52,7 +52,7 @@ public class QuizAttempt {
         return count;
     }
 
-    private boolean answerIsCorrect(int questionIndex) {
+    public boolean answerIsCorrect(int questionIndex) {
         return selectedAnswers[questionIndex] == quiz.getQuestion(questionIndex).getCorrectAnswer();
     }
 
