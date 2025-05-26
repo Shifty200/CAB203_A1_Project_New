@@ -139,6 +139,26 @@ public class SQLiteQuizDAOLive{
         return Collections.unmodifiableList(topics);
     }
 
+    public List<Quiz> getAllQuizzesByTopic(String selectedTopic) {
+        List<Quiz> quizzes = new ArrayList<>();
+        String query = "SELECT quiz_id, quizName, topic, difficulty FROM quizzes WHERE topic = '" + selectedTopic + "'";
+        try {
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery(query);
+            while (resultSet.next()) {
+                int id = resultSet.getInt("quiz_id");
+                String quizName = resultSet.getString("quizName");
+                String topic = resultSet.getString("topic");
+                String difficulty = resultSet.getString("difficulty");
+                Quiz quiz = new Quiz(quizName, topic, difficulty);
+                quiz.setQuizID(id);
+                quizzes.add(quiz);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return quizzes;
+    }
 
     public List<Quiz> getAllQuizzesByCurrentUser() {
         List<Quiz> quizzes = new ArrayList<>();
