@@ -5,7 +5,7 @@ import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-public class aiQuizGenerator {
+public class AIQuizGenerator {
 
     public static String generateQuiz(String prompt) {
         String fullResponse = "";

@@ -18,6 +18,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 import static javafx.scene.control.ScrollPane.ScrollBarPolicy.*;
 
@@ -61,7 +62,7 @@ public class ResultsController {
         // Code to display list of questions for this current quiz attempt
 
         // Get list of questions for current quiz attempt
-        ArrayList<QuizQuestion> questionsList = currentAttempt.getQuiz().getQuestions();
+        List<QuizQuestion> questionsList = currentAttempt.getQuiz().getQuestions();
 
         // Set up scroll pane to only scroll vertically as needed
         questions.setHbarPolicy(NEVER);

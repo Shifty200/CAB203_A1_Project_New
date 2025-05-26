@@ -20,9 +20,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom; // remove later
 
-import static com.example.quizapp.controller.QuestionsController.getQuizAttempt;
-import static com.example.quizapp.model.aiFeedbackGenerator.generateFeedback;
-
 public class ProgressReportController {
     @FXML
     private Label quizTopicLabel;
@@ -42,14 +39,7 @@ public class ProgressReportController {
     private String previousPage;
 
     public void initialize() {
-        List<QuizAttempt> quizAttempts = new SQLiteQuizAttemptDAOLive().getQuizAttemptsByTopic(topic);
-        String feedback = generateFeedback(quizAttempts);
-        commentsArea.setText(feedback);
 
-        // setLineChartData(generateQuizAttempts(10));
-
-        // testing database: get all attempts for default quiz
-        // setLineChartData(new SQLiteQuizAttemptDAOLive().getQuizAttemptsByTopic("Quiz Topic"));
     }
 
     // must be called before switching to this page
@@ -96,21 +86,4 @@ public class ProgressReportController {
         stage.setTitle("Dashboard");
     }
 
-    // generates an array of quiz attempts for testing -- delete later
-    public static QuizAttempt[] generateQuizAttempts(int numAttempts) {
-        QuizAttempt[] quizAttempts = new QuizAttempt[numAttempts];
-        Quiz quiz = new Quiz();
-        for (int i = 0; i < 4; i++) {
-            quiz.addQuestion(new QuizQuestion());
-        }
-        for (int i = 0; i < quizAttempts.length; i++) {
-            QuizAttempt attempt = new QuizAttempt(quiz);
-            for (int j = 0; j < attempt.getSelectedAnswers().length; j++) {
-                attempt.setSelectedAnswer(j, ThreadLocalRandom.current().nextInt(-1,
-                        attempt.getQuiz().getQuestion(j).getAnswersCount()));
-            }
-            quizAttempts[i] = attempt;
-        }
-        return quizAttempts;
-    }
 }

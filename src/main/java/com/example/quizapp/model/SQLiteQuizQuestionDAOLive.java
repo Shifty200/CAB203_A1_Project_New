@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -123,7 +124,7 @@ public class SQLiteQuizQuestionDAOLive {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return quiz_questions;
+        return Collections.unmodifiableList(quiz_questions);
     }
 
     public List<QuizQuestion> getQuizQuestionsByQuizId(int quiz_id) {
@@ -148,16 +149,5 @@ public class SQLiteQuizQuestionDAOLive {
         return quiz_questions;
     }
 
-//    public boolean checkUserPresent(String userName){
-//        List<User> users = getAllUsers();
-//        int userLength = users.size();
-//        for (int i=0 ; i < userLength; i++){
-//            if(Objects.equals(users.get(i).getUserName(), userName)){
-//                return true;
-//            }
-//        }
-//        return false;
-//
-//    }
 }
 

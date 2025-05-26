@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -76,7 +77,6 @@ public class SQLiteQuizDAOLive{
         }
     }
 
-    // edited this code as the second query was broken
     public Quiz getQuiz(int quiz_id) {
         try {
             PreparedStatement statement = connection.prepareStatement("SELECT * FROM quizzes WHERE quiz_id = ?");
@@ -118,7 +118,7 @@ public class SQLiteQuizDAOLive{
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return quizzes;
+        return Collections.unmodifiableList(quizzes);
     }
 
     public List<Quiz> getAllQuizzesByTopic(String selectedTopic) {
@@ -157,9 +157,8 @@ public class SQLiteQuizDAOLive{
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return topics;
+        return Collections.unmodifiableList(topics);
     }
-
 
 }
 

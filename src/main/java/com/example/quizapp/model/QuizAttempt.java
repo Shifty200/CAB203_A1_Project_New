@@ -44,7 +44,7 @@ public class QuizAttempt {
         }
     }
 
-    public int answeredQuestionsCount() {
+    public int getAnsweredQuestionsCount() {
         int count = 0;
         for (int answer : selectedAnswers) {
             if (answer != -1) count++;
@@ -52,7 +52,7 @@ public class QuizAttempt {
         return count;
     }
 
-    public boolean answerIsCorrect(int questionIndex) {
+    private boolean answerIsCorrect(int questionIndex) {
         return selectedAnswers[questionIndex] == quiz.getQuestion(questionIndex).getCorrectAnswer();
     }
 

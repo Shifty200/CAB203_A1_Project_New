@@ -47,7 +47,7 @@ public class QuestionsController {
 
     private void updateTracker() {
         questionsAnsweredTracker.setText(
-                "Answered: " + quizAttempt.answeredQuestionsCount() + "/" + quizAttempt.getQuiz().getLength()
+                "Answered: " + quizAttempt.getAnsweredQuestionsCount() + "/" + quizAttempt.getQuiz().getLength()
         );
     }
 
@@ -123,10 +123,10 @@ public class QuestionsController {
         ((Button) alert.getDialogPane().lookupButton(ButtonType.OK)).setText("Submit");
         Stage alert_window = (Stage) alert.getDialogPane().getScene().getWindow();
         alert_window.getIcons().add(new Image(getClass().getResource("/com/example/images/tutorworm-default.png").toString()));
-        if (quizAttempt.answeredQuestionsCount() < quizAttempt.getQuiz().getLength()) {
+        if (quizAttempt.getAnsweredQuestionsCount() < quizAttempt.getQuiz().getLength()) {
             alert.setContentText(
                     "You still have "
-                    + (quizAttempt.getQuiz().getLength() - quizAttempt.answeredQuestionsCount())
+                    + (quizAttempt.getQuiz().getLength() - quizAttempt.getAnsweredQuestionsCount())
                     + " unanswered questions.\n"
                     + "Unanswered questions will be marked incorrect.\n"
                     + "\nSubmit anyway?");

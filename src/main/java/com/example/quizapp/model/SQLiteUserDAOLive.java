@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -104,7 +105,7 @@ public class SQLiteUserDAOLive implements IUserDAO {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return users;
+        return Collections.unmodifiableList(users);
     }
 
     @Override
