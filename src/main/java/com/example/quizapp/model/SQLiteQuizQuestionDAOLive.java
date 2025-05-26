@@ -127,8 +127,8 @@ public class SQLiteQuizQuestionDAOLive {
         return Collections.unmodifiableList(quiz_questions);
     }
 
-    public List<QuizQuestion> getQuizQuestionsByQuizId(int quiz_id) {
-        List<QuizQuestion> quiz_questions = new ArrayList<>();
+    public ArrayList<QuizQuestion> getQuizQuestionsByQuizId(int quiz_id) {
+        ArrayList<QuizQuestion> quiz_questions = new ArrayList<>();
         try {
             PreparedStatement statement = connection.prepareStatement("SELECT * FROM quiz_questions WHERE quiz_id = ?");
             statement.setInt(1, quiz_id);

@@ -113,6 +113,7 @@ public class SQLiteQuizDAOLive{
                 String difficulty = resultSet.getString("difficulty");
                 Quiz quiz = new Quiz(quizName, topic, difficulty);
                 quiz.setQuizID(id);
+                quiz.setQuestions(new SQLiteQuizQuestionDAOLive().getQuizQuestionsByQuizId(id));
                 quizzes.add(quiz);
             }
         } catch (Exception e) {
@@ -152,6 +153,7 @@ public class SQLiteQuizDAOLive{
                 String difficulty = resultSet.getString("difficulty");
                 Quiz quiz = new Quiz(quizName, topic, difficulty);
                 quiz.setQuizID(id);
+                quiz.setQuestions(new SQLiteQuizQuestionDAOLive().getQuizQuestionsByQuizId(id));
                 quizzes.add(quiz);
             }
         } catch (Exception e) {
