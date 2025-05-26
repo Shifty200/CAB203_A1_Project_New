@@ -4,6 +4,7 @@ module com.example.quizapp {
     requires java.sql;
     requires java.desktop;
     requires org.json;
+    requires jbcrypt;
 
 
     opens com.example.quizapp to javafx.fxml;
