@@ -1,8 +1,11 @@
 package com.example.quizapp.controller;
 
 import com.example.quizapp.HelloApplication;
+import com.example.quizapp.model.QuizAppAlert;
 import com.example.quizapp.model.QuizAttempt;
 import com.example.quizapp.model.QuizQuestion;
+import com.example.quizapp.model.SQLiteQuizAttemptDAOLive;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -20,6 +23,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.example.quizapp.model.AIFeedbackGenerator.generateFeedback;
 import static javafx.scene.control.ScrollPane.ScrollBarPolicy.*;
 
 public class ResultsController {
@@ -130,9 +134,21 @@ public class ResultsController {
         ProgressReportController controller = fxmlLoader.getController();
         controller.setQuizTopic(currentAttempt.getQuiz().getTopic());
         controller.setPreviousScene(progressReportButton.getScene(), "Results");
+
         Stage stage = (Stage) progressReportButton.getScene().getWindow();
         stage.setScene(progressReportPage);
         stage.setTitle("Progress Report");
+
+        Stage loadingStage = QuizAppAlert.loadingSpinner("Generating Feedback...", progressReportButton);
+        loadingStage.show();
+
+        new Thread(() -> {
+            List<QuizAttempt> quizAttempts = new SQLiteQuizAttemptDAOLive().getQuizAttemptsByTopic(currentAttempt.getQuiz().getTopic());
+            controller.setCommentsAreaText(generateFeedback(quizAttempts));
+            Platform.runLater(() -> {
+                loadingStage.close();
+            });
+        }).start();
     }
 
     @FXML

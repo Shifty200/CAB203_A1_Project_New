@@ -1,9 +1,8 @@
 package com.example.quizapp.controller;
 
 import com.example.quizapp.HelloApplication;
-import com.example.quizapp.model.CurrentUser;
-import com.example.quizapp.model.SQLiteQuizAttemptDAOLive;
-import com.example.quizapp.model.SQLiteQuizDAOLive;
+import com.example.quizapp.model.*;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -22,8 +21,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
-import com.example.quizapp.model.Quiz;
-
+import static com.example.quizapp.model.AIFeedbackGenerator.generateFeedback;
 import static javafx.scene.Cursor.HAND;
 
 public class DashboardController {
@@ -182,6 +180,17 @@ public class DashboardController {
                     Stage stage = (Stage) viewProgressBtn.getScene().getWindow();
                     stage.setScene(progressReportPage);
                     stage.setTitle("Progress Report");
+
+                    Stage loadingStage = QuizAppAlert.loadingSpinner("Generating Feedback...", viewProgressBtn);
+                    loadingStage.show();
+
+                    new Thread(() -> {
+                        List<QuizAttempt> quizAttempts = new SQLiteQuizAttemptDAOLive().getQuizAttemptsByTopic(topic);
+                        controller.setCommentsAreaText(generateFeedback(quizAttempts));
+                        Platform.runLater(() -> {
+                            loadingStage.close();
+                        });
+                    }).start();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

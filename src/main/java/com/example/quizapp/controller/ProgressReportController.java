@@ -39,8 +39,7 @@ public class ProgressReportController {
     private String previousPage;
 
     public void initialize() {
-        List<QuizAttempt> quizAttempts = new SQLiteQuizAttemptDAOLive().getQuizAttemptsByTopic(topic);
-        setCommentsAreaText(generateFeedback(quizAttempts));
+
     }
 
     // must be called before switching to this page
