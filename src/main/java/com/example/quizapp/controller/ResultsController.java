@@ -143,8 +143,7 @@ public class ResultsController {
         loadingStage.show();
 
         new Thread(() -> {
-            List<QuizAttempt> quizAttempts = new SQLiteQuizAttemptDAOLive().getQuizAttemptsByTopic(currentAttempt.getQuiz().getTopic());
-            controller.setCommentsAreaText(generateFeedback(quizAttempts));
+            controller.setCommentsAreaText(generateFeedback(currentAttempt));
             Platform.runLater(() -> {
                 loadingStage.close();
             });
