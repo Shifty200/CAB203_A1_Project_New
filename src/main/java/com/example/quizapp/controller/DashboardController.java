@@ -22,6 +22,7 @@ import java.util.Objects;
 import java.util.Optional;
 
 import static com.example.quizapp.model.AIFeedbackGenerator.generateFeedback;
+import static javafx.geometry.Pos.CENTER;
 import static javafx.scene.Cursor.HAND;
 
 public class DashboardController {
@@ -46,6 +47,33 @@ public class DashboardController {
     private void refreshQuizzesDisplay() {
         // Clear existing quizzes from the display
         quizHistoryBox.getChildren().clear();
+
+        // Create card to add quiz
+        VBox addQuizCard = new VBox();
+        addQuizCard.setAlignment(CENTER);
+        addQuizCard.setSpacing(5);
+        addQuizCard.setPrefWidth(200);
+        addQuizCard.setPrefHeight(150);
+        addQuizCard.setStyle("-fx-background-color: #F2F2F2; -fx-padding: 10; -fx-background-radius: 10; -fx-cursor: hand;");
+        Label plusSymbol = new Label("+");
+        Label cardText = new Label("Add a new quiz");
+        plusSymbol.setStyle("-fx-font-size: 30;");
+        addQuizCard.getChildren().addAll(plusSymbol, cardText);
+
+        quizHistoryBox.getChildren().add(addQuizCard);
+
+        // Navigate to quiz init when card is clicked
+        addQuizCard.setOnMouseClicked((MouseEvent event) -> {
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/quizapp/quiz-init.fxml"));
+                Scene quizInitScene = new Scene(loader.load(), 900, 600);
+                Stage stage = (Stage) addQuizCard.getScene().getWindow();
+                stage.setScene(quizInitScene);
+                stage.setTitle("Quiz Initialisation");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
 
         List<Quiz> quizzes;
 
@@ -152,20 +180,6 @@ public class DashboardController {
         }
 
         refreshQuizzesDisplay();
-
-        // start the quiz init
-        addQuizInit.setOnMouseClicked((MouseEvent event) -> {
-            try {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/quizapp/quiz-init.fxml"));
-                Scene quizInitScene = new Scene(loader.load(), 900, 600);
-                Stage stage = (Stage) addQuizInit.getScene().getWindow();
-                stage.setScene(quizInitScene);
-                stage.setTitle("Quiz Initialisation");
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        });
-
 
         viewProgressBtn.setOnAction(event -> {
             String selectedTopic = topicDropdown.getValue();

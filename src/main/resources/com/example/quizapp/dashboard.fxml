@@ -31,15 +31,6 @@
                     <HBox fx:id="quizHistoryBox"
                           spacing="20"
                           style="-fx-padding: 20;">
-                        <VBox fx:id="addQuizInit"
-                              alignment="CENTER"
-                              spacing="5"
-                              prefWidth="200"
-                              prefHeight="150"
-                              style="-fx-background-color: #F2F2F2; -fx-padding: 10; -fx-background-radius: 10; -fx-cursor: hand;">
-                            <Label text="+" style="-fx-font-size: 30;" />
-                            <Label id="add-quiz-label" text="Add a new quiz"/>
-                        </VBox>
                     </HBox>
                 </ScrollPane>
             </HBox>
