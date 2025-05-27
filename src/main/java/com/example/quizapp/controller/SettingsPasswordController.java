@@ -5,6 +5,7 @@ import com.example.quizapp.model.CurrentUser;
 import com.example.quizapp.model.SQLiteUserDAOLive;
 import com.example.quizapp.model.QuizAppAlert;
 import com.example.quizapp.model.User;
+import com.example.quizapp.controller.LoginController;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -64,7 +65,6 @@ public class SettingsPasswordController {
         User currentUser = CurrentUser.getInstance();
         String currentUserName = currentUser.getUserName();
         String currentEmail = currentUser.getEmail();
-        String currentPassword = currentUser.getPassword();
 
         if (oldPassword.isEmpty() || newPassword.isEmpty() || confirmPassword.isEmpty()) {
             QuizAppAlert emptyAlert = new QuizAppAlert();
@@ -72,7 +72,7 @@ public class SettingsPasswordController {
         } else if (!newPassword.equals(confirmPassword)) {
             QuizAppAlert matchingAlert = new QuizAppAlert();
             matchingAlert.alert("Error", "Passwords do not match!", "Please confirm your new password.");
-        } else if (!Objects.equals(oldPassword, currentPassword)) {
+        } else if (!new LoginController().verifyPassword(oldPassword, new SQLiteUserDAOLive().getUser(currentUserName).getPassword())) {
             QuizAppAlert incorrectAlert = new QuizAppAlert();
             incorrectAlert.alert("Error", "Old password is incorrect!", "Please ensure your old password is correct.");
         } else {

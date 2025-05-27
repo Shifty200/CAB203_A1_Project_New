@@ -79,7 +79,7 @@ public class DashboardController {
 
         // Display all quizzes if topic not chosen, else, sort by topic
         if (topic == "All Topics") {
-            quizzes = new SQLiteQuizDAOLive().getAllQuizzes();
+            quizzes = new SQLiteQuizDAOLive().getAllQuizzesByCurrentUser();
         }
         else {
             quizzes = new SQLiteQuizDAOLive().getAllQuizzesByTopic(topic);
