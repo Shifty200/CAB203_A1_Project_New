@@ -110,5 +110,4 @@ public class AIQuizGenerator {
 
         return title;
     }
-
 }

@@ -10,8 +10,6 @@ import java.util.List;
 import java.util.Objects;
 import org.mindrot.jbcrypt.BCrypt;
 
-
-
 public class SQLiteUserDAOLive implements IUserDAO {
     private Connection connection;
 

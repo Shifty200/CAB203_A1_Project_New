@@ -14,10 +14,8 @@ import javafx.scene.image.Image;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
-
 import java.io.IOException;
 import java.util.Objects;
-
 
 public class SettingsController {
 
@@ -25,7 +23,6 @@ public class SettingsController {
     private Button settingsBack;
     @FXML
     private Button accountButton;
-
     @FXML
     private Label usernameText;
     @FXML
@@ -69,7 +66,6 @@ public class SettingsController {
         }
     }
 
-
     @FXML
     private void handleToPasswordScreen() {
         try {
@@ -82,8 +78,6 @@ public class SettingsController {
         }
 
     }
-
-
 
     public void handleChangeEmail() throws IOException {
 

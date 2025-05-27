@@ -162,8 +162,6 @@ public class SQLiteQuizAttemptDAOLive {
         return quiz_attempts;
     }
 
-
-
     // added a method to get the score to display on the dashboard history
     public String getScoreForQuiz(int quizId) {
         try {
@@ -195,6 +193,5 @@ public class SQLiteQuizAttemptDAOLive {
         }
         return "Not attempted";
     }
-
 }
 

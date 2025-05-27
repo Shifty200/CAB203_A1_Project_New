@@ -10,15 +10,8 @@ import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
-
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.concurrent.ThreadLocalRandom; // remove later
-
-import static com.example.quizapp.model.AIFeedbackGenerator.generateFeedback;
-
 
 public class ProgressReportController {
     @FXML
@@ -34,17 +27,13 @@ public class ProgressReportController {
     @FXML
     private Button dashboardButton;
 
-    private String topic;
     private Scene previousScene;
     private String previousPage;
 
-    public void initialize() {
-
-    }
+    public void initialize() {}
 
     // must be called before switching to this page
     public void setQuizTopic(String topic) {
-        this.topic = topic;
         quizTopicLabel.setText("Progress Report: " + topic);
         setLineChartData(new SQLiteQuizAttemptDAOLive().getQuizAttemptsByTopic(topic));
     }

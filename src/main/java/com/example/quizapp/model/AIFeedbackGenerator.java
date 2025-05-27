@@ -6,7 +6,7 @@ import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.List;
-import java.util.ArrayList; // Will use ArrayList to store incorrect question details
+import java.util.ArrayList;
 
 public class AIFeedbackGenerator {
 

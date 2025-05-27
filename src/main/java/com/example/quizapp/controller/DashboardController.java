@@ -10,7 +10,6 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.ImagePattern;
@@ -23,13 +22,11 @@ import java.util.Optional;
 
 import static com.example.quizapp.model.AIFeedbackGenerator.generateFeedback;
 import static javafx.geometry.Pos.CENTER;
-import static javafx.scene.Cursor.HAND;
 
 public class DashboardController {
 
     @FXML private Button settingsButton;
     @FXML private Label userNameLabel;
-    @FXML private VBox addQuizInit;
     @FXML private ComboBox<String> topicDropdown;
     @FXML private Button viewProgressBtn;
     @FXML private Hyperlink logoutLink;
@@ -60,6 +57,7 @@ public class DashboardController {
         plusSymbol.setStyle("-fx-font-size: 30;");
         addQuizCard.getChildren().addAll(plusSymbol, cardText);
 
+        // Add card to HBox with rest of quiz cards
         quizHistoryBox.getChildren().add(addQuizCard);
 
         // Navigate to quiz init when card is clicked

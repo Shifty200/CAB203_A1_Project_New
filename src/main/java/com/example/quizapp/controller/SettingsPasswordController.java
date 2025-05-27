@@ -11,7 +11,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.stage.Stage;
-
 import java.io.IOException;
 import java.util.Objects;
 
@@ -54,7 +53,6 @@ public class SettingsPasswordController {
         }
     }
 
-
     @FXML
     public void handleChangePassword() throws IOException {
         String oldPassword = passwordField.getText();
@@ -87,5 +85,4 @@ public class SettingsPasswordController {
             changedPass.alert("Password Changed", "Your password was successfully changed!", "");
         }
     }
-
 }

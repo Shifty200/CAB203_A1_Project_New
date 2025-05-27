@@ -14,6 +14,7 @@ public class QuizQuestion {
         this.answers = new ArrayList<>(Arrays.asList("Option A", "Option B", "Option C", "Option D"));
         this.correctAnswer = 0;
     }
+
     public QuizQuestion(String questionText, ArrayList<String> answers, int correctAnswer)
             throws IndexOutOfBoundsException, IllegalArgumentException {
         this.questionText = questionText;

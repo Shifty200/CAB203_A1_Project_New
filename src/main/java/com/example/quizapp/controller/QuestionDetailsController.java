@@ -15,7 +15,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 import static javafx.scene.control.ScrollPane.ScrollBarPolicy.AS_NEEDED;
@@ -51,7 +50,7 @@ public class QuestionDetailsController {
         // Create container to group all questions
         VBox allQuestions = new VBox();
 
-// Loop over list of questions
+        // Loop over list of questions
         for (int i = 0; i < questionsList.toArray().length; i++) {
 
             QuizQuestion currentQuestion = currentAttempt.getQuiz().getQuestion(i);
@@ -124,7 +123,6 @@ public class QuestionDetailsController {
             allQuestions.setSpacing(20);
         }
 
-
         // Set larger container as content of scroll pane
         questions.setContent(allQuestions);
     }
@@ -138,7 +136,11 @@ public class QuestionDetailsController {
         stage.setScene(scene);
     }
 
-    // For a multiple choice question, returns the corresponding letter for the answer (starts from 1)
+    /**
+     * Given an answer index, generate the corresponding alphabet letter to represent it.
+     * @param answerIndex An integer value corresponding to an answer.
+     * @return An alphabet letter to represent an answer.
+     */
     private String answerLetter(int answerIndex) {
 
         char[] alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".toCharArray();
