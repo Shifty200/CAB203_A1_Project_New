@@ -1,10 +1,7 @@
 package com.example.quizapp.controller;
 
 import com.example.quizapp.HelloApplication;
-import com.example.quizapp.model.CurrentUser;
-import com.example.quizapp.model.SQLiteUserDAOLive;
-import com.example.quizapp.model.QuizAppAlert;
-import com.example.quizapp.model.User;
+import com.example.quizapp.model.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -14,6 +11,7 @@ import javafx.scene.image.Image;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 import java.io.IOException;
 import java.util.Objects;
@@ -94,22 +92,19 @@ public class SettingsController {
 
         String newEmail = emailField.getText();
 
-        if (Objects.equals(oldEmail, newEmail)){
+        if (Settings.sameEmail(oldEmail, newEmail)){
             QuizAppAlert sameAlert = new QuizAppAlert();
             sameAlert.alert("Error", "Enter a new email", "This email is the same as the current email registered to this account. Please enter a different email.");
         }
-        else if (!newEmail.contains("@")){
+        else if (!Settings.validEmail(newEmail)){
             QuizAppAlert emailAlert = new QuizAppAlert();
             emailAlert.alert("Error", "Not Valid", "The email entered is not a valid email");
         }
         else{
-            User newUser = new User(currentUserName, currentPassword, newEmail);
-            new SQLiteUserDAOLive().updateUser(newUser);
-            setEmailField();
-
+            Settings.updateUserEmail(currentUser, newEmail);
             emailField.setPromptText(newEmail);
-            QuizAppAlert changedEmail = new QuizAppAlert();
-            changedEmail.alert("Email Changed", "Your email was successfully changed!", "");
+            new QuizAppAlert().alert("Email Changed", "Your email was successfully changed!", "");
+
             Stage stage = (Stage) changeEmailButton.getScene().getWindow();
             FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("settingsProfile-View.fxml"));
             Scene scene = new Scene(fxmlLoader.load(), HelloApplication.WIDTH, HelloApplication.HEIGHT);
