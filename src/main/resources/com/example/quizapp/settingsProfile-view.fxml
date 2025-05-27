@@ -52,7 +52,7 @@
             <Label id="bolded-text" text="Email">
             </Label>
             <TextField fx:id="emailField" prefWidth="300.0" promptText="Example email"/>
-            <Button onAction="#handleChangeEmail" text="Update Email"/>
+            <Button fx:id="changeEmailButton" onAction="#handleChangeEmail" text="Update Email"/>
             <Label id="bolded-text" text="Password">
             </Label>
             <Button fx:id="toPasswordButton" onAction="#handleToPasswordScreen" text="Change Password"/>
