@@ -1,4 +1,4 @@
-import com.example.quizapp.model.quizAppAlert;
+import com.example.quizapp.model.QuizAppAlert;
 
 import javafx.application.Platform;
 import javafx.scene.control.Alert;
@@ -31,7 +31,7 @@ public class QuizAppAlertTest{
 
 
             try {
-                quizAppAlert testAlert = new quizAppAlert();
+                QuizAppAlert testAlert = new QuizAppAlert();
                 Alert alert = testAlert.createAlert("Test Title", "Test Header", "Test Content");
 
                 assertEquals(Alert.AlertType.WARNING, alert.getAlertType());
