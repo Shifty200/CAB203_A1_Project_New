@@ -89,7 +89,7 @@ public class QuizInitController {
                     "\n6. Questions must be answerable using only the information in the provided study material." +
                     "\n\nUse the following study material to create the quiz:\n\n" + uploadedFileContent;
 
-            Stage loadingStage = loadingSpinner();
+            Stage loadingStage = QuizAppAlert.loadingSpinner("Generating Quiz...", startQuizBtn);
             loadingStage.show();
 
             new Thread(() -> {
@@ -179,29 +179,4 @@ public class QuizInitController {
         if (sliderValue < 2.5) return "medium";
         return "hard";
     }
-
-    private Stage loadingSpinner() {
-        ProgressIndicator spinner = new ProgressIndicator();
-        spinner.setPrefSize(100, 100);
-
-        Label label = new Label("Generating Quiz...");
-        VBox vbox = new VBox(spinner, label);
-        vbox.setSpacing(20);
-        vbox.setStyle("-fx-background-color: white; -fx-padding: 30; -fx-alignment: center;");
-
-        Scene scene = new Scene(vbox);
-        Stage dialog = new Stage();
-        dialog.setScene(scene);
-        dialog.setTitle("Please Wait");
-        dialog.setWidth(250);
-        dialog.setHeight(200);
-        dialog.setResizable(false);
-        dialog.initOwner(startQuizBtn.getScene().getWindow());
-        dialog.setAlwaysOnTop(true);
-        Image image = new Image(getClass().getResource("/com/example/images/tutorworm-default.png").toString());
-        dialog.getIcons().add(image);
-
-        return dialog;
-    }
-
 }
