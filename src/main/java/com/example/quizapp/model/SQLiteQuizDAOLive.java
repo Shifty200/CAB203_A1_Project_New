@@ -185,5 +185,30 @@ public class SQLiteQuizDAOLive{
         }
         return Collections.unmodifiableList(quizzes);
     }
+
+    public boolean insertNewTopicIfNotExists(String topic) {
+        try {
+            String checkQuery = "SELECT COUNT(*) FROM quizzes WHERE topic = ?";
+            PreparedStatement checkStmt = connection.prepareStatement(checkQuery);
+            checkStmt.setString(1, topic);
+            ResultSet rs = checkStmt.executeQuery();
+            if (rs.next() && rs.getInt(1) > 0) {
+                return false; // topic already exists
+            }
+
+            String insertQuery = "INSERT INTO quizzes (quizName, topic, difficulty) VALUES (?, ?, ?)";
+            PreparedStatement insertStmt = connection.prepareStatement(insertQuery);
+            insertStmt.setString(1, "Placeholder Quiz"); // required fields
+            insertStmt.setString(2, topic);
+            insertStmt.setString(3, "medium");
+            insertStmt.executeUpdate();
+
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
 }
 

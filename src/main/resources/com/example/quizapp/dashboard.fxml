@@ -5,6 +5,7 @@
 <?import javafx.geometry.Insets?>
 
 <?import javafx.scene.shape.Circle?>
+
 <BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="com.example.quizapp.controller.DashboardController"
@@ -22,10 +23,18 @@
     <center>
         <VBox spacing="40" style="-fx-padding: 20;">
             <Label id="larger-heading" text="MY QUIZZES" />
-            <HBox spacing="10">
+            <VBox spacing="10" alignment="CENTER_LEFT">
+                <HBox spacing="10" alignment="CENTER_LEFT">
+                    <TextField fx:id="newTopicField" promptText="New topic name" HBox.hgrow="ALWAYS"/>
+                    <Button text="Add Topic" onAction="#onAddTopicClicked" />
+                </HBox>
+                <Label fx:id="topicFeedbackLabel" style="-fx-text-fill: green;" visible="false" />
                 <Label text="Sort by:" />
-                <ComboBox fx:id="topicDropdown" value="All Topics" prefWidth="150" style="-fx-cursor: hand;" onAction="#handleComboBoxSelection" />
-            </HBox>
+                <ComboBox fx:id="topicDropdown" value="All Topics"
+                          prefWidth="150"
+                          style="-fx-cursor: hand;"
+                          onAction="#handleComboBoxSelection" />
+            </VBox>
             <HBox spacing="20" alignment="CENTER_LEFT">
                 <ScrollPane prefHeight="200" fitToHeight="true">
                     <HBox fx:id="quizHistoryBox"

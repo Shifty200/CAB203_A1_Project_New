@@ -35,8 +35,11 @@ public class DashboardController {
     @FXML private Hyperlink logoutLink;
     @FXML private Circle userIcon;
     @FXML private HBox quizHistoryBox;
+    @FXML private TextField newTopicField;
+    @FXML private Label topicFeedbackLabel;
 
     private String topic = "All Topics";
+    private final SQLiteQuizDAOLive quizDAO = new SQLiteQuizDAOLive();
 
     @FXML
     private void handleComboBoxSelection() {
@@ -162,6 +165,32 @@ public class DashboardController {
             quizHistoryBox.getChildren().add(card);
         }
     }
+
+    // added option to create new topic and add this topic to database
+    @FXML
+    private void onAddTopicClicked() {
+        String newTopic = newTopicField.getText().trim();
+
+        if (newTopic.isEmpty()) {
+            topicFeedbackLabel.setText("Topic cannot be empty.");
+            topicFeedbackLabel.setStyle("-fx-text-fill: red;");
+            topicFeedbackLabel.setVisible(true);
+            return;
+        }
+
+        boolean success = quizDAO.insertNewTopicIfNotExists(newTopic);
+        if (success) {
+            topicFeedbackLabel.setText("Topic added successfully!");
+            topicFeedbackLabel.setStyle("-fx-text-fill: green;");
+        } else {
+            topicFeedbackLabel.setText("Topic already exists or failed to add.");
+            topicFeedbackLabel.setStyle("-fx-text-fill: red;");
+        }
+
+        topicFeedbackLabel.setVisible(true);
+        newTopicField.clear();
+    }
+
 
     @FXML
     public void initialize() {
