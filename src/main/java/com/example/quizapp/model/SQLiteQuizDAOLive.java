@@ -7,6 +7,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 public class SQLiteQuizDAOLive {
     private Connection connection;
@@ -52,6 +53,7 @@ public class SQLiteQuizDAOLive {
         }
     }
 
+
     public void updateQuiz(Quiz quiz) {
         try {
             PreparedStatement statement = connection.prepareStatement("UPDATE quizzes SET quizName = ?, topic = ?, difficulty = ? WHERE quiz_id = ?");
@@ -96,6 +98,7 @@ public class SQLiteQuizDAOLive {
         }
         return null;
     }
+
 
     public List<Quiz> getAllQuizzes() {
         List<Quiz> quizzes = new ArrayList<>();

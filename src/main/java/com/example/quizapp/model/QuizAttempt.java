@@ -23,6 +23,7 @@ public class QuizAttempt {
         return quiz;
     }
 
+
     public String getQuizName() {
         return quiz.getQuizName();
     }

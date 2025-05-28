@@ -17,6 +17,7 @@ import javafx.scene.layout.*;
 import javafx.geometry.Insets;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Optional;
@@ -36,7 +37,9 @@ public class QuestionsController {
     private static QuizAttempt quizAttempt;
     private ArrayList<VBox> displayedQuestions;
 
-    public void initialize() {}
+    public void initialize() {
+
+    }
 
     public static QuizAttempt getQuizAttempt() {
         return quizAttempt;
@@ -171,4 +174,5 @@ public class QuestionsController {
             stage.setTitle("Dashboard");
         }
     }
+
 }

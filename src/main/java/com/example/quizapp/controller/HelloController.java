@@ -9,6 +9,8 @@ import javafx.scene.control.Button;
 import javafx.stage.Stage;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.Image;
+
+
 import java.io.IOException;
 
 public class HelloController {
@@ -29,6 +31,7 @@ public class HelloController {
         System.out.println("Looking for image at: " + getClass().getResource("/com/example/images/tutorworm-default.png"));
         Image image = new Image(getClass().getResource("/com/example/images/tutorworm-default.png").toString());
         tutorWorm.setImage(image);
+
     }
 
     @FXML

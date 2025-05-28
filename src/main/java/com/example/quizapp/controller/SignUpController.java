@@ -1,5 +1,6 @@
 package com.example.quizapp.controller;
 
+
 import com.example.quizapp.HelloApplication;
 import com.example.quizapp.model.SQLiteUserDAOLive;
 import com.example.quizapp.model.User;
@@ -8,6 +9,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
+
 import java.io.IOException;
 
 public class SignUpController {

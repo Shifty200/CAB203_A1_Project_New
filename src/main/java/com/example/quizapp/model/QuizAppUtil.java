@@ -1,6 +1,7 @@
 package com.example.quizapp.model;
 
 import java.util.ArrayList;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 

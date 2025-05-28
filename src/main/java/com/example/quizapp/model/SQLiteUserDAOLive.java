@@ -10,6 +10,8 @@ import java.util.List;
 import java.util.Objects;
 import org.mindrot.jbcrypt.BCrypt;
 
+
+
 public class SQLiteUserDAOLive implements IUserDAO {
     private Connection connection;
 
@@ -52,7 +54,8 @@ public class SQLiteUserDAOLive implements IUserDAO {
         try {
             PreparedStatement statement = connection.prepareStatement("UPDATE users SET email = ?, password = ? WHERE userName = ?");
             statement.setString(1, user.getEmail());
-            statement.setString(2, user.getPassword());
+            String hashPW = BCrypt.hashpw(user.getPassword(), BCrypt.gensalt());
+            statement.setString(2, hashPW);
             statement.setString(3, user.getUserName());
             statement.executeUpdate();
         } catch (Exception e) {

@@ -57,6 +57,7 @@ public class LoginController {
         stage.setTitle("TutorWorm");
         stage.setScene(scene);    }
 
+
     public boolean verifyPassword(String inputPassword, String storedPassword) {
         // Case 1: stored password looks like a bcrypt hash
         if (storedPassword.startsWith("$2a$") || storedPassword.startsWith("$2b$") || storedPassword.startsWith("$2y$")) {
