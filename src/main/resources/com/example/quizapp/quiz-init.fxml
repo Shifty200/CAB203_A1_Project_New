@@ -14,8 +14,8 @@
             </padding>
             <Label id="heading" text="Quiz Initialisation Page"/>
             <VBox spacing="15" alignment="CENTER">
-                <Label text="Enter a topic:" />
-                <TextField fx:id="topicField" promptText="e.g. Algebra"/>
+                <Label text="Name your quiz:" />
+                <TextField fx:id="quizTitle" promptText="e.g. CAB302 Object Orientated Design Quiz"/>
             </VBox>
             <VBox spacing="10" alignment="CENTER">
                 <Label text="Choose a quiz topic:" />

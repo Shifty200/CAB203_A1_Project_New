@@ -31,7 +31,7 @@ public class QuizInitController {
     @FXML private ToggleButton q20to30;
     @FXML private Button startQuizBtn;
     @FXML private Button backToDashboardBtn;
-    @FXML private TextField topicField;
+    @FXML private TextField quizTitle;
     @FXML private ComboBox<String> topicDropdown;
 
 
@@ -88,9 +88,17 @@ public class QuizInitController {
                 errorLabel.setVisible(true);
                 return;
             }
+
+            String enteredTitle = quizTitle.getText();
+            if (enteredTitle == null || enteredTitle.trim().isEmpty()) {
+                errorLabel.setText("Please enter a quiz title.");
+                errorLabel.setVisible(true);
+                return;
+            }
+
             String difficulty = getDifficultyLabel(difficultySlider.getValue());
 
-            String prompt = "Create a quiz with " + questionRange + " questions on " + topic +
+            String prompt = "Create a quiz with " + questionRange + " questions on " + topic + "named " + enteredTitle +
                     " for high school students with " + difficulty + " difficulty." +
                     "\nFollow all of these instructions:" +
                     "\n1. Ensure that no questions are repeated, and that no two questions are too similar to each other." +
@@ -116,8 +124,7 @@ public class QuizInitController {
                     try {
                         String jsonResponse = AIQuizGenerator.generateQuiz(prompt);
                         System.out.println("Raw AI Response:\n" + jsonResponse);
-                        String generatedTitle = AIQuizGenerator.generateQuizTitle(jsonResponse);
-                        quiz = QuizAppUtil.parseAIResponse(jsonResponse, generatedTitle, topic, difficulty);
+                        quiz = QuizAppUtil.parseAIResponse(jsonResponse, enteredTitle, topic, difficulty);
                     } catch (IndexOutOfBoundsException ex) {
                         success = false;
                         System.out.println("The AI provided an out-of-bounds index. Trying again...");
@@ -179,12 +186,6 @@ public class QuizInitController {
 
         if (questionRange == null || questionRange.isEmpty()) {
             errorLabel.setText("Please select question range.");
-            errorLabel.setVisible(true);
-            return false;
-        }
-
-        if (topicField.getText() == null || topicField.getText().trim().isEmpty()) {
-            errorLabel.setText("Please enter a topic.");
             errorLabel.setVisible(true);
             return false;
         }
