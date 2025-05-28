@@ -87,6 +87,7 @@ public class QuizInitController {
                     "\n5. Do not generate more questions than requested. " +
                     "E.g. if you have been asked for 10-20 questions, do not generate more than 20 questions." +
                     "\n6. Questions must be answerable using only the information in the provided study material." +
+                    "\n7. Do not use the character ',' in options. If necessary, use ':', ';', '.', or '--' instead." +
                     "\n\nUse the following study material to create the quiz:\n\n" + uploadedFileContent;
 
             Stage loadingStage = QuizAppAlert.loadingSpinner("Generating Quiz...", startQuizBtn);
