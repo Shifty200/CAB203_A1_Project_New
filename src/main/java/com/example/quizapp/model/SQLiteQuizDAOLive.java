@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class SQLiteQuizDAOLive{
+public class SQLiteQuizDAOLive {
     private Connection connection;
 
     public SQLiteQuizDAOLive() {
@@ -44,7 +44,7 @@ public class SQLiteQuizDAOLive{
             if (generatedKeys.next()) {
                 quiz.setQuizID(generatedKeys.getInt(1));
             }
-            for (int i = 0; i< quiz.getLength(); i++) {
+            for (int i = 0; i < quiz.getLength(); i++) {
                 new SQLiteQuizQuestionDAOLive().addQuizQuestion(quiz.getQuestions().get(i));
             }
         } catch (Exception e) {
@@ -88,7 +88,7 @@ public class SQLiteQuizDAOLive{
                 Quiz quiz = new Quiz(quizName, topic, difficulty);
 
                 List<QuizQuestion> quiz_questions = new SQLiteQuizQuestionDAOLive().getQuizQuestionsByQuizId(quiz_id);
-                quiz.setQuestions((ArrayList<QuizQuestion>)quiz_questions);
+                quiz.setQuestions((ArrayList<QuizQuestion>) quiz_questions);
                 return quiz;
             }
         } catch (Exception e) {
@@ -119,15 +119,18 @@ public class SQLiteQuizDAOLive{
         return Collections.unmodifiableList(quizzes);
     }
 
-    public List<String> getAllTopics() {
+    public List<String> getAllTopicsByCurrentUser() {
         List<String> topics = new ArrayList<>();
         try {
-            Statement statement = connection.createStatement();
-            String query = "SELECT * FROM quizzes";
-            ResultSet resultSet = statement.executeQuery(query);
+            PreparedStatement statement = connection.prepareStatement("SELECT DISTINCT q.* " +
+                    "FROM quizzes q " +
+                    "JOIN quiz_attempts qa ON q.quiz_id = qa.quiz_id " +
+                    "WHERE qa.userName = ?;");
+            statement.setString(1, CurrentUser.getInstance().getUserName());
+            ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 String topic = resultSet.getString("topic");
-                if (!topics.contains(topic)){
+                if (!topics.contains(topic)) {
                     topics.add(topic);
                 }
             }
@@ -182,5 +185,31 @@ public class SQLiteQuizDAOLive{
         }
         return Collections.unmodifiableList(quizzes);
     }
-}
 
+
+    public List<Quiz> getAllQuizzesByTopicByCurrentUser(String selectedTopic) {
+        List<Quiz> quizzes = new ArrayList<>();
+        try {
+            PreparedStatement statement = connection.prepareStatement("SELECT DISTINCT q.* " +
+                    "FROM quizzes q " +
+                    "JOIN quiz_attempts qa ON q.quiz_id = qa.quiz_id " +
+                    "WHERE qa.userName = ? AND q.topic = ?;");
+            statement.setString(1, CurrentUser.getInstance().getUserName());
+            statement.setString(2, selectedTopic);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                int id = resultSet.getInt("quiz_id");
+                String quizName = resultSet.getString("quizName");
+                String topic = resultSet.getString("topic");
+                String difficulty = resultSet.getString("difficulty");
+                Quiz quiz = new Quiz(quizName, topic, difficulty);
+                quiz.setQuizID(id);
+                quiz.setQuestions(new SQLiteQuizQuestionDAOLive().getQuizQuestionsByQuizId(id));
+                quizzes.add(quiz);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return quizzes;
+    }
+}

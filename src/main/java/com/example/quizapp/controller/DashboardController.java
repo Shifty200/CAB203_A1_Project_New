@@ -77,10 +77,10 @@ public class DashboardController {
 
         // Display all quizzes if topic not chosen, else, sort by topic
         if (topic == "All Topics") {
-            quizzes = new SQLiteQuizDAOLive().getAllQuizzes();
+            quizzes = new SQLiteQuizDAOLive().getAllQuizzesByCurrentUser();
         }
         else {
-            quizzes = new SQLiteQuizDAOLive().getAllQuizzesByTopic(topic);
+            quizzes = new SQLiteQuizDAOLive().getAllQuizzesByTopicByCurrentUser(topic);
         }
 
         // Display the quizzes
@@ -168,7 +168,7 @@ public class DashboardController {
         userIcon.setFill(new ImagePattern(img));
 
         // list all of the topics that were added in the quiz init -- otherwise hide them
-        List<String> topics = new SQLiteQuizDAOLive().getAllTopics();
+        List<String> topics = new SQLiteQuizDAOLive().getAllTopicsByCurrentUser();
         if (topics.isEmpty()) {
             topicDropdown.setVisible(false);
             viewProgressBtn.setVisible(false);
