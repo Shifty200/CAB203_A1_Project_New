@@ -12,8 +12,12 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import javafx.scene.control.ComboBox;
+import com.example.quizapp.model.SQLiteQuizDAOLive;
+
 
 import java.io.File;
+import java.util.List;
 
 import static com.example.quizapp.model.QuizInitConfig.readLinesFromFile;
 
@@ -28,11 +32,14 @@ public class QuizInitController {
     @FXML private Button startQuizBtn;
     @FXML private Button backToDashboardBtn;
     @FXML private TextField topicField;
+    @FXML private ComboBox<String> topicDropdown;
+
 
 
     private File selectedFile;
     private String questionRange;
     private String uploadedFileContent;
+    private final SQLiteQuizDAOLive quizDAO = new SQLiteQuizDAOLive();
 
     @FXML
     public void initialize() {
@@ -47,6 +54,10 @@ public class QuizInitController {
                 questionRange = ((ToggleButton) newToggle).getText();
             }
         });
+
+        List<String> topicsFromDB = quizDAO.getAllTopics();
+        topicDropdown.getItems().addAll(topicsFromDB);
+        topicDropdown.setPromptText("Select Topic");
 
         uploadBox.setOnMouseClicked((MouseEvent e) -> {
             FileChooser fileChooser = new FileChooser();
@@ -71,7 +82,12 @@ public class QuizInitController {
         startQuizBtn.setOnAction(e -> {
             if (!validateInputs()) return;
 
-            String topic = topicField.getText().trim();
+            String topic = topicDropdown.getValue();
+            if (topic == null || topic.trim().isEmpty()) {
+                errorLabel.setText("Please select a topic.");
+                errorLabel.setVisible(true);
+                return;
+            }
             String difficulty = getDifficultyLabel(difficultySlider.getValue());
 
             String prompt = "Create a quiz with " + questionRange + " questions on " + topic +

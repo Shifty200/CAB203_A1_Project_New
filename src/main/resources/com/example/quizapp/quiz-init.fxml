@@ -17,6 +17,10 @@
                 <Label text="Enter a topic:" />
                 <TextField fx:id="topicField" promptText="e.g. Algebra"/>
             </VBox>
+            <VBox spacing="10" alignment="CENTER">
+                <Label text="Choose a quiz topic:" />
+                <ComboBox fx:id="topicDropdown" prefWidth="200" />
+            </VBox>
             <VBox id="upload-box" fx:id="uploadBox"
                   prefWidth="400"
                   prefHeight="200"
