@@ -3,6 +3,8 @@ package com.example.quizapp.controller;
 import com.example.quizapp.HelloApplication;
 import com.example.quizapp.model.*;
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -33,6 +35,7 @@ public class DashboardController {
     @FXML private Hyperlink logoutLink;
     @FXML private Circle userIcon;
     @FXML private HBox quizHistoryBox;
+    @FXML private Button deleteTopicButton;
 
     private static final Image popupIcon = new Image(Objects.requireNonNull(DashboardController.class.getResource("/com/example/images/tutorworm-default.png")).toString());
 
@@ -190,14 +193,23 @@ public class DashboardController {
     // Refreshes topics dropdown box
     private void refreshTopicsDisplay() {
 
-        // Clear current items to prevent duplicates
-        topicDropdown.getItems().clear();
+        // Create a ObservableList for ComboBox items
+        ObservableList<String> items = FXCollections.observableArrayList();
 
+        // Add both default options and user-defined topics to list
+        items.add("All Topics");
         List<String> userDefinedTopics = quizDAO.getAllTopics();
+        items.addAll(userDefinedTopics);
+        items.add("Add New Topic");
+
+        // Set list of items to the dropdown (method prevents IndexOutOfBoundsException)
+        topicDropdown.setItems(items);
 
         topicDropdown.getItems().add("All Topics");
         topicDropdown.getItems().addAll(userDefinedTopics);
         topicDropdown.getItems().add("+ Add New Topic");
+
+        deleteTopicButton.setVisible(!userDefinedTopics.isEmpty()); // Hide delete button if no topics to delete
 
         // Ensures that items are fully added before selection attempt (fixes index out of bounds error)
         Platform.runLater(() -> {
