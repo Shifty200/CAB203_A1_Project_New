@@ -199,14 +199,17 @@ public class DashboardController {
         topicDropdown.getItems().addAll(userDefinedTopics);
         topicDropdown.getItems().add("+ Add New Topic");
 
-        // Set the selected topic to current topic
-        if (topicDropdown.getItems().contains(this.topic)) {
-            topicDropdown.getSelectionModel().select(this.topic);
-        } else {
-            // If topic no longer exists, revert to "All Topics"
-            topicDropdown.getSelectionModel().select("All Topics");
-            this.topic = "All Topics";
-        }
+        // Ensures that items are fully added before selection attempt (fixes index out of bounds error)
+        Platform.runLater(() -> {
+            // Set the selected topic to current topic
+            if (topicDropdown.getItems().contains(this.topic)) {
+                topicDropdown.getSelectionModel().select(this.topic);
+            } else {
+                // If topic no longer exists, revert to "All Topics"
+                topicDropdown.getSelectionModel().select("All Topics");
+                this.topic = "All Topics";
+            }
+        });
     }
 
     // Displays text input dialog for user to enter a new topic
