@@ -1,5 +1,8 @@
 package com.example.quizapp.model;
 
+import com.example.quizapp.controller.DashboardController;
+import javafx.scene.control.Alert;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -7,7 +10,6 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
 
 public class SQLiteQuizDAOLive{
     private Connection connection;
@@ -138,6 +140,20 @@ public class SQLiteQuizDAOLive{
             e.printStackTrace();
         }
         return Collections.unmodifiableList(topics);
+    }
+
+    public void deleteTopicAndRelatedQuizzes(String topic) {
+        try {
+            Statement statement = connection.createStatement();
+            String query = "DELETE FROM quizzes WHERE topic = '" + topic + "'";
+            statement.executeUpdate(query);
+            statement.close();
+            DashboardController.displayMessagePopup(Alert.AlertType.INFORMATION, "Deletion Complete",
+                    "Deleted quizzes for topic: '" + topic + "'");
+        } catch (Exception e) {
+            e.printStackTrace();
+            DashboardController.displayMessagePopup(Alert.AlertType.ERROR, "Deletion Failed", "Error deleting quizzes: " + e.getMessage());
+        }
     }
 
     public List<Quiz> getAllQuizzesByTopic(String selectedTopic) {

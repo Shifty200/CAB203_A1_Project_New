@@ -47,7 +47,7 @@
     -fx-font-size: 14;
 }
 
-#settings-button {
+#icon-button {
     -fx-background-color: '#FFFFFF';
     -fx-text-fill: '#17202A';
     -fx-pref-width: 50;
