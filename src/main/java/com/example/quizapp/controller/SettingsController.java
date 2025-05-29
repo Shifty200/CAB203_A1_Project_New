@@ -14,10 +14,8 @@ import javafx.scene.image.Image;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
-
 import java.io.IOException;
 import java.util.Objects;
-
 
 public class SettingsController {
 

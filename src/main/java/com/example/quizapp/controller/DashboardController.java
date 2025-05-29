@@ -3,6 +3,8 @@ package com.example.quizapp.controller;
 import com.example.quizapp.HelloApplication;
 import com.example.quizapp.model.*;
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -10,7 +12,6 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.ImagePattern;
@@ -23,27 +24,54 @@ import java.util.Optional;
 
 import static com.example.quizapp.model.AIFeedbackGenerator.generateFeedback;
 import static javafx.geometry.Pos.CENTER;
-import static javafx.scene.Cursor.HAND;
+import static javafx.scene.control.Alert.AlertType.*;
 
 public class DashboardController {
 
     @FXML private Button settingsButton;
     @FXML private Label userNameLabel;
-    @FXML private VBox addQuizInit;
     @FXML private ComboBox<String> topicDropdown;
     @FXML private Button viewProgressBtn;
     @FXML private Hyperlink logoutLink;
     @FXML private Circle userIcon;
     @FXML private HBox quizHistoryBox;
+    @FXML private Button deleteTopicButton;
+
+    private static final Image popupIcon = new Image(Objects.requireNonNull(DashboardController.class.getResource("/com/example/images/tutorworm-default.png")).toString());
 
     private String topic = "All Topics";
+    private final SQLiteQuizDAOLive quizDAO = new SQLiteQuizDAOLive();
 
     @FXML
     private void handleComboBoxSelection() {
-        this.topic = topicDropdown.getValue();
-        refreshQuizzesDisplay();
+        String selectedValue = topicDropdown.getValue(); // Get the selected value first
+
+        if (Objects.equals(selectedValue, "+ Add New Topic")) {
+            // Show default dashboard in the background while prompt open
+            topicDropdown.getSelectionModel().select("All Topics");
+            this.topic = "All Topics";
+
+            // Show prompt to add topic
+            String newTopic = displayAddTopic();
+
+            // If input is not empty, update topic dropdown accordingly, else, reset the dashboard
+            if (newTopic != null && !newTopic.trim().isEmpty()) {
+                onAddTopicEntered(newTopic);
+                topicDropdown.getSelectionModel().select(newTopic);
+                this.topic = newTopic;
+            } else {
+                // If user cancels or enters an empty topic, revert selection to "All Topics"
+                this.topic = "All Topics";
+            }
+            refreshTopicsDisplay(); // Update topics dropdown with the new topic
+            refreshQuizzesDisplay(); // Refresh quizzes to show those under new topic
+        } else {
+            this.topic = selectedValue; // For all other selections, update the topic field
+            refreshQuizzesDisplay();
+        }
     }
 
+    // Refreshes quizzes displayed based on currently selected topic
     private void refreshQuizzesDisplay() {
         // Clear existing quizzes from the display
         quizHistoryBox.getChildren().clear();
@@ -56,7 +84,7 @@ public class DashboardController {
         addQuizCard.setPrefHeight(150);
         addQuizCard.setStyle("-fx-background-color: #F2F2F2; -fx-padding: 10; -fx-background-radius: 10; -fx-cursor: hand;");
         Label plusSymbol = new Label("+");
-        Label cardText = new Label("Add a new quiz");
+        Label cardText = new Label("Add New Quiz");
         plusSymbol.setStyle("-fx-font-size: 30;");
         addQuizCard.getChildren().addAll(plusSymbol, cardText);
 
@@ -79,10 +107,10 @@ public class DashboardController {
 
         // Display all quizzes if topic not chosen, else, sort by topic
         if (topic == "All Topics") {
-            quizzes = new SQLiteQuizDAOLive().getAllQuizzesByCurrentUser();
+            quizzes = quizDAO.getAllQuizzesByCurrentUser();
         }
         else {
-            quizzes = new SQLiteQuizDAOLive().getAllQuizzesByTopicByCurrentUser(topic);
+            quizzes = quizDAO.getAllQuizzesByTopic(topic);
         }
 
         // Display the quizzes
@@ -110,15 +138,14 @@ public class DashboardController {
                 alert.setContentText("What would you like to do?");
 
                 // Ensure image path is correct, consider if it's always available
-                Image image = new Image(Objects.requireNonNull(getClass().getResource("/com/example/images/tutorworm-default.png")).toString());
                 ImageView imageView = new ImageView();
                 imageView.setFitWidth(50);
                 imageView.setFitHeight(50);
                 imageView.setPreserveRatio(true);
-                imageView.setImage(image);
+                imageView.setImage(popupIcon);
                 alert.setGraphic(imageView);
                 Stage confirm_window = (Stage) alert.getDialogPane().getScene().getWindow();
-                confirm_window.getIcons().add(image);
+                confirm_window.getIcons().add(popupIcon);
 
                 // Create custom button types
                 ButtonType takeQuizButton = new ButtonType("Take Quiz", ButtonBar.ButtonData.OK_DONE);
@@ -148,7 +175,7 @@ public class DashboardController {
                     stage.setScene(scene);
                     stage.setTitle("Quiz");
                 } else if (input.isPresent() && input.get() == deleteQuizButton) {
-                    new SQLiteQuizDAOLive().deleteQuiz(quiz);
+                    quizDAO.deleteQuiz(quiz);
 
                     // After deleting, refresh the display to reflect the change
                     // This will also re-filter based on the current topic
@@ -163,27 +190,110 @@ public class DashboardController {
         }
     }
 
+    // Refreshes topics dropdown box
+    private void refreshTopicsDisplay() {
+
+        // Create a ObservableList for ComboBox items
+        ObservableList<String> items = FXCollections.observableArrayList();
+
+        // Add both default options and user-defined topics to list
+        items.add("All Topics");
+        List<String> userDefinedTopics = quizDAO.getAllTopics();
+        items.addAll(userDefinedTopics);
+        items.add("Add New Topic");
+
+        // Set list of items to the dropdown (method prevents IndexOutOfBoundsException)
+        topicDropdown.setItems(items);
+
+        topicDropdown.getItems().add("All Topics");
+        topicDropdown.getItems().addAll(userDefinedTopics);
+        topicDropdown.getItems().add("+ Add New Topic");
+
+        deleteTopicButton.setVisible(!userDefinedTopics.isEmpty()); // Hide delete button if no topics to delete
+
+        // Ensures that items are fully added before selection attempt (fixes index out of bounds error)
+        Platform.runLater(() -> {
+            // Set the selected topic to current topic
+            if (topicDropdown.getItems().contains(this.topic)) {
+                topicDropdown.getSelectionModel().select(this.topic);
+            } else {
+                // If topic no longer exists, revert to "All Topics"
+                topicDropdown.getSelectionModel().select("All Topics");
+                this.topic = "All Topics";
+            }
+        });
+    }
+
+    // Displays text input dialog for user to enter a new topic
+    private String displayAddTopic() {
+        this.topic = "";
+        TextInputDialog addTopic = new TextInputDialog();
+        addTopic.setTitle("Add Topic");
+        addTopic.setHeaderText(null);
+        addTopic.setContentText("Please enter a new topic:");
+        addTopic.setGraphic(null);
+
+        Stage stage = (Stage) addTopic.getDialogPane().getScene().getWindow();
+        stage.getIcons().add(popupIcon);
+
+        // Show the dialog and wait for the user's response
+        Optional<String> result = addTopic.showAndWait();
+
+        return result.orElse(null); // Returns the value if present, otherwise null
+    }
+
+    // Shows simple message popup
+    public static void displayMessagePopup(Alert.AlertType type, String title, String message) {
+        Alert alert = new Alert(type);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.setGraphic(null);
+
+        Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
+        stage.getIcons().add(popupIcon);
+
+        alert.showAndWait(); // Show the alert and wait for it to be dismissed
+    }
+
+    // Adds new topic to database, displays popup to show if adding was successful or an error occurred
+    @FXML
+    private void onAddTopicEntered(String topic) {
+
+        boolean success = quizDAO.insertNewTopicIfNotExists(topic);
+        if (success) {
+            displayMessagePopup(INFORMATION, "Success", "Topic successfully added!");
+        } else {
+            displayMessagePopup(ERROR, "Error", "Topic failed to add or already exists.");
+        }
+
+        this.topic = topic;
+    }
+
+    // Deletes topic and related quizzes from the database and refreshes page
+    @FXML private void onDeleteTopicPressed() {
+        String topicToDelete = topicDropdown.getSelectionModel().getSelectedItem();
+        if (topicToDelete != null && !topicToDelete.equals("All Topics") && !topicToDelete.equals("+ Add New Topic")) {
+            quizDAO.deleteTopicAndRelatedQuizzes(topicToDelete);
+            refreshTopicsDisplay();
+            refreshQuizzesDisplay();
+        } else {
+            displayMessagePopup(Alert.AlertType.WARNING, "Deletion Warning", "Please select a specific topic (not 'All Topics' or '+ Add New Topic') to delete.");
+        }
+    }
+
     @FXML
     public void initialize() {
 
         Image img = new Image(getClass().getResource("/com/example/images/user-icon.png").toString());
         userIcon.setFill(new ImagePattern(img));
 
-        // list all of the topics that were added in the quiz init -- otherwise hide them
-        List<String> topics = new SQLiteQuizDAOLive().getAllTopicsByCurrentUser();
-        if (topics.isEmpty()) {
-            topicDropdown.setVisible(false);
-            viewProgressBtn.setVisible(false);
-        } else {
-            topicDropdown.getItems().addFirst("All Topics");
-            topicDropdown.getItems().addAll(topics);
-        }
-
+        refreshTopicsDisplay();
         refreshQuizzesDisplay();
 
         viewProgressBtn.setOnAction(event -> {
             String selectedTopic = topicDropdown.getValue();
-            if (selectedTopic != null) {
+            if (selectedTopic != null && !selectedTopic.equals("All Topics") && !selectedTopic.equals("+ Add New Topic")) {
                 System.out.println("Viewing progress for topic: " + selectedTopic);
                 try {
                     FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("progress-report-view.fxml"));
@@ -208,6 +318,9 @@ public class DashboardController {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+            }
+            else {
+                displayMessagePopup(ERROR, "Error", "Please select a topic first to view its progress!");
             }
         });
 

@@ -5,16 +5,13 @@ import com.example.quizapp.model.CurrentUser;
 import com.example.quizapp.model.SQLiteUserDAOLive;
 import com.example.quizapp.model.QuizAppAlert;
 import com.example.quizapp.model.User;
-import com.example.quizapp.controller.LoginController;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.stage.Stage;
-
 import java.io.IOException;
-import java.util.Objects;
 
 public class SettingsPasswordController {
     @FXML
