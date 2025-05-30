@@ -305,7 +305,7 @@ public class DashboardController {
                     loadingStage.show();
 
                     new Thread(() -> {
-                        List<QuizAttempt> quizAttempts = new SQLiteQuizAttemptDAOLive().getQuizAttemptsByTopic(topic);
+                        List<QuizAttempt> quizAttempts = new SQLiteQuizAttemptDAOLive().getQuizAttemptsByTopicByCurrentUser(topic);
                         controller.setCommentsAreaText(generateFeedback(quizAttempts));
                         Platform.runLater(() -> {
                             loadingStage.close();

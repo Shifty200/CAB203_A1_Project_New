@@ -133,14 +133,22 @@ public class SQLiteQuizAttemptDAOLive {
         return quiz_attempts;
     }
 
-    public List<QuizAttempt> getQuizAttemptsByTopic(String topic) {
+    public List<QuizAttempt> getQuizAttemptsByTopicByCurrentUser(String topic) {
         List<QuizAttempt> quiz_attempts = new ArrayList<>();
+        String currentUserName = CurrentUser.getInstance().getUserName();
         try {
-            PreparedStatement statement = connection.prepareStatement("SELECT quizzes.topic, quiz_attempts.* " +
-                    "FROM quiz_attempts " +
-                    "JOIN quizzes " +
-                    "ON quiz_attempts.quiz_id = quizzes.quiz_id " +
-                    "ORDER BY quizzes.topic;");
+            PreparedStatement statement = connection.prepareStatement(
+                    "SELECT q.topic, qa.* " +
+                            "FROM quiz_attempts qa " +
+                            "JOIN quizzes q " +
+                            "ON qa.quiz_id = q.quiz_id " +
+                            "WHERE qa.userName = ? AND q.topic = ? " +
+                            "ORDER BY q.topic;"
+            );
+
+            statement.setString(1, currentUserName);
+            statement.setString(2, topic);
+
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 if(!Objects.equals(resultSet.getString("topic"), topic)){

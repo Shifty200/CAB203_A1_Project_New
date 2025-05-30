@@ -46,7 +46,7 @@ public class ProgressReportController {
     public void setQuizTopic(String topic) {
         this.topic = topic;
         quizTopicLabel.setText("Progress Report: " + topic);
-        setLineChartData(new SQLiteQuizAttemptDAOLive().getQuizAttemptsByTopic(topic));
+        setLineChartData(new SQLiteQuizAttemptDAOLive().getQuizAttemptsByTopicByCurrentUser(topic));
     }
 
     // must be called before switching to this page
