@@ -23,7 +23,7 @@
     <center>
         <VBox spacing="40" style="-fx-padding: 20;">
             <Label id="larger-heading" text="MY QUIZZES" />
-            <VBox spacing="10" alignment="CENTER_LEFT">
+            <VBox spacing="5" alignment="CENTER_LEFT">
                 <Label text="Sort by:" />
                 <HBox spacing="20">
                     <ComboBox fx:id="topicDropdown" value="All Topics"
@@ -34,10 +34,10 @@
                 </HBox>
             </VBox>
             <HBox spacing="20" alignment="CENTER_LEFT">
-                <ScrollPane prefHeight="200" fitToHeight="true">
+                <ScrollPane prefHeight="200" fitToHeight="true" >
                     <HBox fx:id="quizHistoryBox"
                           spacing="20"
-                          style="-fx-padding: 20;">
+                          style="-fx-padding: 10;">
                     </HBox>
                 </ScrollPane>
             </HBox>
