@@ -205,10 +205,6 @@ public class DashboardController {
         // Set list of items to the dropdown (method prevents IndexOutOfBoundsException)
         topicDropdown.setItems(items);
 
-        topicDropdown.getItems().add("All Topics");
-        topicDropdown.getItems().addAll(userDefinedTopics);
-        topicDropdown.getItems().add("+ Add New Topic");
-
         deleteTopicButton.setVisible(!userDefinedTopics.isEmpty()); // Hide delete button if no topics to delete
 
         // Ensures that items are fully added before selection attempt (fixes index out of bounds error)
