@@ -198,9 +198,9 @@ public class DashboardController {
 
         // Add both default options and user-defined topics to list
         items.add("All Topics");
-        List<String> userDefinedTopics = quizDAO.getAllTopics();
+        List<String> userDefinedTopics = quizDAO.getAllTopicsByCurrentUser();
         items.addAll(userDefinedTopics);
-        items.add("Add New Topic");
+        items.add("+ Add New Topic");
 
         // Set list of items to the dropdown (method prevents IndexOutOfBoundsException)
         topicDropdown.setItems(items);

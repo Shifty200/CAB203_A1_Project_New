@@ -55,7 +55,7 @@ public class QuizInitController {
             }
         });
 
-        List<String> topicsFromDB = quizDAO.getAllTopics();
+        List<String> topicsFromDB = quizDAO.getAllTopicsByCurrentUser();
         topicDropdown.getItems().addAll(topicsFromDB);
         topicDropdown.setPromptText("Select Topic");
 

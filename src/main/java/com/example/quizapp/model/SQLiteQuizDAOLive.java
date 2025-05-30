@@ -124,12 +124,15 @@ public class SQLiteQuizDAOLive{
         return Collections.unmodifiableList(quizzes);
     }
 
-    public List<String> getAllTopics() {
+    public List<String> getAllTopicsByCurrentUser() {
         List<String> topics = new ArrayList<>();
         try {
-            Statement statement = connection.createStatement();
-            String query = "SELECT * FROM quizzes";
-            ResultSet resultSet = statement.executeQuery(query);
+            PreparedStatement statement = connection.prepareStatement("SELECT DISTINCT q.* " +
+                    "FROM quizzes q " +
+                    "JOIN quiz_attempts qa ON q.quiz_id = qa.quiz_id " +
+                    "WHERE qa.userName = ?;");
+            statement.setString(1, CurrentUser.getInstance().getUserName());
+            ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 String topic = resultSet.getString("topic");
                 if (!topics.contains(topic)){
