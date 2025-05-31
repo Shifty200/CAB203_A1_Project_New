@@ -1,10 +1,7 @@
 package com.example.quizapp.controller;
 
 import com.example.quizapp.HelloApplication;
-import com.example.quizapp.model.CurrentUser;
-import com.example.quizapp.model.SQLiteUserDAOLive;
-import com.example.quizapp.model.QuizAppAlert;
-import com.example.quizapp.model.User;
+import com.example.quizapp.model.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -15,7 +12,10 @@ import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 import java.io.IOException;
-import java.util.Objects;
+
+/**
+ * A class for interacting with the main view (Account) of the settings page of the Tutor Worm App
+ */
 
 public class SettingsController {
 
@@ -35,6 +35,9 @@ public class SettingsController {
     @FXML
     private Circle userIcon;
 
+    /**
+     * Initialises the Account page by setting the profile picture, username field and the current email.
+     */
     public void initialize() {
         Image img = new Image(getClass().getResource("/com/example/images/user-icon.png").toString());
         userIcon.setFill(new ImagePattern(img));
@@ -42,6 +45,9 @@ public class SettingsController {
         setEmailField();
     }
 
+    /**
+     * Handles returning to the Dashboard view from the settings page.
+     */
     public void settingsBackPressed(ActionEvent actionEvent) {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("/com/example/quizapp/dashboard.fxml"));
@@ -55,6 +61,9 @@ public class SettingsController {
         }
     }
 
+    /**
+     * Handles going to the Account view of the settings page.
+     */
     @FXML
     private void handleAccount() {
         try {
@@ -67,7 +76,9 @@ public class SettingsController {
         }
     }
 
-
+    /**
+     * Handles transitioning to the password changing view.
+     */
     @FXML
     private void handleToPasswordScreen() {
         try {
@@ -82,32 +93,30 @@ public class SettingsController {
     }
 
 
-
+    /**
+     * Handles changing the user's email in the database to the text in the email field of the settings Account view.
+     * The email must both be different to the user's current email and contain an '@' symbol.
+     */
     public void handleChangeEmail() throws IOException {
 
         User currentUser = CurrentUser.getInstance();
-        String currentUserName = currentUser.getUserName();
-        String currentPassword = currentUser.getPassword();
         String oldEmail = currentUser.getEmail();
 
         String newEmail = emailField.getText();
 
-        if (Objects.equals(oldEmail, newEmail)){
+        if (Settings.sameString(oldEmail, newEmail)){
             QuizAppAlert sameAlert = new QuizAppAlert();
             sameAlert.alert("Error", "Enter a new email", "This email is the same as the current email registered to this account. Please enter a different email.");
         }
-        else if (!newEmail.contains("@")){
+        else if (!Settings.validEmail(newEmail)){
             QuizAppAlert emailAlert = new QuizAppAlert();
             emailAlert.alert("Error", "Not Valid", "The email entered is not a valid email");
         }
         else{
-            User newUser = new User(currentUserName, currentPassword, newEmail);
-            new SQLiteUserDAOLive().updateUser(newUser);
-            setEmailField();
-
+            Settings.updateUserEmail(currentUser, newEmail);
             emailField.setPromptText(newEmail);
-            QuizAppAlert changedEmail = new QuizAppAlert();
-            changedEmail.alert("Email Changed", "Your email was successfully changed!", "");
+            new QuizAppAlert().alert("Email Changed", "Your email was successfully changed!", "You may need to log back in for changes to be displayed inside the app.");
+
             Stage stage = (Stage) changeEmailButton.getScene().getWindow();
             FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("settingsProfile-View.fxml"));
             Scene scene = new Scene(fxmlLoader.load(), HelloApplication.WIDTH, HelloApplication.HEIGHT);
@@ -116,11 +125,17 @@ public class SettingsController {
 
     }
 
+    /**
+     * Sets the settings page username text to the current user's username.
+     */
     public void setUsername() {
         String currentUsername = CurrentUser.getInstance().getUserName();
         usernameText.setText(currentUsername);
     }
 
+    /**
+     * Sets the settings page 'change email' prompt text to the current user's email.
+     */
     public void setEmailField(){
         String currentEmail = CurrentUser.getInstance().getEmail();
         emailField.setPromptText(currentEmail);
