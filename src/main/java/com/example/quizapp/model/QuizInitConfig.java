@@ -10,6 +10,7 @@ public class QuizInitConfig {
     private double difficulty;
     private String questionRange;
 
+
     public QuizInitConfig(File uploadedFile, double difficulty, String questionRange) {
         this.uploadedFile = uploadedFile;
         this.difficulty = difficulty;
@@ -37,13 +38,11 @@ public class QuizInitConfig {
 
             return fileContent;
         } catch (Exception e) {
-            quizAppAlert fileAlert = new quizAppAlert();
+            QuizAppAlert fileAlert = new QuizAppAlert();
             fileAlert.alert("File Error", "There was an error with this file!",e.getMessage());
 
             return null;
         }
 
     }
-
-
 }

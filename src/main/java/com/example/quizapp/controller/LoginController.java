@@ -10,6 +10,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
+import org.mindrot.jbcrypt.BCrypt;
 
 import java.io.IOException;
 
@@ -25,14 +26,14 @@ public class LoginController {
         String username = usernameField.getText();
         String password = passwordField.getText();
 
-        if (new SQLiteUserDAOLive().checkUserPresent(username) && new SQLiteUserDAOLive().getUser(username).getPassword().equals(password))
+        if (new SQLiteUserDAOLive().checkUserPresent(username) && verifyPassword(password,new SQLiteUserDAOLive().getUser(username).getPassword()))
         {
             System.out.println("Login successful!");
             User currentUser = new SQLiteUserDAOLive().getUser(username);
             CurrentUser.setInstance(currentUser);
             errorLabel.setVisible(false);
             try {
-                FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("/com/example/quizapp/Dashboard/Dashboard.fxml"));
+                FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("/com/example/quizapp/dashboard.fxml"));
                 Scene dashboardScene = new Scene(fxmlLoader.load(), HelloApplication.WIDTH, HelloApplication.HEIGHT);
                 Stage stage = (Stage) usernameField.getScene().getWindow();
                 stage.setScene(dashboardScene);
@@ -53,6 +54,19 @@ public class LoginController {
         Stage stage = (Stage) cancelButton.getScene().getWindow();
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("hello-view.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), HelloApplication.WIDTH, HelloApplication.HEIGHT);
+        stage.setTitle("TutorWorm");
         stage.setScene(scene);    }
+
+
+    public boolean verifyPassword(String inputPassword, String storedPassword) {
+        // Case 1: stored password looks like a bcrypt hash
+        if (storedPassword.startsWith("$2a$") || storedPassword.startsWith("$2b$") || storedPassword.startsWith("$2y$")) {
+            // Verify with bcrypt
+            return BCrypt.checkpw(inputPassword, storedPassword);
+        } else {
+            // Case 2: stored password is likely plain text
+            return inputPassword.equals(storedPassword);
+        }
+    }
 }
 

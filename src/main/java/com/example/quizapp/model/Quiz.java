@@ -1,6 +1,8 @@
 package com.example.quizapp.model;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Objects;
 
 public class Quiz {
@@ -13,17 +15,17 @@ public class Quiz {
     public Quiz() {
         this.quizName = "Quiz Name";
         this.topic = "Quiz Topic";
-        this.difficulty = "easy";
+        this.difficulty = "Easy";
     }
     public Quiz(String quizName) {
         this.quizName = quizName;
         this.topic = "Quiz Topic";
-        this.difficulty = "easy";
+        this.difficulty = "Easy";
     }
     public Quiz(String quizName, String topic) {
         this.quizName = quizName;
         this.topic = topic;
-        this.difficulty = "easy";
+        this.difficulty = "Easy";
     }
 
     public Quiz(String quizName, String topic, String difficulty) throws IllegalArgumentException {
@@ -68,11 +70,14 @@ public class Quiz {
         }
     }
 
-    public ArrayList<QuizQuestion> getQuestions() {
-        return questions;
+    public List<QuizQuestion> getQuestions() {
+        return Collections.unmodifiableList(questions);
     }
 
     public void setQuestions(ArrayList<QuizQuestion> questions) {
+        for (QuizQuestion question : questions) {
+            question.setQuiz(this);
+        }
         this.questions = questions;
     }
 
@@ -81,14 +86,39 @@ public class Quiz {
     }
 
     public void setQuestion(int questionIndex, QuizQuestion question) {
+        question.setQuiz(this);
         questions.set(questionIndex, question);
     }
 
     public void addQuestion(QuizQuestion question) {
+        question.setQuiz(this);
         questions.add(question);
     }
 
     public int getLength() {
         return questions.size();
+    }
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof Quiz quiz)) return false;
+        if (!(Objects.equals(getQuizName(), quiz.getQuizName())
+                && Objects.equals(getTopic(), quiz.getTopic())
+                && Objects.equals(getDifficulty(), quiz.getDifficulty())
+                && getLength() == quiz.getLength())) {
+            return false;
+        }
+        for (int i = 0; i < getLength(); i++) {
+            if (!Objects.equals(getQuestion(i), quiz.getQuestion(i))) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getQuizName(), getTopic(), getDifficulty(), getQuestions());
     }
 }

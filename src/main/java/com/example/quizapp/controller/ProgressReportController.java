@@ -1,9 +1,7 @@
 package com.example.quizapp.controller;
 
 import com.example.quizapp.HelloApplication;
-import com.example.quizapp.model.Quiz;
-import com.example.quizapp.model.QuizAttempt;
-import com.example.quizapp.model.QuizQuestion;
+import com.example.quizapp.model.*;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -14,7 +12,13 @@ import javafx.scene.control.*;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.concurrent.ThreadLocalRandom; // remove later
+
+import static com.example.quizapp.model.AIFeedbackGenerator.generateFeedback;
+
 
 public class ProgressReportController {
     @FXML
@@ -30,77 +34,56 @@ public class ProgressReportController {
     @FXML
     private Button dashboardButton;
 
-    public void initialize() {
-        commentsArea.setText("""
-Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-Eget dolor morbi non arcu risus. Quis lectus nulla at volutpat diam
-ut venenatis tellus in. Feugiat in fermentum posuere urna nec tincidunt
-praesent semper. Turpis tincidunt id aliquet risus feugiat in.
-Libero volutpat sed cras ornare. Facilisi morbi tempus iaculis urna.
-Bibendum est ultricies integer quis auctor. Eu augue ut lectus arcu.
-Tincidunt tortor aliquam nulla facilisi cras fermentum odio eu.
-Gravida neque convallis a cras. Elit ut aliquam purus sit.
-Suspendisse ultrices gravida dictum fusce ut placerat.
-Integer feugiat scelerisque varius morbi enim nunc.
-Amet justo donec enim diam vulputate ut pharetra.
-Sapien pellentesque habitant morbi tristique.
-Lorem sed risus ultricies tristique nulla aliquet.
-Elementum nibh tellus molestie nunc non blandit massa.""");
+    private String topic;
+    private Scene previousScene;
+    private String previousPage;
 
-        setLineChartData(generateQuizAttempts(10));
+    public void initialize() {
+
     }
 
-    public void setQuizTopicLabel(String topic) {
+    // must be called before switching to this page
+    public void setQuizTopic(String topic) {
+        this.topic = topic;
         quizTopicLabel.setText("Progress Report: " + topic);
+        setLineChartData(new SQLiteQuizAttemptDAOLive().getQuizAttemptsByTopicByCurrentUser(topic));
+    }
+
+    // must be called before switching to this page
+    public void setPreviousScene(Scene scene, String page) {
+        this.previousScene = scene;
+        this.previousPage = page;
     }
 
     public void setCommentsAreaText(String comments) {
         commentsArea.setText(comments);
     }
 
-    public void setLineChartData(QuizAttempt[] quizAttempts) {
+    public void setLineChartData(List<QuizAttempt> quizAttempts) {
+        QuizAttempt[] array = new QuizAttempt[quizAttempts.size()];
+        array = quizAttempts.toArray(array);
         XYChart.Series series = new XYChart.Series();
-        for (int i = 0; i < quizAttempts.length; i++) {
-            series.getData().add(new XYChart.Data(i + 1, quizAttempts[i].getScorePercentage()));
+        for (int i = 0; i < array.length; i++) {
+            series.getData().add(new XYChart.Data(i + 1, array[i].getScorePercentage()));
         }
-        attemptNumAxis.setUpperBound(quizAttempts.length);
+        attemptNumAxis.setUpperBound(quizAttempts.size());
         lineChart.getData().add(series);
     }
 
     @FXML
     private void onBackButtonPressed() throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("results-view.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), HelloApplication.WIDTH, HelloApplication.HEIGHT);
         Stage stage = (Stage) backButton.getScene().getWindow();
-        stage.setScene(scene);
-        stage.setTitle("Quiz Results");
+        stage.setScene(previousScene);
+        stage.setTitle(previousPage);
     }
 
     @FXML
     private void onDashboardButtonPressed() throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("/com/example/quizapp/Dashboard/Dashboard.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("/com/example/quizapp/dashboard.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), HelloApplication.WIDTH, HelloApplication.HEIGHT);
         Stage stage = (Stage) dashboardButton.getScene().getWindow();
         stage.setScene(scene);
         stage.setTitle("Dashboard");
     }
 
-    // generates an array of quiz attempts for testing -- delete later
-    public static QuizAttempt[] generateQuizAttempts(int numAttempts) {
-        QuizAttempt[] quizAttempts = new QuizAttempt[numAttempts];
-        Quiz quiz = new Quiz();
-        for (int i = 0; i < 4; i++) {
-            quiz.addQuestion(new QuizQuestion());
-        }
-        for (int i = 0; i < quizAttempts.length; i++) {
-            QuizAttempt attempt = new QuizAttempt(quiz);
-            for (int j = 0; j < attempt.getSelectedAnswers().length; j++) {
-                attempt.setSelectedAnswer(j, ThreadLocalRandom.current().nextInt(-1,
-                        attempt.getQuiz().getQuestion(j).getAnswersCount()));
-            }
-            quizAttempts[i] = attempt;
-        }
-        return quizAttempts;
-    }
 }

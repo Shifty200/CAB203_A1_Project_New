@@ -1,8 +1,11 @@
 package com.example.quizapp.controller;
 
 import com.example.quizapp.HelloApplication;
+import com.example.quizapp.model.QuizAppAlert;
 import com.example.quizapp.model.QuizAttempt;
 import com.example.quizapp.model.QuizQuestion;
+import com.example.quizapp.model.SQLiteQuizAttemptDAOLive;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -12,14 +15,15 @@ import javafx.scene.Scene;
 import javafx.scene.chart.PieChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
+import static com.example.quizapp.model.AIFeedbackGenerator.generateFeedback;
 import static javafx.scene.control.ScrollPane.ScrollBarPolicy.*;
 
 public class ResultsController {
@@ -57,12 +61,12 @@ public class ResultsController {
                 new PieChart.Data("Correct", score),
                 new PieChart.Data("Incorrect", quizLength - score));
         resultGraph.setData(pieChartData);
-        resultGraph.setLabelsVisible(true);
+        resultGraph.setLabelsVisible(false);
 
         // Code to display list of questions for this current quiz attempt
 
         // Get list of questions for current quiz attempt
-        ArrayList<QuizQuestion> questionsList = currentAttempt.getQuiz().getQuestions();
+        List<QuizQuestion> questionsList = currentAttempt.getQuiz().getQuestions();
 
         // Set up scroll pane to only scroll vertically as needed
         questions.setHbarPolicy(NEVER);
@@ -81,7 +85,9 @@ public class ResultsController {
 
             // Access and display question number and text for current question
             Label questionNumber = new Label("Question " + (i + 1));
+            questionNumber.setStyle("-fx-font-weight: 700");
             Label question = new Label(currentQuestion.getQuestionText());
+            question.setWrapText(true);
 
             // Group both into a container for each question
             questionContainer.getChildren().addAll(questionNumber, question);
@@ -106,6 +112,7 @@ public class ResultsController {
         Stage stage = (Stage) questionDetailsButton.getScene().getWindow();
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("question-details-view.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), HelloApplication.WIDTH, HelloApplication.HEIGHT);
+        stage.setTitle("Question Details");
         stage.setScene(scene);
     }
 
@@ -124,14 +131,28 @@ public class ResultsController {
     private void toProgressReport() throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("progress-report-view.fxml"));
         Scene progressReportPage = new Scene(fxmlLoader.load(), HelloApplication.WIDTH, HelloApplication.HEIGHT);
+        ProgressReportController controller = fxmlLoader.getController();
+        controller.setQuizTopic(currentAttempt.getQuiz().getTopic());
+        controller.setPreviousScene(progressReportButton.getScene(), "Results");
+
         Stage stage = (Stage) progressReportButton.getScene().getWindow();
         stage.setScene(progressReportPage);
         stage.setTitle("Progress Report");
+
+        Stage loadingStage = QuizAppAlert.loadingSpinner("Generating Feedback...", progressReportButton);
+        loadingStage.show();
+
+        new Thread(() -> {
+            controller.setCommentsAreaText(generateFeedback(currentAttempt));
+            Platform.runLater(() -> {
+                loadingStage.close();
+            });
+        }).start();
     }
 
     @FXML
     private void exitResults() throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("/com/example/quizapp/Dashboard/Dashboard.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("/com/example/quizapp/dashboard.fxml"));
         Scene dashboardStage = new Scene(fxmlLoader.load(), HelloApplication.WIDTH, HelloApplication.HEIGHT);
         Stage stage = (Stage) exitButton.getScene().getWindow();
         stage.setScene(dashboardStage);

@@ -1,10 +1,8 @@
 package com.example.quizapp.controller;
 
 import com.example.quizapp.HelloApplication;
-import com.example.quizapp.model.Quiz;
-import com.example.quizapp.model.QuizAttempt;
+import com.example.quizapp.model.*;
 
-import com.example.quizapp.model.QuizQuestion;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
@@ -13,6 +11,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.geometry.Insets;
 import javafx.scene.text.Font;
@@ -20,7 +20,6 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Optional;
 
 public class QuestionsController {
@@ -48,7 +47,7 @@ public class QuestionsController {
 
     private void updateTracker() {
         questionsAnsweredTracker.setText(
-                "Answered: " + quizAttempt.answeredQuestionsCount() + "/" + quizAttempt.getQuiz().getLength()
+                "Answered: " + quizAttempt.getAnsweredQuestionsCount() + "/" + quizAttempt.getQuiz().getLength()
         );
     }
 
@@ -58,8 +57,10 @@ public class QuestionsController {
 
         Label questionNumberLabel = new Label("Question " + (questionIndex + 1));
         questionNumberLabel.setFont(new Font(14));
+        questionNumberLabel.setStyle("-fx-font-weight: 700;");
         Label questionTextLabel = new Label(question.getQuestionText());
         questionTextLabel.setFont(new Font(14));
+        questionTextLabel.setWrapText(true);
 
         observableList.addAll(questionNumberLabel, questionTextLabel);
         ToggleGroup radioGroup = new ToggleGroup();
@@ -86,7 +87,7 @@ public class QuestionsController {
             }
         });
 
-        questionDisplay.setStyle("-fx-background-color: #dddddd");
+        questionDisplay.setStyle("-fx-background-color: #EAECEE; -fx-background-radius: 10;");
         questionDisplay.setSpacing(5);
         questionDisplay.setPadding(new Insets(10));
 
@@ -112,11 +113,20 @@ public class QuestionsController {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Confirm submission");
         alert.setHeaderText(null);
+        Image image = new Image(getClass().getResource("/com/example/images/tutorworm-incorrect.png").toString());
+        ImageView imageView = new ImageView();
+        imageView.setFitWidth(50);
+        imageView.setFitHeight(50);
+        imageView.setPreserveRatio(true);
+        imageView.setImage(image);
+        alert.setGraphic(imageView);
         ((Button) alert.getDialogPane().lookupButton(ButtonType.OK)).setText("Submit");
-        if (quizAttempt.answeredQuestionsCount() < quizAttempt.getQuiz().getLength()) {
+        Stage alert_window = (Stage) alert.getDialogPane().getScene().getWindow();
+        alert_window.getIcons().add(new Image(getClass().getResource("/com/example/images/tutorworm-default.png").toString()));
+        if (quizAttempt.getAnsweredQuestionsCount() < quizAttempt.getQuiz().getLength()) {
             alert.setContentText(
                     "You still have "
-                    + (quizAttempt.getQuiz().getLength() - quizAttempt.answeredQuestionsCount())
+                    + (quizAttempt.getQuiz().getLength() - quizAttempt.getAnsweredQuestionsCount())
                     + " unanswered questions.\n"
                     + "Unanswered questions will be marked incorrect.\n"
                     + "\nSubmit anyway?");
@@ -126,6 +136,8 @@ public class QuestionsController {
         Optional<ButtonType> buttonType = alert.showAndWait();
         if (buttonType.isPresent() && buttonType.get() == ButtonType.OK) {
             // Add result to database
+            new SQLiteQuizAttemptDAOLive().addQuizAttempt(quizAttempt);
+
             // Move to results page
             FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("results-view.fxml"));
             Scene resultsPage = new Scene(fxmlLoader.load(), HelloApplication.WIDTH, HelloApplication.HEIGHT);
@@ -139,14 +151,23 @@ public class QuestionsController {
     private void onDashboardButtonPressed() throws IOException {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Exit quiz?");
+        Image image = new Image(getClass().getResource("/com/example/images/tutorworm-incorrect.png").toString());
+        ImageView imageView = new ImageView();
+        imageView.setFitWidth(50);
+        imageView.setFitHeight(50);
+        imageView.setPreserveRatio(true);
+        imageView.setImage(image);
+        alert.setGraphic(imageView);
         alert.setHeaderText(null);
+        Stage alert_window = (Stage) alert.getDialogPane().getScene().getWindow();
+        alert_window.getIcons().add(new Image(getClass().getResource("/com/example/images/tutorworm-default.png").toString()));
         ((Button) alert.getDialogPane().lookupButton(ButtonType.OK)).setText("Exit");
         alert.setContentText(
                 "Your progress will not be saved.\nAre you sure you want to exit?"
         );
         Optional<ButtonType> buttonType = alert.showAndWait();
         if (buttonType.isPresent() && buttonType.get() == ButtonType.OK) {
-            FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("/com/example/quizapp/Dashboard/Dashboard.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("/com/example/quizapp/dashboard.fxml"));
             Scene dashboardPage = new Scene(fxmlLoader.load(), HelloApplication.WIDTH, HelloApplication.HEIGHT);
             Stage stage = (Stage) dashboardButton.getScene().getWindow();
             stage.setScene(dashboardPage);

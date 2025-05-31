@@ -28,8 +28,8 @@ public class HelloController {
 
     @FXML
     public void initialize() {
-        System.out.println("Looking for image at: " + getClass().getResource("/com/example/images/tutorwormdefault.png"));
-        Image image = new Image(getClass().getResource("/com/example/images/tutorwormdefault.png").toString());
+        System.out.println("Looking for image at: " + getClass().getResource("/com/example/images/tutorworm-default.png"));
+        Image image = new Image(getClass().getResource("/com/example/images/tutorworm-default.png").toString());
         tutorWorm.setImage(image);
 
     }
@@ -45,6 +45,7 @@ public class HelloController {
         Stage stage = (Stage) loginButton.getScene().getWindow();
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("login-view.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), HelloApplication.WIDTH, HelloApplication.HEIGHT);
+        stage.setTitle("Login");
         stage.setScene(scene);    }
 
     @FXML
@@ -52,6 +53,7 @@ public class HelloController {
         Stage stage = (Stage) signUpButton.getScene().getWindow();
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("signup-view.fxml"));
         Scene scene  = new Scene(fxmlLoader.load(), HelloApplication.WIDTH, HelloApplication.HEIGHT);
+        stage.setTitle("Sign up");
         stage.setScene(scene);
     }
 

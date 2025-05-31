@@ -42,6 +42,7 @@ public class SignUpController {
             Stage stage = (Stage) signupButton.getScene().getWindow();
             FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("hello-view.fxml"));
             Scene scene = new Scene(fxmlLoader.load(), HelloApplication.WIDTH, HelloApplication.HEIGHT);
+            stage.setTitle("TutorWorm");
             stage.setScene(scene);
 
         }
@@ -52,6 +53,7 @@ public class SignUpController {
         Stage stage = (Stage) cancelButton.getScene().getWindow();
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("hello-view.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), HelloApplication.WIDTH, HelloApplication.HEIGHT);
+        stage.setTitle("TutorWorm");
         stage.setScene(scene);    }
 
     private void showMessage(String message) {

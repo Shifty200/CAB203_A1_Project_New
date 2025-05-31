@@ -59,12 +59,6 @@ public class QuizTest {
         assertEquals(newDifficulty, quiz.getDifficulty());
     }
 
-    /*@Test
-    public void testInvalidDifficulty() {
-        Exception exception = new IllegalArgumentException("Unknown difficulty: '" + difficulty + "'. Difficulty must be 'easy', 'medium', or 'hard'.");
-        assertThrows(exception, quiz.setDifficulty(invalidDifficulty));
-    }*/
-
     @Test
     public void testGetQuestions() {
         assertNotNull(quiz.getQuestions());

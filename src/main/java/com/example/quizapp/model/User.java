@@ -1,7 +1,6 @@
 package com.example.quizapp.model;
 
 
-// User class with getters and setters for
 public class User {
     private String userName;
     private String password;

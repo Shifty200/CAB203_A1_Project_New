@@ -1,12 +1,15 @@
 package com.example.quizapp.model;
 
+import com.example.quizapp.controller.DashboardController;
+import javafx.scene.control.Alert;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
 
 public class SQLiteQuizDAOLive{
     private Connection connection;
@@ -44,6 +47,9 @@ public class SQLiteQuizDAOLive{
             if (generatedKeys.next()) {
                 quiz.setQuizID(generatedKeys.getInt(1));
             }
+            for (int i = 0; i< quiz.getLength(); i++) {
+                new SQLiteQuizQuestionDAOLive().addQuizQuestion(quiz.getQuestions().get(i));
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -78,12 +84,15 @@ public class SQLiteQuizDAOLive{
             PreparedStatement statement = connection.prepareStatement("SELECT * FROM quizzes WHERE quiz_id = ?");
             statement.setInt(1, quiz_id);
             ResultSet resultSet = statement.executeQuery();
+
             if (resultSet.next()) {
                 String quizName = resultSet.getString("quizName");
                 String topic = resultSet.getString("topic");
                 String difficulty = resultSet.getString("difficulty");
                 Quiz quiz = new Quiz(quizName, topic, difficulty);
-                quiz.setQuizID(quiz_id);
+
+                List<QuizQuestion> quiz_questions = new SQLiteQuizQuestionDAOLive().getQuizQuestionsByQuizId(quiz_id);
+                quiz.setQuestions((ArrayList<QuizQuestion>)quiz_questions);
                 return quiz;
             }
         } catch (Exception e) {
@@ -91,6 +100,7 @@ public class SQLiteQuizDAOLive{
         }
         return null;
     }
+
 
     public List<Quiz> getAllQuizzes() {
         List<Quiz> quizzes = new ArrayList<>();
@@ -105,6 +115,64 @@ public class SQLiteQuizDAOLive{
                 String difficulty = resultSet.getString("difficulty");
                 Quiz quiz = new Quiz(quizName, topic, difficulty);
                 quiz.setQuizID(id);
+                quiz.setQuestions(new SQLiteQuizQuestionDAOLive().getQuizQuestionsByQuizId(id));
+                quizzes.add(quiz);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return Collections.unmodifiableList(quizzes);
+    }
+
+    public List<String> getAllTopicsByCurrentUser() {
+        List<String> topics = new ArrayList<>();
+        try {
+            PreparedStatement statement = connection.prepareStatement("SELECT DISTINCT q.* " +
+                    "FROM quizzes q " +
+                    "JOIN quiz_attempts qa ON q.quiz_id = qa.quiz_id " +
+                    "WHERE qa.userName = ?;");
+            statement.setString(1, CurrentUser.getInstance().getUserName());
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                String topic = resultSet.getString("topic");
+                if (!topics.contains(topic)){
+                    topics.add(topic);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return Collections.unmodifiableList(topics);
+    }
+
+    public void deleteTopicAndRelatedQuizzes(String topic) {
+        try {
+            Statement statement = connection.createStatement();
+            String query = "DELETE FROM quizzes WHERE topic = '" + topic + "'";
+            statement.executeUpdate(query);
+            statement.close();
+            DashboardController.displayMessagePopup(Alert.AlertType.INFORMATION, "Deletion Complete",
+                    "Deleted quizzes for topic: '" + topic + "'");
+        } catch (Exception e) {
+            e.printStackTrace();
+            DashboardController.displayMessagePopup(Alert.AlertType.ERROR, "Deletion Failed", "Error deleting quizzes: " + e.getMessage());
+        }
+    }
+
+    public List<Quiz> getAllQuizzesByTopic(String selectedTopic) {
+        List<Quiz> quizzes = new ArrayList<>();
+        String query = "SELECT quiz_id, quizName, topic, difficulty FROM quizzes WHERE topic = '" + selectedTopic + "'";
+        try {
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery(query);
+            while (resultSet.next()) {
+                int id = resultSet.getInt("quiz_id");
+                String quizName = resultSet.getString("quizName");
+                String topic = resultSet.getString("topic");
+                String difficulty = resultSet.getString("difficulty");
+                Quiz quiz = new Quiz(quizName, topic, difficulty);
+                quiz.setQuizID(id);
+                quiz.setQuestions(new SQLiteQuizQuestionDAOLive().getQuizQuestionsByQuizId(id));
                 quizzes.add(quiz);
             }
         } catch (Exception e) {
@@ -113,6 +181,54 @@ public class SQLiteQuizDAOLive{
         return quizzes;
     }
 
+    public List<Quiz> getAllQuizzesByCurrentUser() {
+        List<Quiz> quizzes = new ArrayList<>();
+        try {
+            PreparedStatement statement = connection.prepareStatement("SELECT DISTINCT q.* " +
+                    "FROM quizzes q " +
+                    "JOIN quiz_attempts qa ON q.quiz_id = qa.quiz_id " +
+                    "WHERE qa.userName = ?;");
+            statement.setString(1, CurrentUser.getInstance().getUserName());
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                int id = resultSet.getInt("quiz_id");
+                String quizName = resultSet.getString("quizName");
+                String topic = resultSet.getString("topic");
+                String difficulty = resultSet.getString("difficulty");
+                Quiz quiz = new Quiz(quizName, topic, difficulty);
+                quiz.setQuizID(id);
+                quiz.setQuestions(new SQLiteQuizQuestionDAOLive().getQuizQuestionsByQuizId(id));
+                quizzes.add(quiz);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return Collections.unmodifiableList(quizzes);
+    }
+
+    public boolean insertNewTopicIfNotExists(String topic) {
+        try {
+            String checkQuery = "SELECT COUNT(*) FROM quizzes WHERE topic = ?";
+            PreparedStatement checkStmt = connection.prepareStatement(checkQuery);
+            checkStmt.setString(1, topic);
+            ResultSet rs = checkStmt.executeQuery();
+            if (rs.next() && rs.getInt(1) > 0) {
+                return false; // topic already exists
+            }
+
+            String insertQuery = "INSERT INTO quizzes (quizName, topic, difficulty) VALUES (?, ?, ?)";
+            PreparedStatement insertStmt = connection.prepareStatement(insertQuery);
+            insertStmt.setString(1, "Placeholder Quiz"); // required fields
+            insertStmt.setString(2, topic);
+            insertStmt.setString(3, "medium");
+            insertStmt.executeUpdate();
+
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 
 }
 

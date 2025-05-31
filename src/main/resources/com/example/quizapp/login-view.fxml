@@ -3,24 +3,29 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.geometry.Insets?>
-<?import javafx.geometry.Pos?>
 
-<VBox xmlns:fx="http://javafx.com/fxml" fx:controller="com.example.quizapp.controller.LoginController"
-      alignment="CENTER" spacing="15" prefWidth="300" prefHeight="250">
+<VBox xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.example.quizapp.controller.LoginController"
+      alignment="CENTER"
+      spacing="25"
+      prefWidth="300" prefHeight="250"
+      stylesheets="@../css/stylesheet.css">
 
     <padding>
         <Insets top="20" right="20" bottom="20" left="20"/>
     </padding>
 
-    <Label text="Login" style="-fx-font-size: 24px;"/>
+    <Label id="heading" text="Log into an existing account"/>
 
-    <TextField fx:id="usernameField" promptText="Username" />
-    <PasswordField fx:id="passwordField" promptText="Password" />
+    <TextField fx:id="usernameField" promptText="👤 Username"/>
+    <PasswordField fx:id="passwordField" promptText="🔑 Password"/>
 
-    <HBox spacing="10" alignment="CENTER">
-        <Button text="Login" onAction="#onLoginClick"/>
-        <Button fx:id = "cancelButton" text = "Cancel" onAction="#onCancelClick"/>
-    </HBox>
+    <VBox spacing="20" alignment="CENTER">
+        <Button text="Log in" onAction="#onLoginClick"/>
+    </VBox>
 
     <Label fx:id="errorLabel" textFill="red" visible="true"/>
+    <VBox>
+        <Button id="secondary-button" fx:id="cancelButton" text="⬅  Go back" onAction="#onCancelClick" translateX="10" translateY="100"/>
+    </VBox>
 </VBox>
