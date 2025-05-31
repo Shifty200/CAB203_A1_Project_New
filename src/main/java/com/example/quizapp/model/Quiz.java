@@ -15,17 +15,17 @@ public class Quiz {
     public Quiz() {
         this.quizName = "Quiz Name";
         this.topic = "Quiz Topic";
-        this.difficulty = "Easy";
+        this.difficulty = "easy";
     }
     public Quiz(String quizName) {
         this.quizName = quizName;
         this.topic = "Quiz Topic";
-        this.difficulty = "Easy";
+        this.difficulty = "easy";
     }
     public Quiz(String quizName, String topic) {
         this.quizName = quizName;
         this.topic = topic;
-        this.difficulty = "Easy";
+        this.difficulty = "easy";
     }
 
     public Quiz(String quizName, String topic, String difficulty) throws IllegalArgumentException {
