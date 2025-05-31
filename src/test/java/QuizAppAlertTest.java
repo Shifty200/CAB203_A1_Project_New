@@ -14,10 +14,8 @@ public class QuizAppAlertTest{
     @Test
     public void testQuizAppAlert() throws Exception {
         CountDownLatch latch = new CountDownLatch(1);
-        Platform.startup(() -> {}); // Start the JavaFX platform if not already started
+        //Platform.startup(() -> {}); // Start the JavaFX platform if not already started
         Platform.runLater(() -> {
-
-
             try {
                 QuizAppAlert testAlert = new QuizAppAlert();
                 Alert alert = testAlert.createAlert("Test Title", "Test Header", "Test Content");
