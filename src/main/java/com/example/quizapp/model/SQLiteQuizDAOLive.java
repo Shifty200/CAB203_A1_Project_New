@@ -216,12 +216,11 @@ public class SQLiteQuizDAOLive{
                 return false; // topic already exists
             }
 
-            String insertQuery = "INSERT INTO quizzes (quizName, topic, difficulty) VALUES (?, ?, ?)";
-            PreparedStatement insertStmt = connection.prepareStatement(insertQuery);
-            insertStmt.setString(1, "Placeholder Quiz"); // required fields
-            insertStmt.setString(2, topic);
-            insertStmt.setString(3, "medium");
-            insertStmt.executeUpdate();
+            Quiz placeholderQuiz = new Quiz("Placeholder Quiz", topic);
+            placeholderQuiz.addQuestion(new QuizQuestion());
+            QuizAttempt placeholderAttempt = new QuizAttempt(placeholderQuiz);
+            addQuiz(placeholderQuiz);
+            new SQLiteQuizAttemptDAOLive().addQuizAttempt(placeholderAttempt);
 
             return true;
         } catch (Exception e) {

@@ -57,7 +57,6 @@ public class DashboardController {
             // If input is not empty, update topic dropdown accordingly, else, reset the dashboard
             if (newTopic != null && !newTopic.trim().isEmpty()) {
                 onAddTopicEntered(newTopic);
-                topicDropdown.getSelectionModel().select(newTopic);
                 this.topic = newTopic;
             } else {
                 // If user cancels or enters an empty topic, revert selection to "All Topics"
