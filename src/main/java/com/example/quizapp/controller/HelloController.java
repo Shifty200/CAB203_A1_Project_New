@@ -13,12 +13,11 @@ import javafx.scene.image.Image;
 
 import java.io.IOException;
 
+/**
+ * A class handling FXML for the initial landing page of the Tutor Worm app.
+ */
 public class HelloController {
 
-    @FXML
-    private CheckBox agreeCheckBox;
-    @FXML
-    private Button nextButton;
     @FXML
     private ImageView tutorWorm;
     @FXML
@@ -26,6 +25,9 @@ public class HelloController {
     @FXML
     private Button signUpButton;
 
+    /**
+     * Initialises the landing view by setting the tutorWorm image.
+     */
     @FXML
     public void initialize() {
         System.out.println("Looking for image at: " + getClass().getResource("/com/example/images/tutorworm-default.png"));
@@ -34,40 +36,29 @@ public class HelloController {
 
     }
 
-    @FXML
-    protected void onAgreeCheckBoxClick() {
-        boolean accepted = agreeCheckBox.isSelected();
-        nextButton.setDisable(!accepted);
-    }
-
+    /**
+     * Transitions to the login view
+     * @throws IOException
+     */
     @FXML
     protected void onLoginClick() throws IOException {
         Stage stage = (Stage) loginButton.getScene().getWindow();
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("login-view.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), HelloApplication.WIDTH, HelloApplication.HEIGHT);
         stage.setTitle("Login");
-        stage.setScene(scene);    }
+        stage.setScene(scene);
+    }
 
+    /**
+     * Transitions to the signUp view
+     * @throws IOException
+     */
     @FXML
-    protected void onSignUpClick() throws IOException{
+    protected void onSignUpClick() throws IOException {
         Stage stage = (Stage) signUpButton.getScene().getWindow();
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("signup-view.fxml"));
-        Scene scene  = new Scene(fxmlLoader.load(), HelloApplication.WIDTH, HelloApplication.HEIGHT);
+        Scene scene = new Scene(fxmlLoader.load(), HelloApplication.WIDTH, HelloApplication.HEIGHT);
         stage.setTitle("Sign up");
         stage.setScene(scene);
-    }
-
-    @FXML
-    protected void onNextButtonClick() throws IOException {
-        Stage stage = (Stage) nextButton.getScene().getWindow();
-        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("main-view.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), HelloApplication.WIDTH, HelloApplication.HEIGHT);
-        stage.setScene(scene);
-    }
-
-    @FXML
-    protected void onCancelButtonClick() {
-        Stage stage = (Stage) nextButton.getScene().getWindow();
-        stage.close();
     }
 }

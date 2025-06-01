@@ -14,6 +14,9 @@ import org.mindrot.jbcrypt.BCrypt;
 
 import java.io.IOException;
 
+/**
+ * A class to manage the FXML involved with a user logging into the Tutor Worm app.
+ */
 public class LoginController {
 
     @FXML private TextField usernameField;
@@ -21,6 +24,10 @@ public class LoginController {
     @FXML private Label errorLabel;
     @FXML private Button cancelButton;
 
+    /**
+     * Handles verifying credentials and transitioning to the main dashboard view of the Tutor Worm app.
+     * The usernameField and passwordField must contain the correct credentials for an existing user in the database.
+     */
     @FXML
     private void onLoginClick() {
         String username = usernameField.getText();
@@ -49,6 +56,10 @@ public class LoginController {
         }
     }
 
+    /**
+     * Handles returning to the initial login screen of the Tutor Worm application.
+     * @throws IOException
+     */
     @FXML
     private void onCancelClick() throws IOException {
         Stage stage = (Stage) cancelButton.getScene().getWindow();
@@ -58,6 +69,13 @@ public class LoginController {
         stage.setScene(scene);    }
 
 
+    /**
+     * Method that checks if a password is correct.
+     * Checks both hashed passwords and older passwords that are plain text.
+     * @param inputPassword the plaintext password given by the user
+     * @param storedPassword the stored password that is either plaintext or a hash.
+     * @return True if the supplied inputPassword matches the storedPassword.
+     */
     public boolean verifyPassword(String inputPassword, String storedPassword) {
         // Case 1: stored password looks like a bcrypt hash
         if (storedPassword.startsWith("$2a$") || storedPassword.startsWith("$2b$") || storedPassword.startsWith("$2y$")) {
