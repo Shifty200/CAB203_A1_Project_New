@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.image.ImageView?>
+
+<VBox xmlns="http://javafx.com/javafx/17.0.12"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.example.quizapp.controller.HelloController"
+      alignment="CENTER"
+      spacing="40.0"
+      stylesheets="@../css/stylesheet.css"
+>
+    <padding>
+        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
+    </padding>
+
+    <Label id="welcome-heading" alignment="CENTER" contentDisplay="CENTER" text="Welcome to TutorWorm!" textAlignment="CENTER" wrapText="true"/>
+    <HBox spacing="10" alignment="CENTER">
+        <ImageView fx:id="tutorWorm" fitWidth="100" fitHeight="100" preserveRatio="true"/>
+    </HBox>
+    <VBox alignment="CENTER" spacing="20.0">
+        <Button fx:id="loginButton" onAction="#onLoginClick" text="Log in"/>
+        <Button fx:id="signUpButton" onAction="#onSignUpClick" text="Sign up"/>
+    </VBox>
+
+</VBox>

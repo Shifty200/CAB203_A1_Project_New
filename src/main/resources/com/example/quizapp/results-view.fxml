@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.chart.PieChart?>
+<VBox spacing="20.0" xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.example.quizapp.controller.ResultsController"
+      stylesheets="@../css/stylesheet.css">
+    <padding>
+        <Insets bottom="30.0" left="30.0" right="30.0" top="30.0"/>
+    </padding>
+    <Label id="heading">Your Results</Label>
+    <VBox spacing="20">
+        <HBox alignment="CENTER_RIGHT" spacing="20">
+            <Button id="small-button" fx:id="retakeQuizButton" onAction="#backToQuiz">Retake quiz</Button>
+            <Button id="small-button" fx:id="exitButton" onAction="#exitResults" text="To dashboard" style="-fx-background-color: #17202A"/>
+        </HBox>
+        <HBox alignment="CENTER">
+            <PieChart fx:id="resultGraph"/>
+            <Label id="larger-heading" fx:id="currentResult" style="-fx-font-size: 40; -fx-padding: 15; -fx-border-color: #17202A; -fx-border-radius: 10;"/>
+        </HBox>
+        <HBox alignment="CENTER_RIGHT" spacing="20">
+            <Button id="small-button" fx:id="progressReportButton" onAction="#toProgressReport">View progress</Button>
+            <Button id="small-button" fx:id="questionDetailsButton" onAction="#toQuestionDetails">View questions</Button>
+        </HBox>
+        <Label id="bolded-text">Questions</Label>
+        <ScrollPane id="questions-list" fx:id="questions"/>
+    </VBox>
+</VBox>

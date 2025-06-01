@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"m":"com.example.quizapp","l":"com.example.quizapp"},{"m":"com.example.quizapp","l":"com.example.quizapp.controller"},{"m":"com.example.quizapp","l":"com.example.quizapp.model"}];updateSearchResults();
