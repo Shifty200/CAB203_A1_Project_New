@@ -8,6 +8,10 @@ import org.json.JSONObject;
 public class QuizAppUtil {
     // reverse the Array.toString method for an array of ints
     // from https://stackoverflow.com/questions/456367/reverse-parse-the-output-of-arrays-tostringint
+    /**
+     * This is a test.
+     * @param string Test
+     */
     public static int[] fromString(String string) {
         String[] strings = string.replace("[", "").replace("]", "").split(", ");
         int[] result = new int[strings.length];
