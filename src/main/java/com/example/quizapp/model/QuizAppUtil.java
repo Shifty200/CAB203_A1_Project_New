@@ -9,8 +9,8 @@ public class QuizAppUtil {
     // reverse the Array.toString method for an array of ints
     // from https://stackoverflow.com/questions/456367/reverse-parse-the-output-of-arrays-tostringint
     /**
-     * This is a test.
-     * @param string Test
+     * reverse the Array.toString method for an array of ints
+     * @param string The input string
      */
     public static int[] fromString(String string) {
         String[] strings = string.replace("[", "").replace("]", "").split(", ");
@@ -21,7 +21,14 @@ public class QuizAppUtil {
         return result;
     }
 
-    // gets the ai response and turns it into questions
+    /**
+     * gets the AI response and turns it into questions
+     * @param response The JSON response from the AI
+     * @param quizName The name of the quiz
+     * @param topic The topic name of the quiz
+     * @param difficulty The difficulty of the quiz
+     * @return The quiz object with the generated questions.
+     */
     public static Quiz parseAIResponse(String response, String quizName, String topic, String difficulty) {
         Quiz quiz = new Quiz(quizName, topic, difficulty);
 
