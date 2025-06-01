@@ -1,5 +1,4 @@
 package com.example.quizapp.model;
-
 import java.util.Arrays;
 
 public class QuizAttempt {

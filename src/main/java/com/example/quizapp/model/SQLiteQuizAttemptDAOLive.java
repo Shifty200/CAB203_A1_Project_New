@@ -1,5 +1,4 @@
 package com.example.quizapp.model;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -11,6 +10,10 @@ import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+
+/**
+ * A class for adding and retrieving quizes from the database.
+ */
 public class SQLiteQuizAttemptDAOLive {
     private Connection connection;
 
@@ -19,6 +22,9 @@ public class SQLiteQuizAttemptDAOLive {
         createTable();
     }
 
+    /**
+     * Method that creates a quiz_attempts table in the database if one is not already present.
+     */
     private void createTable() {
         try {
             Statement statement = connection.createStatement();
@@ -36,6 +42,10 @@ public class SQLiteQuizAttemptDAOLive {
         }
     }
 
+    /**
+     * Adds a quiz attempt to the quiz_attempts table in the database.
+     * @param quizAttempt the quizAttempt object to add to the database
+     */
     public void addQuizAttempt(QuizAttempt quizAttempt) {
         try {
             PreparedStatement statement = connection.prepareStatement("INSERT INTO quiz_attempts (quiz_id, selected_answers, userName) VALUES (?, ?, ?)");
@@ -53,6 +63,10 @@ public class SQLiteQuizAttemptDAOLive {
         }
     }
 
+    /**
+     * Updates a quiz attempt in the database.
+     * @param quizAttempt the quiz attempt to update the database with
+     */
     public void updateQuizAttempt(QuizAttempt quizAttempt) {
         try {
             PreparedStatement statement = connection.prepareStatement("UPDATE quiz_attempts SET quiz_id = ?, selected_answers = ?, userName = ? WHERE id = ?");
@@ -66,6 +80,10 @@ public class SQLiteQuizAttemptDAOLive {
         }
     }
 
+    /**
+     * Deletes a quiz attempt from the database.
+     * @param quizAttempt the quiz attempt to delete
+     */
     public void deleteQuizAttempt(QuizAttempt quizAttempt) {
         try {
             PreparedStatement statement = connection.prepareStatement("DELETE FROM quiz_attempts WHERE id = ?");
@@ -76,6 +94,11 @@ public class SQLiteQuizAttemptDAOLive {
         }
     }
 
+    /**
+     * Retrieves a quiz attempt from the database using its ID.
+     * @param quiz_attempt_id the quizAttempt ID for the quiz attempt wanting to be retrieved
+     * @return the quizAttempt object that matches the supplied ID.
+     */
     public QuizAttempt getQuizAttempt(int quiz_attempt_id) {
         try {
             PreparedStatement statement = connection.prepareStatement("SELECT * FROM quiz_attempts WHERE id = ?");
@@ -104,6 +127,10 @@ public class SQLiteQuizAttemptDAOLive {
         return null;
     }
 
+    /**
+     * Retrieves all quiz attempts.
+     * @return all quiz attempts in a list.
+     */
     public List<QuizAttempt> getAllQuizAttempts() {
         List<QuizAttempt> quiz_attempts = new ArrayList<>();
         try {
@@ -133,6 +160,11 @@ public class SQLiteQuizAttemptDAOLive {
         return quiz_attempts;
     }
 
+    /**
+     * Returns all quiz attempts on a specific topic.
+     * @param topic the title of the topic
+     * @return A list of all quiz attempts for the requested topic.
+     */
     public List<QuizAttempt> getQuizAttemptsByTopicByCurrentUser(String topic) {
         List<QuizAttempt> quiz_attempts = new ArrayList<>();
         String currentUserName = CurrentUser.getInstance().getUserName();
@@ -171,8 +203,11 @@ public class SQLiteQuizAttemptDAOLive {
     }
 
 
-
-    // added a method to get the score to display on the dashboard history
+    /**
+     * Gets a score for quiz attempt.
+     * @param quizId The ID of the quiz to retrieve the score for
+     * @return a String in the format "correct/total" (e.g. 7/10) representing the number of correct answers out of total questions, or "Not attempted" if there is no quiz.
+     */
     public String getScoreForQuiz(int quizId) {
         try {
             PreparedStatement statement = connection.prepareStatement(

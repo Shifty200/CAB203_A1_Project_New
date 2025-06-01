@@ -18,7 +18,9 @@ public class SQLiteQuizDAOLive{
         connection = SQLiteUserConnectionLive.getInstance();
         createTable();
     }
-
+    /**
+     * Method that creates a "quizzes" table in the database if one is not already present.
+     */
     private void createTable() {
         try {
             Statement statement = connection.createStatement();
@@ -34,7 +36,10 @@ public class SQLiteQuizDAOLive{
         }
     }
 
-
+    /**
+     * Adds a quiz to the database.
+     * @param quiz The quiz object to add to the quizzes table.
+     */
     public void addQuiz(Quiz quiz) {
         try {
             PreparedStatement statement = connection.prepareStatement("INSERT INTO quizzes (quizName, topic, difficulty) VALUES (?, ?, ?)");
@@ -55,7 +60,10 @@ public class SQLiteQuizDAOLive{
         }
     }
 
-
+    /**
+     * A method to update a quiz in the database.
+     * @param quiz The quiz object to update the database with
+     */
     public void updateQuiz(Quiz quiz) {
         try {
             PreparedStatement statement = connection.prepareStatement("UPDATE quizzes SET quizName = ?, topic = ?, difficulty = ? WHERE quiz_id = ?");
@@ -69,6 +77,10 @@ public class SQLiteQuizDAOLive{
         }
     }
 
+    /**
+     * Deletes a quiz from the database.
+     * @param quiz The quiz object to be deleted.
+     */
     public void deleteQuiz(Quiz quiz) {
         try {
             PreparedStatement statement = connection.prepareStatement("DELETE FROM quizzes WHERE quiz_id = ?");
@@ -78,7 +90,11 @@ public class SQLiteQuizDAOLive{
             e.printStackTrace();
         }
     }
-
+    /**
+     * Retrieves a quiz from the database using its ID.
+     * @param quiz_id the quiz ID for the quiz wanting to be retrieved
+     * @return the quiz object that matches the supplied ID.
+     */
     public Quiz getQuiz(int quiz_id) {
         try {
             PreparedStatement statement = connection.prepareStatement("SELECT * FROM quizzes WHERE quiz_id = ?");
@@ -101,7 +117,10 @@ public class SQLiteQuizDAOLive{
         return null;
     }
 
-
+    /**
+     * Retrieves a list of all quizzes in the database.
+     * @return the list of quizzes
+     */
     public List<Quiz> getAllQuizzes() {
         List<Quiz> quizzes = new ArrayList<>();
         try {
@@ -123,7 +142,10 @@ public class SQLiteQuizDAOLive{
         }
         return Collections.unmodifiableList(quizzes);
     }
-
+    /**
+     * Returns all quiz topics made by the current user.
+     * @return A list of all the user's topics
+     */
     public List<String> getAllTopicsByCurrentUser() {
         List<String> topics = new ArrayList<>();
         try {
@@ -145,6 +167,10 @@ public class SQLiteQuizDAOLive{
         return Collections.unmodifiableList(topics);
     }
 
+    /**
+     * Deletes a topic from the user's topics and all the quizzes related to that topic in the database.
+     * @param topic The name of the topic to delete for the current user
+     */
     public void deleteTopicAndRelatedQuizzes(String topic) {
         try {
             Statement statement = connection.createStatement();
@@ -181,6 +207,10 @@ public class SQLiteQuizDAOLive{
         return quizzes;
     }
 
+    /**
+     * Returns a list of all the quizzes that the user has attempted
+     * @return a list of quiz objects including their questions.
+     */
     public List<Quiz> getAllQuizzesByCurrentUser() {
         List<Quiz> quizzes = new ArrayList<>();
         try {
@@ -206,6 +236,11 @@ public class SQLiteQuizDAOLive{
         return Collections.unmodifiableList(quizzes);
     }
 
+    /**
+     * Checks if a topic already exists and adds it to the user's topics if it doesn't.
+     * @param topic the name of the topic to add
+     * @return True if a topic does not exist and creates the topic in the database for the user. If the topic already exists, or there was an error, it returns False.
+     */
     public boolean insertNewTopicIfNotExists(String topic) {
         try {
             String checkQuery = "SELECT COUNT(*) FROM quizzes WHERE topic = ?";
