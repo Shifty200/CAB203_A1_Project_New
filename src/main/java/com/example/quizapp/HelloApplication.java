@@ -10,7 +10,8 @@ import java.io.IOException;
 import java.util.Objects;
 
 /**
- * A class for handling the initialisation of the Tutor Worm app.
+ * The main class for the Tutor Worm app.
+ * This class contains constants required and handles the applications initialisation.
  */
 public class HelloApplication extends Application {
     // Constants defining the window title and size
@@ -20,7 +21,6 @@ public class HelloApplication extends Application {
 
     /**
      * Starts the application and shows the landing page view.
-     * @param stage
      * @throws IOException
      */
     @Override
@@ -35,7 +35,7 @@ public class HelloApplication extends Application {
     }
 
     /**
-     * Tutor Worm program starting point.
+     * Tutor Worm program entry point to start the JavaFX app.
      */
     public static void main(String[] args) {
         launch();
