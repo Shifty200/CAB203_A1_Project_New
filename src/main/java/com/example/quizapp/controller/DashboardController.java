@@ -114,6 +114,7 @@ public class DashboardController {
 
         // Display the quizzes
         for (Quiz quiz : quizzes) {
+            if (Objects.equals(quiz.getQuizName(), "Placeholder Quiz")) continue;
             VBox card = new VBox();
             card.setSpacing(5);
             card.setStyle("-fx-background-color: #F2F2F2; -fx-padding: 10; -fx-background-radius: 10; -fx-cursor: hand");

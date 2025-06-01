@@ -18,6 +18,7 @@ import com.example.quizapp.model.SQLiteQuizDAOLive;
 
 import java.io.File;
 import java.util.List;
+import java.util.Objects;
 
 import static com.example.quizapp.model.QuizInitConfig.readLinesFromFile;
 
@@ -92,6 +93,10 @@ public class QuizInitController {
             String enteredTitle = quizTitle.getText();
             if (enteredTitle == null || enteredTitle.trim().isEmpty()) {
                 errorLabel.setText("Please enter a quiz title.");
+                errorLabel.setVisible(true);
+                return;
+            } else if (Objects.equals(enteredTitle, "Placeholder Quiz")) {
+                errorLabel.setText("Entered quiz title is not allowed. Please enter a different title.");
                 errorLabel.setVisible(true);
                 return;
             }

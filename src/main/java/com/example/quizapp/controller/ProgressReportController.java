@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.ThreadLocalRandom; // remove later
 
 import static com.example.quizapp.model.AIFeedbackGenerator.generateFeedback;
@@ -46,7 +47,13 @@ public class ProgressReportController {
     public void setQuizTopic(String topic) {
         this.topic = topic;
         quizTopicLabel.setText("Progress Report: " + topic);
-        setLineChartData(new SQLiteQuizAttemptDAOLive().getQuizAttemptsByTopicByCurrentUser(topic));
+        List<QuizAttempt> attempts = new SQLiteQuizAttemptDAOLive().getQuizAttemptsByTopicByCurrentUser(topic);
+        for (QuizAttempt attempt : attempts) {
+            if (Objects.equals(attempt.getQuizName(), "Placeholder Quiz")) {
+                attempts.remove(attempt);
+            }
+        }
+        setLineChartData(attempts);
     }
 
     // must be called before switching to this page
