@@ -8,6 +8,9 @@ import java.net.URL;
 import java.util.List;
 import java.util.ArrayList; // Will use ArrayList to store incorrect question details
 
+/**
+ * A class that contains methods to generate AI feedback using Ollama3.2
+ */
 public class AIFeedbackGenerator {
 
     /**
