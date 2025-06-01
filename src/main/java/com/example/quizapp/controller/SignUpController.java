@@ -35,6 +35,8 @@ public class SignUpController {
             showMessage("Passwords do not match.");
         } else if (!email.contains("@")) {
             showMessage("Invalid email format.");
+        } else if (new SQLiteUserDAOLive().checkUserPresent(username)){
+            showMessage("This username already exists.");
         } else {
             new SQLiteUserDAOLive().addUser(new User(username,password, email));
             System.out.println("Sign-up successful for user: " + username);

@@ -12,11 +12,14 @@ import java.util.regex.Pattern;
 
 
 /**
- * A class for adding and retrieving quizes from the database.
+ * A class for interacting with quiz attempts and the database
  */
 public class SQLiteQuizAttemptDAOLive {
     private Connection connection;
 
+    /**
+     * Initialises the database connection
+     */
     public SQLiteQuizAttemptDAOLive() {
         connection = SQLiteUserConnectionLive.getInstance();
         createTable();

@@ -10,10 +10,15 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
+/**
+ *A class containing methods for interacting with quizzes and the database
+ */
 public class SQLiteQuizDAOLive{
     private Connection connection;
 
+    /**
+     * Initialises the database connection
+     */
     public SQLiteQuizDAOLive() {
         connection = SQLiteUserConnectionLive.getInstance();
         createTable();

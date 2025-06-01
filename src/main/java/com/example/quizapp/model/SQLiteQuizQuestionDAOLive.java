@@ -11,14 +11,22 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * A class for interacting with quiz questions and the database.
+ */
 public class SQLiteQuizQuestionDAOLive {
     private Connection connection;
 
+    /**
+     * Initialises the database connection
+     */
     public SQLiteQuizQuestionDAOLive() {
         connection = SQLiteUserConnectionLive.getInstance();
         createTable();
     }
-
+    /**
+     * Method that creates a "quiz_questions" table in the database if one is not already present.
+     */
     private void createTable() {
         try {
             Statement statement = connection.createStatement();
@@ -36,6 +44,10 @@ public class SQLiteQuizQuestionDAOLive {
         }
     }
 
+    /**
+     * Adds a quiz question to the database.
+     * @param quizQuestion The quizQuestion object to add to the quiz_questions table.
+     */
     public void addQuizQuestion(QuizQuestion quizQuestion) {
         try {
             PreparedStatement statement = connection.prepareStatement("INSERT INTO quiz_questions (quiz_id, questionText, answerText, correctAnswer) VALUES (?, ?, ?, ?)");
@@ -53,7 +65,10 @@ public class SQLiteQuizQuestionDAOLive {
             e.printStackTrace();
         }
     }
-
+    /**
+     * A method to update a quiz question in the database.
+     * @param quizQuestion The question object to update the database with
+     */
     public void updateQuizQuestion(QuizQuestion quizQuestion) {
         try {
             PreparedStatement statement = connection.prepareStatement("UPDATE quiz_questions SET quiz_id = ?, questionText = ?, answerText = ?, correctAnswer WHERE id = ?");
@@ -67,7 +82,10 @@ public class SQLiteQuizQuestionDAOLive {
             e.printStackTrace();
         }
     }
-
+    /**
+     * Deletes a question from the database.
+     * @param quizQuestion The quizQuestion object to be deleted.
+     */
     public void deleteQuizQuestion(QuizQuestion quizQuestion) {
         try {
             PreparedStatement statement = connection.prepareStatement("DELETE FROM quiz_questions WHERE id = ?");
@@ -78,6 +96,11 @@ public class SQLiteQuizQuestionDAOLive {
         }
     }
 
+    /**
+     * Retrieves a quiz question from the database corresponding to the supplied ID
+     * @param quiz_question_id The ID for the quiz question to be returned
+     * @return a quizQuestion object that matches the ID given.
+     */
     public QuizQuestion getQuizQuestion(int quiz_question_id) {
         try {
             PreparedStatement statement = connection.prepareStatement("SELECT * FROM quiz_questions WHERE id = ?");
@@ -102,6 +125,10 @@ public class SQLiteQuizQuestionDAOLive {
         return null;
     }
 
+    /**
+     * Retrieves all quiz questions from the database
+     * @return A list of all quiz questions in the database
+     */
     public List<QuizQuestion> getAllQuizQuestions() {
         List<QuizQuestion> quiz_questions = new ArrayList<>();
         try {
@@ -127,6 +154,11 @@ public class SQLiteQuizQuestionDAOLive {
         return Collections.unmodifiableList(quiz_questions);
     }
 
+    /**
+     * Returns a list of quiz questions that belong to a specific quiz.
+     * @param quiz_id The ID of the quiz to retrieve the questions of
+     * @return the quiz questions for the corresponding quiz.
+     */
     public ArrayList<QuizQuestion> getQuizQuestionsByQuizId(int quiz_id) {
         ArrayList<QuizQuestion> quiz_questions = new ArrayList<>();
         try {

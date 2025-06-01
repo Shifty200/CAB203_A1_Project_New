@@ -3,9 +3,15 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+/**
+ * Singleton management of the Tutor Worm database.
+ */
 public class SQLiteUserConnectionLive {
     private static Connection instance = null;
 
+    /**
+     * Establishes a connection with the database.
+     */
     private SQLiteUserConnectionLive() {
         String url = "jdbc:sqlite:users.db";
 
@@ -17,6 +23,10 @@ public class SQLiteUserConnectionLive {
         }
     }
 
+    /**
+     * Gets the instance of the DB connection
+     * @return the connection instance.
+     */
     public static Connection getInstance() {
         if (instance == null) {
             new SQLiteUserConnectionLive();

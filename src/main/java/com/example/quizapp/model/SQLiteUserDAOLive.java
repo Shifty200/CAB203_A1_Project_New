@@ -11,15 +11,24 @@ import java.util.Objects;
 import org.mindrot.jbcrypt.BCrypt;
 
 
-
+/**
+ * A class for interacting with users and the database.
+ * Implements the IUserDAO interface.
+ */
 public class SQLiteUserDAOLive implements IUserDAO {
     private Connection connection;
 
+    /**
+     * Initialises the database connection
+     */
     public SQLiteUserDAOLive() {
         connection = SQLiteUserConnectionLive.getInstance();
         createTable();
     }
 
+    /**
+     * Creates the "users" table in the database if it doesn't already exist.
+     */
     private void createTable() {
         try {
             Statement statement = connection.createStatement();
@@ -34,6 +43,10 @@ public class SQLiteUserDAOLive implements IUserDAO {
         }
     }
 
+    /**
+     * Adds a user to the database.
+     * @param user The user object to add to the users table.
+     */
     @Override
     public void addUser(User user) {
         try {
@@ -49,6 +62,10 @@ public class SQLiteUserDAOLive implements IUserDAO {
         }
     }
 
+    /**
+     * Updates an existing contact in the database.
+     * @param user The contact to update.
+     */
     @Override
     public void updateUser(User user) {
         try {
@@ -63,6 +80,10 @@ public class SQLiteUserDAOLive implements IUserDAO {
         }
     }
 
+    /**
+     * Deletes a contact from the database.
+     * @param user The contact to delete.
+     */
     @Override
     public void deleteUser(User user) {
         try {
@@ -74,6 +95,11 @@ public class SQLiteUserDAOLive implements IUserDAO {
         }
     }
 
+    /**
+     * Retrieves a contact from the database.
+     * @param username The id of the contact to retrieve.
+     * @return The contact with the given username, or null if not found.
+     */
     @Override
     public User getUser(String username) {
         try {
@@ -93,6 +119,10 @@ public class SQLiteUserDAOLive implements IUserDAO {
         return null;
     }
 
+    /**
+     * Retrieves all contacts from the database.
+     * @return A list of all contacts in the database.
+     */
     @Override
     public List<User> getAllUsers() {
         List<User> users = new ArrayList<>();
@@ -113,6 +143,11 @@ public class SQLiteUserDAOLive implements IUserDAO {
         return Collections.unmodifiableList(users);
     }
 
+    /**
+     *Checks if a username is already present in the users table in the database
+     * @param userName the username to check for
+     * @return True if the username is already present in the database.
+     */
     @Override
     public boolean checkUserPresent(String userName){
         List<User> users = getAllUsers();
