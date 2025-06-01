@@ -283,6 +283,7 @@ public class DashboardController {
 
         Image img = new Image(getClass().getResource("/com/example/images/user-icon.png").toString());
         userIcon.setFill(new ImagePattern(img));
+        userNameLabel.setText(CurrentUser.getInstance().getUserName());
 
         refreshTopicsDisplay();
         refreshQuizzesDisplay();
@@ -331,7 +332,6 @@ public class DashboardController {
                 e.printStackTrace();
             }
         });
-        setUsername();
     }
 
     @FXML
@@ -345,10 +345,5 @@ public class DashboardController {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    public void setUsername() {
-        String currentUsername = CurrentUser.getInstance().getUserName();
-        userNameLabel.setText(currentUsername);
     }
 }

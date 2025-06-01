@@ -5,8 +5,15 @@ import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+/**
+ * Class containing the AI quiz generation
+ */
 public class AIQuizGenerator {
-
+    /**
+     *Generates a quiz including multiple choice answers and correct responses from a prompt using the local Ollama AI.
+     * @param prompt the strict prompt for the AI to generate a JSON formatted response on
+     * @return a JSON string containing the generated quiz questions
+     */
     public static String generateQuiz(String prompt) {
         String fullResponse = "";
 

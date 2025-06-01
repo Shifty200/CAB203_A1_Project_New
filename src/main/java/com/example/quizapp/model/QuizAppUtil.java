@@ -5,6 +5,9 @@ import java.util.ArrayList;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+/**
+ * Utility class used for generating quizzes from the AI response
+ */
 public class QuizAppUtil {
     // reverse the Array.toString method for an array of ints
     // from https://stackoverflow.com/questions/456367/reverse-parse-the-output-of-arrays-tostringint

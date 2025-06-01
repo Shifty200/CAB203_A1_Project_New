@@ -9,12 +9,20 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.util.Objects;
 
+/**
+ * A class for handling the initialisation of the Tutor Worm app.
+ */
 public class HelloApplication extends Application {
     // Constants defining the window title and size
     public static final String TITLE = "Tutor Worm";
     public static final int WIDTH = 900;
     public static final int HEIGHT = 600;
 
+    /**
+     * Starts the application and shows the landing page view.
+     * @param stage
+     * @throws IOException
+     */
     @Override
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("hello-view.fxml"));
@@ -26,6 +34,9 @@ public class HelloApplication extends Application {
         stage.show();
     }
 
+    /**
+     * Tutor Worm program starting point.
+     */
     public static void main(String[] args) {
         launch();
     }
